@@ -130,8 +130,20 @@
 
         _addPosition: function (e) {
             var path = "value.sections." + e.model.sectionIndex + ".positions";
-            this.push(path, new DepthChartPosition());
-            this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
+            var positionLength = this.value.sections[e.model.sectionIndex].positions.length;
+
+            if(this.value.sections[e.model.sectionIndex].positions[positionLength -1]){
+                var lastPositionInsert = this.value.sections[e.model.sectionIndex].positions[positionLength -1];
+                
+                if(lastPositionInsert.name || lastPositionInsert.players.length > 0){
+                    
+                    this.push(path, new DepthChartPosition());
+                    this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
+                }else{
+                    toastWarningPostitionRow.open();
+                    return;
+                }
+            }
         },
 
         _deletePosition: function (e) {
