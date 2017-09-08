@@ -1,0 +1,56 @@
+<dom-module id="search-players">
+
+    <style include="iron-flex iron-flex-alignment">
+        paper-dialog {
+            min-width: 400px;
+            top:0px;
+        }
+
+        .search-bar iron-icon {
+            margin: 10px;
+        }
+
+        .player-item {
+            cursor: pointer;
+        }
+    </style>
+
+    <template>
+
+        <paper-dialog id="searchModal" modal on-iron-overlay-closed="_onSearchModalClose">
+
+            <h2>Search Players</h2>
+
+            <div class="search-bar layout horizontal">
+                <iron-icon icon="search"></iron-icon>
+                <paper-input class="flex" value="{{search}}" on-input="_searchChanged" on-change="_searchChanged" no-label-float="true" label="Player Name"
+                    always-float-label></paper-input>
+            </div>
+
+            <paper-dialog-scrollable class="search-content">
+
+                <template is="dom-repeat" items="[[_results]]">
+
+                    <paper-item class="player-item" on-click="_select" on-dblclick="_selectAndConfirm">
+                        <paper-item-body two-line>
+                            <div>[[item.Title]]</div>
+                            <div secondary>[[item.Slug]]</div>
+                        </paper-item-body>
+                    </paper-item>
+
+                </template>
+
+            </paper-dialog-scrollable>
+
+            <div class="buttons">
+                <paper-button dialog-dismiss>Close</paper-button>
+            </div>
+
+        </paper-dialog>
+
+
+    </template>
+
+    <script src="search-players.js"></script>
+
+</dom-module>

@@ -1,0 +1,125 @@
+<link rel="import" href="../search-players/search-players.html">
+<link rel="import" href="player-card.html">
+
+<link rel="import" href="../sortable-js/polymer-sortablejs.html" />
+
+<dom-module id="depth-chart">
+
+	<style include="iron-flex iron-flex-alignment">
+		:host {
+			display: block;
+		}
+
+		.section-add-position {
+			margin-bottom: 20px;
+		}
+
+		paper-toolbar.section-header {
+			text-transform: uppercase;
+			--paper-toolbar-background: #eee;
+			color: #000;
+			font-weight: bold;
+		}
+
+		player-card,
+		.player-card {
+			margin: 0 8px 8px;
+			height: 278px;
+			width: 192px;
+		}
+
+		.position-row {
+			margin: 8px 0;
+		}
+
+		.position-input-container {
+			width: 160px;
+		}
+
+		.position-input-container paper-icon-button {
+			color: var(--paper-blue-500);
+		}
+
+		.add-player-card {
+			color: var(--paper-blue-500);
+			cursor: pointer;
+		}
+
+		.add-player-card .add-icon {
+			width: 160px;
+			height: 160px;
+		}
+
+		.add-player-card .add-text {
+			text-align: center;
+			padding: 8px 0;
+		}
+
+		paper-toast iron-icon {
+			color: var(--status-yellow-color);
+		}
+	</style>
+
+
+
+	<template>
+
+		<template is="dom-repeat" items="[[value.sections]]" as="section" index-as="sectionIndex">
+
+			<paper-toolbar class="section-header">
+				<span slot="top">[[localize(section.name)]]</span>
+			</paper-toolbar>
+
+			<template is="dom-repeat" items="[[section.positions]]" as="position" index-as="positionIndex" section-index="[[sectionIndex]]">
+
+				<div class="layout horizontal position-row">
+					<div class="layout vertical">
+						<div class="position-input-container layout horizontal">
+							<paper-icon-button icon="delete" on-tap="_deletePosition"></paper-icon-button>
+							<paper-input class="flex" value="{{position.name}}" on-input="_onPositionInput" on-change="_onPositionChange" no-label-float="true"
+							 label="Position Code"></paper-input>
+						</div>
+						<div>
+							<paper-button class="flex" on-tap="_addPlayer">
+								<iron-icon icon="add"></iron-icon>
+								Add New Player
+							</paper-button>
+						</div>
+
+					</div>
+
+
+					<div class="flex layout horizontal wrap">
+						<sortable-js class=" layout horizontal wrap" on-end="_sortChange">
+							<template is="dom-repeat" items="[[position.players]]" as="playerEntityId" index-as="playerIndex" section-index="[[sectionIndex]]"
+							 position-index="[[positionIndex]]">
+								<player-card player="[[_getPlayer(playerEntityId)]]" on-delete-player="_deletePlayer"></player-card>
+							</template>
+						</sortable-js>
+
+					</div>
+				</div>
+
+			</template>
+
+			<div class="section-add-position layout horizontal">
+				<paper-button class="flex" on-tap="_addPosition">
+					<iron-icon icon="add"></iron-icon>
+					Add New Position
+				</paper-button>
+			</div>
+
+		</template>
+
+		<search-players id="searchPlayers" on-player-selected="_playerSelected"></search-players>
+
+		<paper-toast id="toastWarningPlayerPosition" duration="4000">
+			<iron-icon icon="warning"></iron-icon>
+			<span class="flex">The player is already in this position.</span>
+		</paper-toast>
+	</template>
+
+	<script src="depth-chart.js"></script>
+
+
+</dom-module>
