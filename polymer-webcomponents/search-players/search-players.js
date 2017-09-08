@@ -43,10 +43,10 @@
         },
         _onSearchModalClose: function (e) {
             if (e.detail.confirmed) {
+                this.dispatchEvent(createPlayerSelectedEvent(this._selectedPlayer));
                 this._selectedPlayer = null;
                 this.search = null;
                 this._results = [];
-                this.dispatchEvent(createPlayerSelectedEvent(this._selectedPlayer));
             }
         },
         _select: function (e) {
@@ -54,11 +54,12 @@
             this._selectedPlayer = item;
         },
         _selectAndConfirm: function (e) {
+            this.$.searchModal.close();
+            this.dispatchEvent(createPlayerSelectedEvent(this._selectedPlayer));
             this._selectedPlayer = null;
             this.search = null;
             this._results = [];
-            this.$.searchModal.close();
-            this.dispatchEvent(createPlayerSelectedEvent(this._selectedPlayer));
+    
         },
         ready: function () {
             this._selectedPlayer = null;
