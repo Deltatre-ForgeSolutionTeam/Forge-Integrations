@@ -44,21 +44,21 @@
             bottom: 0;
             right: 0;
             left: 0;
-            background-color: rgba(0, 0, 0, 0.2);
+            background-color: rgba(0, 0, 0, 0.1);
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
         .not-visible-icon {
-            color: white;
+            color: var(--status-red-dark-color);
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: var(--status-red-dark-color);
+            background-color: white;
             border-radius: 50%;
-            /*padding: 20px;*/
+            padding: 5px;
         }
 
         .card-actions paper-icon-button {
@@ -104,8 +104,9 @@
                     </div>
 
                     <div class="player-name">[[player.title]]</div>
-
+                   
                     <template is="dom-if" if="[[player.unpublished]]">
+                        <div class="not-visible-layer"></div>
                         <iron-icon class="not-visible-icon" icon="icons:visibility-off"></iron-icon>
                     </template>
 
