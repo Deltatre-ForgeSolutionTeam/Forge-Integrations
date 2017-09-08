@@ -70,7 +70,7 @@
         open: function () {
             this._selectedPlayer = null;
             this.search = null;
-            this._getData;
+            this._getData();
             this.$.searchModal.open();
             
         }
