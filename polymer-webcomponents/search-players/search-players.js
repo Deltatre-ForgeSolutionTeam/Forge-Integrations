@@ -22,7 +22,7 @@
     
             var url = "/deltatre.forge.wcm/api/customEntities/player/working?language=nd-nd&stage=published&terms=";
     
-            url = url + encodeURI(this.search);
+            url = this.search ? url + encodeURI(this.search) : url;
     
             var self = this;
     
@@ -43,6 +43,9 @@
         },
         _onSearchModalClose: function (e) {
             if (e.detail.confirmed) {
+                this._selectedPlayer = null;
+                this.search = null;
+                this._results = [];
                 this.dispatchEvent(createPlayerSelectedEvent(this._selectedPlayer));
             }
         },
@@ -51,6 +54,9 @@
             this._selectedPlayer = item;
         },
         _selectAndConfirm: function (e) {
+            this._selectedPlayer = null;
+            this.search = null;
+            this._results = [];
             this.$.searchModal.close();
             this.dispatchEvent(createPlayerSelectedEvent(this._selectedPlayer));
         },
@@ -63,8 +69,9 @@
         open: function () {
             this._selectedPlayer = null;
             this.search = null;
+            this._getData;
             this.$.searchModal.open();
-            this.debounce('_searchChangedDebouce', this._getData, 0);
+            
         }
     });
 
