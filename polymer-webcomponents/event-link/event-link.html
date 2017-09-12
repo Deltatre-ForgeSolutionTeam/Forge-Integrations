@@ -1,0 +1,74 @@
+<link rel="import" href="../search-editorial-content/search-editorial-content.html">
+
+<dom-module id="event-link">
+    <style include="iron-flex iron-flex-alignment">
+         :host {
+            display: block;
+        }
+    </style>
+
+    <template>
+        <div class="layout vertical event-link-dropdown">
+            <!--on-iron-select="_itemSelected"-->
+            <paper-dropdown-menu label="Event Link Type" on-iron-select="_itemSelected">
+                <paper-listbox slot="dropdown-content" class="dropdown-content" attr-for-selected="link-type-value" selected="{{value.typeLink}}">
+                    <template is="dom-repeat" items="[[linkTypes.data]]" as="eventLinkType">
+                        <paper-item link-type-value="[[eventLinkType.value]]">[[eventLinkType.label]]</paper-item>
+                    </template>
+                </paper-listbox>
+            </paper-dropdown-menu>
+            <div class="event-link-templates">
+                <template is="dom-if" if="[[_linkToContentType]]">
+                    <div class="layout horizontal">
+                        <div>
+                            <paper-menu-button vertical-align="top" horizontal-align="left">
+                                <paper-icon-button icon="add" class="dropdown-trigger"></paper-icon-button>
+                                <paper-menu class="dropdown-content">
+                                    <template is="dom-repeat" items="[[editorialContentList.data]]">
+                                        <paper-item on-tap="_openSearch">
+                                            <iron-icon icon="[[item.icon]]"></iron-icon>
+                                            <span>{{item.label}}</span>
+                                        </paper-item>
+                                    </template>
+                                </paper-menu>
+                            </paper-menu-button>
+                        </div>
+                        <div class="editorial-content-link flex">
+                            <template is="dom-if" if="[[!_showEditorialContent]]">
+                                <paper-card class="layout horizontal">
+                                    <div class="card-content">
+                                        (no value)
+                                    </div>
+                                </paper-card>
+                            </template>
+                            <template is="dom-if" if="[[_showEditorialContent]]">
+                                <paper-card class="layout horizontal">
+                                    <div class="card-content flex">
+                                        [[editorialContentSelected.Title]]
+                                    </div>
+                                    <div class="card-actions">
+                                        <paper-icon-button icon="delete" on-tap="_deleteSelectedContent"></paper-icon-button>
+                                    </div>
+                                </paper-card>
+
+                            </template>
+                        </div>
+                    </div>
+                </template>
+
+                <template is="dom-if" if="[[_externalLinkType]]">
+                    <div>
+                        <paper-input value="{{value.linkProperties.externalLinkUrl}}" on-input="_onExternalLinkInput" on-change="_onExternalLinkChange"
+                            no-label-float="true" label="Type External Link Url"></paper-input>
+                    </div>
+                </template>
+            </div>
+        </div>
+
+        <search-editorial-content id="searchEditorialContent" on-content-selected="_editorialContentSelected"></search-editorial-content>
+    </template>
+
+
+</dom-module>
+
+<script src="event-link.js"></script>
