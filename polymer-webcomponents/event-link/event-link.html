@@ -45,23 +45,46 @@
             border-left: solid 1px gray;
         }
 
-        .menu-item{
+        .menu-item {
             padding: 20px;
             width: 150px;
             cursor: pointer;
         }
 
-        .menu-item .item-label{
-            padding-left: 10px; 
+        .menu-item .item-label {
+            padding-left: 10px;
         }
 
-        .menu-item iron-icon{
+        .menu-item iron-icon {
             color: gray;
         }
 
-        .no-value-card{
+        .no-value-card {
             color: gray;
             font-weight: bold;
+        }
+
+        .not-visible-layer {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .not-visible-icon {
+            color: var(--status-red-dark-color);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border-radius: 50%;
+            padding: 5px;
         }
     </style>
 
@@ -104,7 +127,7 @@
                                     <div class="card-content flex layout horizontal">
                                         <div class="content-thumbnail">
                                             <iron-icon class="icon-placeholder" icon="image:photo"></iron-icon>
-                                            <iron-image src="[[editorialContentSelected.wcmThumbnailUrl]]" sizing="contain"></iron-image>
+                                            <iron-image src="{{editorialContentSelected.wcmThumbnailUrl}}" sizing="contain"></iron-image>
                                         </div>
                                         <div class="layout vertical flex content-text">
                                             <div>
@@ -113,7 +136,13 @@
                                             <div>
                                                 Slug: [[editorialContentSelected.Slug]]
                                             </div>
+                                           
                                         </div>
+                                        
+                                        <template is="dom-if" if="[[_editorialContentUnpublished]]">
+                                            <div class="not-visible-layer"></div>
+                                            <iron-icon class="not-visible-icon" icon="icons:visibility-off"></iron-icon>
+                                        </template>
                                     </div>
                                     <div class="card-actions layout vertical">
                                         <div class="flex">

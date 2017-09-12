@@ -1,6 +1,8 @@
 (function () {
 
     var first_loading = true;
+    var _editorialContentUnpublished = false;
+    var api = ForgeWebComponents.Api;
 
     function EventLinkTypeList() {
         this.data = [];
@@ -23,6 +25,8 @@
         this.typeLink = null;
         this.linkProperties = {};
     }
+
+
 
     Polymer({
         is: "event-link",
@@ -52,6 +56,44 @@
             this._externalLinkType = false;
         },
 
+        _getData: function () {
+
+            var content = this.value.linkProperties.editorialContent;
+
+            var url = "/deltatre.forge.wcm/api/stories/working/" + content.Id;
+
+            if (content.EntityCode === "video") {
+                url = "deltatre.forge.wcm/api/customEntities/video/working/culture/en-us/entityid/" + content.EntityId;
+            }
+
+            var self = this;
+
+            self._hideLoading = false;
+
+            api.raw(url).then(function (result) {
+                self._hideLoading = true;
+                self._result = result;
+                self._editorialContentUnpublished =  result.Stage == 'unpublished' ? true : false;;
+
+            }, function () {
+                self._hideLoading = true;
+                self._result = {};
+
+                console.error(arguments);
+            });
+
+        },
+
+        /*
+        _initializeContentSelected: function (entityContent) {
+            if (this.value.linkProperties.editorialContent) {
+                this.editorialContentSelected.unpublished = entityContent.Stage == 'unpublished' ? true : false;
+                this.editorialContentSelected.data = this.value.linkProperties.editorialContent;
+                this._showEditorialContent = true;
+                console.log(this.editorialContentSelected);
+            }
+        },
+*/
         _valueChanged: function (newValue, oldValue) {
             if (!newValue) this.value = new EventLinkConfiguration();
         },
@@ -64,14 +106,26 @@
             this._externalLinkType = false;
 
             if (first_loading) {
-                this.editorialContentSelected = {};
+                this.editorialContentSelected = {}
             }
 
             if (typeLink === "linktocontent") {
                 this._linkToContentType = true;
                 if (this.value.linkProperties.editorialContent != null) {
-                    this._showEditorialContent = true;
-                    this.editorialContentSelected = this.value.linkProperties.editorialContent;
+
+                    if (first_loading) {
+                        this._getData()
+                        this._showEditorialContent = true;
+                        this.editorialContentSelected = this.value.linkProperties.editorialContent;
+
+                    } else {
+                        this._editorialContentUnpublished = false;
+                        this.value.linkProperties = {};
+                        this._showEditorialContent = true;
+                        this.editorialContentSelected = {};
+                    }
+                }else{
+                    this.value.linkProperties = {};
                 }
             }
 
@@ -79,7 +133,7 @@
                 this._externalLinkType = true;
             }
 
-            if(typeLink === "nolink" || typeLink === "empty"){
+            if (typeLink === "nolink" || typeLink === "empty" || typeLink === "externallink") {
                 this.value.linkProperties = {};
             }
 
@@ -110,16 +164,18 @@
         },
 
         _editorialContentSelected: function (e) {
-            
+            console.log(this.editorialContentSelected);
             this._showEditorialContent = true;
-            this.editorialContentSelected = e.detail.editorialContent;
-            this.value.linkProperties.editorialContent = this.editorialContentSelected;
+            this._editorialContentUnpublished = false;
+            this.value.linkProperties.editorialContent = e.detail.editorialContent;
+            this.editorialContentSelected = this.value.linkProperties.editorialContent;
             this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
             console.log(this.editorialContentSelected);
         },
 
         _deleteSelectedContent: function () {
             this._showEditorialContent = false;
+            this._editorialContentUnpublished = false;
             this.editorialContentSelected = {};
             this.value.linkProperties = {};
             this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
