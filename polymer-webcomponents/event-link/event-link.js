@@ -65,8 +65,6 @@
 
             if (first_loading) {
                 this.editorialContentSelected = {};
-            } else {
-                this.value.linkProperties = {};
             }
 
             if (typeLink === "linktocontent") {
@@ -79,6 +77,10 @@
 
             if (typeLink === "externallink") {
                 this._externalLinkType = true;
+            }
+
+            if(typeLink === "nolink" || typeLink === "empty"){
+                this.value.linkProperties = {};
             }
 
             if (!first_loading) {
@@ -108,10 +110,12 @@
         },
 
         _editorialContentSelected: function (e) {
+            
             this._showEditorialContent = true;
             this.editorialContentSelected = e.detail.editorialContent;
             this.value.linkProperties.editorialContent = this.editorialContentSelected;
             this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
+            console.log(this.editorialContentSelected);
         },
 
         _deleteSelectedContent: function () {

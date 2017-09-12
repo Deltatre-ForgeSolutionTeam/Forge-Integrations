@@ -15,7 +15,8 @@
                 type = item.EntityType + '.' + item.EntityCode;
             }
 
-            item.thumbnailUrl =  ForgeWebComponents.Helpers.EntityHelper.createThumbnailUrl(type, item.Id);
+            item.wcmThumbnailUrl =  ForgeWebComponents.Helpers.EntityHelper.createThumbnailUrl(type, item.Id);
+            item.wcmlink = ForgeWebComponents.Helpers.EntityHelper.createLink(type, item.EntityId, item.Id);
         }
         return result;
     }

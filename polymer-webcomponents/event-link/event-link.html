@@ -5,6 +5,64 @@
          :host {
             display: block;
         }
+
+        .event-link-templates {
+            padding-top: 15px;
+        }
+
+        .event-link-templates paper-icon-button {
+            color: gray;
+        }
+
+        .content-thumbnail {
+            width: 80px;
+            height: 80px;
+            position: relative;
+        }
+
+        .content-thumbnail .icon-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: gray;
+        }
+
+        .content-thumbnail iron-image {
+            width: 100%;
+            height: 100%;
+        }
+
+        .content-thumbnail iron-icon {
+            width: 100%;
+            height: 100%;
+        }
+
+        .content-text {
+            padding-left: 20px;
+        }
+
+        .card-actions {
+            border-left: solid 1px gray;
+        }
+
+        .menu-item{
+            padding: 20px;
+            width: 150px;
+            cursor: pointer;
+        }
+
+        .menu-item .item-label{
+            padding-left: 10px; 
+        }
+
+        .menu-item iron-icon{
+            color: gray;
+        }
+
+        .no-value-card{
+            color: gray;
+            font-weight: bold;
+        }
     </style>
 
     <template>
@@ -25,9 +83,9 @@
                                 <paper-icon-button icon="add" class="dropdown-trigger"></paper-icon-button>
                                 <paper-menu class="dropdown-content">
                                     <template is="dom-repeat" items="[[editorialContentList.data]]">
-                                        <paper-item on-tap="_openSearch">
+                                        <paper-item on-tap="_openSearch" class="menu-item layout horizontal">
                                             <iron-icon icon="[[item.icon]]"></iron-icon>
-                                            <span>{{item.label}}</span>
+                                            <div class="flex item-label">[[item.label]]</div>
                                         </paper-item>
                                     </template>
                                 </paper-menu>
@@ -36,18 +94,36 @@
                         <div class="editorial-content-link flex">
                             <template is="dom-if" if="[[!_showEditorialContent]]">
                                 <paper-card class="layout horizontal">
-                                    <div class="card-content">
+                                    <div class="card-content no-value-card">
                                         (no value)
                                     </div>
                                 </paper-card>
                             </template>
                             <template is="dom-if" if="[[_showEditorialContent]]">
                                 <paper-card class="layout horizontal">
-                                    <div class="card-content flex">
-                                        [[editorialContentSelected.Title]]
+                                    <div class="card-content flex layout horizontal">
+                                        <div class="content-thumbnail">
+                                            <iron-icon class="icon-placeholder" icon="image:photo"></iron-icon>
+                                            <iron-image src="[[editorialContentSelected.wcmThumbnailUrl]]" sizing="contain"></iron-image>
+                                        </div>
+                                        <div class="layout vertical flex content-text">
+                                            <div>
+                                                <strong>[[editorialContentSelected.Title]]</strong>
+                                            </div>
+                                            <div>
+                                                Slug: [[editorialContentSelected.Slug]]
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="card-actions">
-                                        <paper-icon-button icon="delete" on-tap="_deleteSelectedContent"></paper-icon-button>
+                                    <div class="card-actions layout vertical">
+                                        <div class="flex">
+                                            <a href$="[[editorialContentSelected.wcmlink]]" tabindex="-1">
+                                                <paper-icon-button icon="open-in-new"></paper-icon-button>
+                                            </a>
+                                        </div>
+                                        <div class="flex">
+                                            <paper-icon-button icon="delete" on-tap="_deleteSelectedContent"></paper-icon-button>
+                                        </div>
                                     </div>
                                 </paper-card>
 
