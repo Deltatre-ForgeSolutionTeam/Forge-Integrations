@@ -26,6 +26,17 @@
         this.linkProperties = {};
     }
 
+    function EditorialContent(content){
+        this.entityId = content.EntityId;
+        this.translationId = content.Id;
+        this.contentType = content.EntityType;
+        this.entityCode = content.EntityCode;
+        this.slug = content.Slug;
+        this.title = content.Title
+        this.wcmThumbnailUrl = content.wcmThumbnailUrl;
+        this.wcmlink = content.wcmlink;
+    }
+
 
 
     Polymer({
@@ -60,10 +71,10 @@
 
             var content = this.value.linkProperties.editorialContent;
 
-            var url = "/deltatre.forge.wcm/api/stories/working/" + content.Id;
+            var url = "/deltatre.forge.wcm/api/stories/working/" + content.translationId;
 
-            if (content.EntityCode === "video") {
-                url = "deltatre.forge.wcm/api/customEntities/video/working/culture/en-us/entityid/" + content.EntityId;
+            if (content.entityCode === "video") {
+                url = "deltatre.forge.wcm/api/customEntities/video/working/culture/en-us/entityid/" + content.entityId;
             }
 
             var self = this;
@@ -84,21 +95,12 @@
 
         },
 
-        /*
-        _initializeContentSelected: function (entityContent) {
-            if (this.value.linkProperties.editorialContent) {
-                this.editorialContentSelected.unpublished = entityContent.Stage == 'unpublished' ? true : false;
-                this.editorialContentSelected.data = this.value.linkProperties.editorialContent;
-                this._showEditorialContent = true;
-                console.log(this.editorialContentSelected);
-            }
-        },
-*/
+       
         _valueChanged: function (newValue, oldValue) {
             if (!newValue) this.value = new EventLinkConfiguration();
         },
 
-
+     
         _itemSelected: function (e) {
             var typeLink = this.value.typeLink;
             this._showEditorialContent = false;
@@ -166,7 +168,7 @@
             console.log(this.editorialContentSelected);
             this._showEditorialContent = true;
             this._editorialContentUnpublished = false;
-            this.value.linkProperties.editorialContent = e.detail.editorialContent;
+            this.value.linkProperties.editorialContent = new EditorialContent(e.detail.editorialContent);
             this.editorialContentSelected = this.value.linkProperties.editorialContent;
             this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
             console.log(this.editorialContentSelected);
