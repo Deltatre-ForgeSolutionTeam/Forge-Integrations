@@ -1,0 +1,18 @@
+<dom-module id="event-recurrence">
+    <style include="iron-flex iron-flex-alignment">
+         :host {
+            display: block;
+        }
+    </style>
+    <template>
+        <div class="layout vertical">
+            <div class="recurrence-switch">
+                <paper-toggle-button on-checked-changed="_recurrenceSwitchChanged" value="pippo">Reccurring Event</paper-toggle-button>
+            </div>
+            <template is="dom-if" if="[[_recurrenceSwitchEnabled]]">
+                {{_recurrenceSwitchEnabled}} attivo
+            </template>
+        </div>
+    </template>
+</dom-module>
+<script src="event-recurrence.js"></script>
