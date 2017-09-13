@@ -120,9 +120,8 @@
 
                     } else {
                         this._editorialContentUnpublished = false;
-                        this.value.linkProperties = {};
                         this._showEditorialContent = true;
-                        this.editorialContentSelected = {};
+                        this.editorialContentSelected = this.value.linkProperties.editorialContent;
                     }
                 }else{
                     this.value.linkProperties = {};
