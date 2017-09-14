@@ -1,6 +1,5 @@
 (function () {
 
-    //var first_loading = true;
     var _editorialContentUnpublished = false;
     var api = ForgeWebComponents.Api;
 
@@ -26,7 +25,7 @@
         this.linkProperties = {};
     }
 
-    function EditorialContent(content){
+    function EditorialContent(content) {
         this.entityId = content.EntityId;
         this.translationId = content.Id;
         this.contentType = content.EntityType;
@@ -84,7 +83,7 @@
             api.raw(url).then(function (result) {
                 self._hideLoading = true;
                 self._result = result;
-                self._editorialContentUnpublished =  result.Stage == 'unpublished' ? true : false;;
+                self._editorialContentUnpublished = result.Stage == 'unpublished' ? true : false;;
 
             }, function () {
                 self._hideLoading = true;
@@ -95,12 +94,12 @@
 
         },
 
-       
+
         _valueChanged: function (newValue, oldValue) {
             if (!newValue) this.value = new EventLinkConfiguration();
         },
 
-     
+
         _itemSelected: function (e) {
 
             var typeLink = e.target.linkTypeValue;
@@ -108,26 +107,14 @@
             this._linkToContentType = false;
             this._externalLinkType = false;
 
-            /*
-            if (first_loading) {
-                this.editorialContentSelected = {}
-            }
-            */
             if (typeLink === "linktocontent") {
                 this._linkToContentType = true;
                 if (this.value.linkProperties.editorialContent != null) {
 
-                   // if (first_loading) {
-                        this._getData()
-                        this._showEditorialContent = true;
-                        this.editorialContentSelected = this.value.linkProperties.editorialContent;
-
-                    /*} else {
-                        this._editorialContentUnpublished = false;
-                        this._showEditorialContent = true;
-                        this.editorialContentSelected = this.value.linkProperties.editorialContent;
-                    }*/
-                }else{
+                    this._getData()
+                    this._showEditorialContent = true;
+                    this.editorialContentSelected = this.value.linkProperties.editorialContent;
+                } else {
                     this.value.linkProperties = {};
                 }
             }
@@ -140,11 +127,7 @@
                 this.value.linkProperties = {};
             }
 
-            //if (!first_loading) {
-                this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
-            /*} else {
-                first_loading = false;
-            }*/
+            this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
 
 
         },
