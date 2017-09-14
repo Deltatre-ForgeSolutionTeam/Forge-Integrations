@@ -74,7 +74,7 @@
         this.entityId = player.EntityId;
         this.translationId = player.Id;
         this.title = player.Title;
-        this.thumbnail = null;
+        this.thumbnail = ForgeWebComponents.Helpers.EntityHelper.createThumbnailUrl(entityType, player.Id);
         this.unpublished = null;
         this.link = ForgeWebComponents.Helpers.EntityHelper.createLink(entityType, player.EntityId, player.Id);
         this.days = [];
@@ -100,10 +100,6 @@
             },
             fieldName: {
                 type: String
-            },
-            entity: {
-                type: Object,
-                observer: '_entityChanged'
             },
             schema: {
                 type: Object
@@ -138,22 +134,6 @@
             if (!newValue) this.value = new InjuryReport();
         },
 
-        _entityChanged: function (entity, oldValue) {
-
-            if (!entity || typeof entity === 'string') return;
-
-            console.log(entity);
-
-            /*
-            const array = entity.referenceFields[REFERENCE_FIELD_NAME] || [];
-            this._players = {};
-            for (var i = 0; i < array.length; i++) {
-                var player = array[i];
-                this._players[player.entityId] = new PlayerReference(player.entityId, player.id, player.title, player.type, player.stage, player.thumbnailUrl);
-            }*/
-
-        },
-
         _addPlayer: function () {
             this.$.searchPlayers.open();
             this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
@@ -162,7 +142,13 @@
         _playerSelected: function (e) {
             const player = e.detail.player;
 
-            const playerAlreadyInserted = this.value.playerList.indexOf(player.EntityId) > -1;
+
+            var playerAlreadyInserted = this.value.playerList.find(function(pl){
+                if(pl.entityId === player.EntityId){
+                    return pl;
+                }
+            });
+
             if (playerAlreadyInserted) {
                 // show warning
                 toastWarningPlayerInserted.open();
@@ -172,13 +158,7 @@
             var playerEntity = new Player(player);
 
             this.push("value.playerList", playerEntity);
-
-
-            //const command = new AddReferenceFieldItemsCommand(this.entity, player, this.fieldName);
-            //this.fire('sendCommand', command);
-
             this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
-            console.log(this.value);
 
         },
 
@@ -192,8 +172,6 @@
 
             if (insertedDay) {
                 return insertedDay.status;
-            } else {
-                return "Not Listed";
             }
         },
 
@@ -221,18 +199,24 @@
                     }
                 });
 
-
                 if (insertedDay) {
                     insertedDay.status = status;
                 } else {
                     var day = new PlayerDayReport(day, status);
                     this.push(path, day);
                 }
-
-
-               
             }
             this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
+        },
+
+
+        _deletePlayer: function(e){
+            var playerIndex = e.model.playerIndex;
+            var path = 'value.playerList';
+   
+            var removedPlayer = this.splice(path, playerIndex,1);
+            this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
+            
         },
 
         _triggerValueChanged: function () {
