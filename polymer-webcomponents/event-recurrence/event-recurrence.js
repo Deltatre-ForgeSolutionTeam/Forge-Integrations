@@ -33,7 +33,7 @@
         },
 
         ready: function () {
-            
+            _recurrenceEnabled = false;
         },
 
         _valueChanged: function (newValue, oldValue) {
@@ -42,7 +42,7 @@
             }
             if (typeof newValue === "object" && typeof oldValue === "string") {
                 var recurrenceType = this.value.period;
-                if (recurrenceType != "no-recurrence") {
+                if (recurrenceType != "no-recurrence" && recurrenceType != null) {
                     this._recurrenceEnabled = true;
                 }
                 else {
