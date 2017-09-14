@@ -103,7 +103,6 @@
      
         _itemSelected: function (e) {
 
-            debugger;
             var typeLink = e.target.linkTypeValue;
             this._showEditorialContent = false;
             this._linkToContentType = false;
