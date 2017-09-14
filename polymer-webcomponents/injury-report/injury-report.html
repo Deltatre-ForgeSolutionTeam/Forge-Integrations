@@ -7,31 +7,29 @@
             display: block;
         }
 
-        paper-toolbar.injury-report-header {
-            text-transform: uppercase;
-            --paper-toolbar-background: #eee;
-            color: #000;
-            font-weight: bold;
+        .position-row{
+            margin-top: 20px;
+            margin-bottom: 20px;
         }
 
         .position-row paper-dropdown-menu {
             padding: 10px;
         }
+
+        paper-toast iron-icon {
+			color: var(--status-yellow-color);
+		}
+        
     </style>
 
     <template>
-
-        <paper-toolbar class="injury-report-header">
-            <span slot="top">Players</span>
-        </paper-toolbar>
-
         <template is="dom-repeat" items="{{value.playerList}}" as="player" index-as="playerIndex">
 
-            <div class="layout horizontal position-row">
+            <div class="layout horizontal position-row flex">
                 <player-card player="[[player]]" on-delete-player="_deletePlayer"></player-card>
                 <div class="layout vertical flex">
                     <div class="layout horizontal flex">
-                        <paper-dropdown-menu label="Monday" class="flex" >
+                        <paper-dropdown-menu label="Monday" class="flex">
                             <paper-listbox slot="dropdown-content" class="dropdown-content" attr-for-selected="value" selected="[[_getDayValue('Monday',playerIndex)]]">
                                 <template is="dom-repeat" items="[[injuryDaysStatus.status]]" as="status" player-index="[[playerIndex]]">
                                     <paper-item value="[[status]]" day="Monday" on-tap="_itemSelected">[[status]]</paper-item>
@@ -55,36 +53,35 @@
                         </paper-dropdown-menu>
                     </div>
                     <div class="layout horizontal flex">
-                        
                         <paper-dropdown-menu label="Thursday" class="flex">
                             <paper-listbox slot="dropdown-content" class="dropdown-content" attr-for-selected="value" selected="[[_getDayValue('Thursday',playerIndex)]]">
-                                <template is="dom-repeat" items="[[injuryDaysStatus.status]]" as="status" player-index="[[playerIndex]]" >
-                                    <paper-item value="[[status]]" day="Thursday"  on-tap="_itemSelected">[[status]]</paper-item>
+                                <template is="dom-repeat" items="[[injuryDaysStatus.status]]" as="status" player-index="[[playerIndex]]">
+                                    <paper-item value="[[status]]" day="Thursday" on-tap="_itemSelected">[[status]]</paper-item>
                                 </template>
                             </paper-listbox>
                         </paper-dropdown-menu>
 
                         <paper-dropdown-menu label="Friday" class="flex">
                             <paper-listbox slot="dropdown-content" class="dropdown-content" attr-for-selected="value" selected="[[_getDayValue('Friday',playerIndex)]]">
-                                <template is="dom-repeat" items="[[injuryDaysStatus.status]]" as="status" player-index="[[playerIndex]]" >
-                                    <paper-item value="[[status]]" day="Friday"  on-tap="_itemSelected">[[status]]</paper-item>
+                                <template is="dom-repeat" items="[[injuryDaysStatus.status]]" as="status" player-index="[[playerIndex]]">
+                                    <paper-item value="[[status]]" day="Friday" on-tap="_itemSelected">[[status]]</paper-item>
                                 </template>
                             </paper-listbox>
                         </paper-dropdown-menu>
 
                         <paper-dropdown-menu label="Saturday" class="flex">
                             <paper-listbox slot="dropdown-content" class="dropdown-content" attr-for-selected="value" selected="[[_getDayValue('Saturday',playerIndex)]]">
-                                <template is="dom-repeat" items="[[injuryDaysStatus.status]]" as="status" player-index="[[playerIndex]]"  >
-                                    <paper-item value="[[status]]" day="Saturday"  on-tap="_itemSelected">[[status]]</paper-item>
+                                <template is="dom-repeat" items="[[injuryDaysStatus.status]]" as="status" player-index="[[playerIndex]]">
+                                    <paper-item value="[[status]]" day="Saturday" on-tap="_itemSelected">[[status]]</paper-item>
                                 </template>
                             </paper-listbox>
                         </paper-dropdown-menu>
                     </div>
                     <paper-dropdown-menu label="Game Status" class="flex">
-                        
+
                         <paper-listbox slot="dropdown-content" class="dropdown-content" attr-for-selected="value" selected="[[_getDayValue('Saturday',playerIndex)]]">
-                            <template is="dom-repeat" items="[[injuryGameStatus.status]]" as="status" playerIx="[[playerIndex]]" >
-                                <paper-item value="[[status]]" day="game-status"  on-tap="_itemSelected">[[status]]</paper-item>
+                            <template is="dom-repeat" items="[[injuryGameStatus.status]]" as="status" playerIx="[[playerIndex]]">
+                                <paper-item value="[[status]]" day="game-status" on-tap="_itemSelected">[[status]]</paper-item>
                             </template>
                         </paper-listbox>
                     </paper-dropdown-menu>
