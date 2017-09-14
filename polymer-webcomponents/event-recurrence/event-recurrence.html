@@ -14,10 +14,10 @@
     </style>
     <template>
         <div class="layout vertical">
-            <paper-dropdown-menu label="Recurrence setting" on-iron-select="_recurrenceTypeSelected">
+            <paper-dropdown-menu label="Recurrence setting">
                 <paper-listbox slot="dropdown-content" class="dropdown-content" attr-for-selected="recurrence-type-value" selected="{{value.period}}">
                     <template is="dom-repeat" items="[[recurrenceTypes.recurrenceTypeList]]">
-                        <paper-item recurrence-type-value="[[item.value]]">[[item.label]]</paper-item>
+                        <paper-item recurrence-type-value="[[item.value]]" on-tap="_recurrenceTypeSelected">[[item.label]]</paper-item>
                     </template>
                 </paper-listbox>
             </paper-dropdown-menu>
@@ -28,25 +28,25 @@
                     </div>
                     <div class="layout horizontal day-toggle-container">
                         <div class="flex">
-                            <paper-checkbox value="sun" on-iron-change="_dayCheckChanged">Sun</paper-checkbox>
+                            <paper-checkbox value="sun" id="sun" on-iron-change="_dayCheckChanged">Sun</paper-checkbox>
                         </div>
                         <div class="flex">
-                            <paper-checkbox value="mon" on-iron-change="_dayCheckChanged">Mon</paper-checkbox>
+                            <paper-checkbox value="mon" id="mon" on-iron-change="_dayCheckChanged">Mon</paper-checkbox>
                         </div>
                         <div class="flex">
-                            <paper-checkbox value="tue" on-iron-change="_dayCheckChanged">Tue</paper-checkbox>
+                            <paper-checkbox value="tue" id="tue" on-iron-change="_dayCheckChanged">Tue</paper-checkbox>
                         </div>
                         <div class="flex">
-                            <paper-checkbox value="wed" on-iron-change="_dayCheckChanged">Wed</paper-checkbox>
+                            <paper-checkbox value="wed" id="wed" on-iron-change="_dayCheckChanged">Wed</paper-checkbox>
                         </div>
                         <div class="flex">
-                            <paper-checkbox value="thu" on-iron-change="_dayCheckChanged">Thu</paper-checkbox>
+                            <paper-checkbox value="thu" id="thu" on-iron-change="_dayCheckChanged">Thu</paper-checkbox>
                         </div>
                         <div class="flex">
-                            <paper-checkbox value="fri" on-iron-change="_dayCheckChanged">Fri</paper-checkbox>
+                            <paper-checkbox value="fri" id="fri" on-iron-change="_dayCheckChanged">Fri</paper-checkbox>
                         </div>
                         <div class="flex">
-                            <paper-checkbox value="sat" on-iron-change="_dayCheckChanged">Sat</paper-checkbox>
+                            <paper-checkbox value="sat" id="sat" on-iron-change="_dayCheckChanged">Sat</paper-checkbox>
                         </div>
                     </div>
                 </div>
