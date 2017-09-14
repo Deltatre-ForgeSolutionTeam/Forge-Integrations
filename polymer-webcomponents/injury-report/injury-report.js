@@ -79,6 +79,7 @@
         this.link = ForgeWebComponents.Helpers.EntityHelper.createLink(entityType, player.EntityId, player.Id);
         this.days = [];
         this.gameStatus = null;
+        this.injuryDescription = null;
     };
 
     function PlayerDayReport(day, status) {
@@ -176,7 +177,7 @@
         },
 
         _getStatusValue : function(playerIndex){
-            return this.value.playerList[playerIndex].gameStatus ? this.value.playerList[playerIndex].gameStatus : "Not Listed";
+            return this.value.playerList[playerIndex].gameStatus ? this.value.playerList[playerIndex].gameStatus : null;
         },
 
         _itemSelected: function (e) {
@@ -209,6 +210,13 @@
             this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
         },
 
+        _onInjuryDescriptionInput: function () {
+            this.debounce('triggerOnValueChanged', this._triggerValueChanged, 2000);
+        },
+
+        _onInjuryDescriptionChange: function () {
+            this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
+        },
 
         _deletePlayer: function(e){
             var playerIndex = e.model.playerIndex;
