@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+
+<head>
+    <script src="//cdn.rawgit.com/download/polymer-cdn/2.0.1/lib/webcomponentsjs/webcomponents-lite.js"></script>
+    <script>
+        /*
+      window.Polymer = window.Polymer || {};
+      window.Polymer.dom = 'shadow';
+      */
+    </script>
+
+    <link rel="import" href="_imports.html">
+    <link rel="import" href="../injury-report/injury-report.html">
+
+</head>
+
+<body>
+
+<!--injury-report value=''></injury-report> -->
+<injury-report value='{"playerList":[{"entityId":"a84250d3-d68d-416a-83b7-e654b115bdd8","translationId":"75cb12c8-6dca-4b0b-9f42-43281e567f54","title":"Fernando Alonso","thumbnail":null,"unpublished":null,"link":"#/wcm/custom/drivers/a84250d3-d68d-416a-83b7-e654b115bdd8","days":[{"day":"Monday","status":"Did Not Participate"},{"day":"Friday","status":"Limited Participation"},{"day":"Thursday","status":"Did Not Participate"}],"gameStatus":null}]}'></injury-report>    
+
+</body>
+
+<script>
+        document.querySelector('injury-report').addEventListener('sendCommand', function (e) {
+            console.log('on sendCommand:', e.detail);
+        });
+    
+        document.querySelector('injury-report').addEventListener('valueChanged', function (e) {
+            console.log('on change:', e.detail);
+        });
+    
+    </script>
+
+
+
+</html>
