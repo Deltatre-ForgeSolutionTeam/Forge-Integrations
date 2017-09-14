@@ -6,6 +6,20 @@
         return new CustomEvent('player-selected', { detail: { player: player } });
     }
     
+    
+    function enrichResultItems(result){
+        for(var i =0; i < result.length; i++){
+            var item = result[i];
+            var type = item.EntityType;
+            if(item.EntityType == "customentity"){
+                type = item.EntityType + '.' + item.EntityCode;
+            }
+
+            item.thumbnailUrl =  ForgeWebComponents.Helpers.EntityHelper.createThumbnailUrl(type, item.Id);
+        }
+        return result;
+    }
+
     Polymer({
         is: "search-players",
         behaviors: [
@@ -30,7 +44,7 @@
     
             api.raw(url).then(function (result) {
                 self._hideLoading = true;
-                self._results = result;
+                self._results = enrichResultItems(result);
             }, function () {
                 self._hideLoading = true;
                 self._results = [];

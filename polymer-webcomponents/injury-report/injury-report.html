@@ -7,19 +7,18 @@
             display: block;
         }
 
-        .position-row{
+        .position-row {
             margin-top: 20px;
             margin-bottom: 20px;
         }
 
-        .position-row paper-dropdown-menu {
+        .position-row paper-dropdown-menu,.position-row paper-input  {
             padding: 10px;
         }
 
         paper-toast iron-icon {
-			color: var(--status-yellow-color);
-		}
-        
+            color: var(--status-yellow-color);
+        }
     </style>
 
     <template>
@@ -28,6 +27,8 @@
             <div class="layout horizontal position-row flex">
                 <player-card player="[[player]]" on-delete-player="_deletePlayer"></player-card>
                 <div class="layout vertical flex">
+                            <paper-input value="{{player.injuryDescription}}" on-input="_onInjuryDescriptionInput" on-change="_onInjuryDescriptionChange"
+                            no-label-float="true" label="Injury"></paper-input>
                     <div class="layout horizontal flex">
                         <paper-dropdown-menu label="Monday" class="flex">
                             <paper-listbox slot="dropdown-content" class="dropdown-content" attr-for-selected="value" selected="[[_getDayValue('Monday',playerIndex)]]">
@@ -79,7 +80,7 @@
                     </div>
                     <paper-dropdown-menu label="Game Status" class="flex">
 
-                        <paper-listbox slot="dropdown-content" class="dropdown-content" attr-for-selected="value" selected="[[_getDayValue('Saturday',playerIndex)]]">
+                        <paper-listbox slot="dropdown-content" class="dropdown-content" attr-for-selected="value" selected="[[_getStatusValue(playerIndex)]]">
                             <template is="dom-repeat" items="[[injuryGameStatus.status]]" as="status" playerIx="[[playerIndex]]">
                                 <paper-item value="[[status]]" day="game-status" on-tap="_itemSelected">[[status]]</paper-item>
                             </template>

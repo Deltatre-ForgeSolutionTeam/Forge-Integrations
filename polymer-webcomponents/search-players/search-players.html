@@ -2,8 +2,8 @@
 
     <style include="iron-flex iron-flex-alignment">
         paper-dialog {
-            min-width: 400px;
-            top:0px;
+            min-width: 600px;
+            top: 0px;
         }
 
         .search-bar iron-icon {
@@ -12,6 +12,39 @@
 
         .player-item {
             cursor: pointer;
+            padding: 10px;
+            border-bottom: solid 1px #eee;
+        }
+
+        .player-thumbnail {
+            width: 80px;
+            height: 80px;
+            position: relative;
+        }
+
+        .player-text{
+            padding-left: 20px;
+        }
+
+        .player-thumbnail .icon-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: gray;
+        }
+
+        .player-thumbnail .icon-missing {
+            color: var(--status-red-color);
+        }
+
+        .player-thumbnail iron-image {
+            width: 100%;
+            height: 100%;
+        }
+
+        .player-thumbnail iron-icon {
+            width: 100%;
+            height: 100%;
         }
     </style>
 
@@ -33,8 +66,19 @@
 
                     <paper-item class="player-item" on-click="_select" on-dblclick="_selectAndConfirm">
                         <paper-item-body two-line>
-                            <div>[[item.Title]]</div>
-                            <div secondary>[[item.Slug]]</div>
+                            <!--<div>[[item.Title]]</div>
+                            <div secondary>[[item.Slug]]</div>-->
+                            <div class="layout horizontal">
+                                <div class="player-thumbnail">
+                                    <iron-icon class="icon-placeholder" icon="image:photo"></iron-icon>
+                                    <iron-image src="[[item.thumbnailUrl]]" sizing="contain"></iron-image>
+                                </div>
+
+                                <div class="layout vertical flex player-text">
+                                    <div>[[item.Title]]</div>
+                                    <div>[[item.Slug]]</div>
+                                </div>
+                            </div>
                         </paper-item-body>
                     </paper-item>
 
