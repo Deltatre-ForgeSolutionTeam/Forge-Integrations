@@ -1,6 +1,6 @@
 (function () {
 
-    var first_loading = true;
+    //var first_loading = true;
     var _editorialContentUnpublished = false;
     var api = ForgeWebComponents.Api;
 
@@ -102,29 +102,32 @@
 
      
         _itemSelected: function (e) {
-            var typeLink = this.value.typeLink;
+
+            debugger;
+            var typeLink = e.target.linkTypeValue;
             this._showEditorialContent = false;
             this._linkToContentType = false;
             this._externalLinkType = false;
 
+            /*
             if (first_loading) {
                 this.editorialContentSelected = {}
             }
-
+            */
             if (typeLink === "linktocontent") {
                 this._linkToContentType = true;
                 if (this.value.linkProperties.editorialContent != null) {
 
-                    if (first_loading) {
+                   // if (first_loading) {
                         this._getData()
                         this._showEditorialContent = true;
                         this.editorialContentSelected = this.value.linkProperties.editorialContent;
 
-                    } else {
+                    /*} else {
                         this._editorialContentUnpublished = false;
                         this._showEditorialContent = true;
                         this.editorialContentSelected = this.value.linkProperties.editorialContent;
-                    }
+                    }*/
                 }else{
                     this.value.linkProperties = {};
                 }
@@ -138,11 +141,11 @@
                 this.value.linkProperties = {};
             }
 
-            if (!first_loading) {
+            //if (!first_loading) {
                 this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
-            } else {
+            /*} else {
                 first_loading = false;
-            }
+            }*/
 
 
         },
