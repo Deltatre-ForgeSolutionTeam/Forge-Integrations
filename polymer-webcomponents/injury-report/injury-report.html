@@ -81,7 +81,7 @@
                     <paper-dropdown-menu label="Game Status" class="flex">
 
                         <paper-listbox slot="dropdown-content" class="dropdown-content" attr-for-selected="value" selected="[[_getStatusValue(playerIndex)]]">
-                            <template is="dom-repeat" items="[[injuryGameStatus.status]]" as="status" playerIx="[[playerIndex]]">
+                            <template is="dom-repeat" items="[[injuryGameStatus.status]]" as="status" player-index="[[playerIndex]]">
                                 <paper-item value="[[status]]" day="game-status" on-tap="_itemSelected">[[status]]</paper-item>
                             </template>
                         </paper-listbox>

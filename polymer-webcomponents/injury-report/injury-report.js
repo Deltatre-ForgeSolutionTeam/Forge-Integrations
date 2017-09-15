@@ -37,36 +37,6 @@
     }
 
 
-    /*
-        function ReferenceFieldItemsCommandBody(entityId, translationId, aggregateType, fieldName, refEntityId, refEntityType) {
-            this.aggregateId = entityId;
-            this.translationId = translationId;
-            this.aggregateType = aggregateType;
-            this.fieldName = fieldName;
-            this.referencedItems = [
-                {
-                    entityType: refEntityType,
-                    entityId: refEntityId
-                }
-            ];
-        }
-    
-        function AddReferenceFieldItemsCommand(entity, player) {
-    
-            const entityType = player.EntityCode ? player.EntityType + "." + player.EntityCode : player.EntityType;
-    
-            this.commandName = "AddReferenceFieldItemsCommand";
-            this.commandBody = new ReferenceFieldItemsCommandBody(entity.entityId, entity.id, entity.fullTypeName || entity.type, REFERENCE_FIELD_NAME, player.EntityId, entityType);
-    
-        }
-    
-        function RemoveReferenceFieldItemsCommand(entity, player) {
-    
-            this.commandName = "RemoveReferenceFieldItemsCommand";
-            this.commandBody = new ReferenceFieldItemsCommandBody(entity.entityId, entity.id, entity.fullTypeName || entity.type, REFERENCE_FIELD_NAME, player.entityId, player.type);
-    
-        }*/
-
     function Player(player) {
 
         const entityType = player.EntityCode ? player.EntityType + "." + player.EntityCode : player.EntityType;
