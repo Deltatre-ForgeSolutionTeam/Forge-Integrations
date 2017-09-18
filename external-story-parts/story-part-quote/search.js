@@ -9,8 +9,9 @@ app.get('/story-part-quote/search', function (req, res) {
 
 app.post('/story-part-quote/search', function (req, res) {
 
+	var quote = req.body.quoteValue;
 	var result = "result";
-	var quoteData = { "quote": req.body.quote, "author": req.body.author };
+	var quoteData = { "quote": quote.quote, "author": quote.author };
 
 
 
