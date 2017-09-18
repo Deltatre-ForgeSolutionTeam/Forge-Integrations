@@ -26,11 +26,11 @@
         },
 
         _quoteChanged: function(e){
-            Console.log("quoteChanged: " + e);
+            Console.log("quoteChanged: " + e.target.value);
         },
 
         _authorChanged: function(e){
-            Console.log("authorChanged: " + e);
+            Console.log("authorChanged: " + e.target.value);
         }
     });
 })();
