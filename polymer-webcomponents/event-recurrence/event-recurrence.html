@@ -1,3 +1,5 @@
+<link rel="import" href="../datepicker-input/datepicker-input.html">
+
 <dom-module id="event-recurrence">
     <style include="iron-flex iron-flex-alignment">
          :host {
@@ -6,6 +8,10 @@
 
         .day-toggle-container {
             padding: 10px;
+        }
+
+        .day-toggle-container paper-checkbox {
+            --paper-checkbox-checked-color: var(--paper-blue-500);
         }
 
         .day-toggle {
@@ -48,6 +54,9 @@
                         <div class="flex">
                             <paper-checkbox value="sat" id="sat" on-iron-change="_dayCheckChanged">Sat</paper-checkbox>
                         </div>
+                    </div>
+                    <div>
+                        <datepicker-input label="End Date" on-date-changed="_endDateChanged" value="{{value.end_date}}"></datepicker-input>
                     </div>
                 </div>
             </template>

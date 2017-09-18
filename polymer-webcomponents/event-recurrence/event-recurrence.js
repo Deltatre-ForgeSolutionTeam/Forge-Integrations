@@ -6,6 +6,7 @@
     function Recurrence() {
         this.period = null;
         this.days = [];
+        this.end_date = null;
     }
 
     function RecurrenceTypeList() {
@@ -40,6 +41,7 @@
             if (!newValue) {
                 this.value = new Recurrence();
             }
+
             if (typeof newValue === "object" && typeof oldValue === "string") {
                 var recurrenceType = this.value.period;
                 if (recurrenceType != "no-recurrence" && recurrenceType != null) {
@@ -53,23 +55,22 @@
 
         _recurrenceTypeSelected: function (e) {
             var recurrenceType = e.target.recurrenceTypeValue;
+
             if (recurrenceType != "no-recurrence") {
                 this._recurrenceEnabled = true;
             }
             else {
                 this._recurrenceEnabled = false;
-                for(var d = 0; d < this.value.days.length; d++)
-                {
-                    var chkBox = this.$$('#' + this.value.days[d]);
-                    chkBox.checked = false;
-                }
-                this.value.days = [];
+
+                this._clearCheckBoxes();
             }
+
             this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
         },
 
         _dayCheckChanged: function (e) {
             var day = e.target.value;
+
             if (day != null) {
                 if (e.target.checked) {
                     this.value.days.push(day);
@@ -78,21 +79,36 @@
                     var index = this.value.days.indexOf(day);
                     this.value.days.splice(index, 1);
                 }
+
                 this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
             } else {
                 var id = e.target.id;
+
                 if (this.value.days.includes(id)) {
                     e.target.checked = true;
                 }
             }
-            console.log("_dayCheckChanged ");
-            console.log(day);
-            console.log(e);
+        },
+
+        _endDateChanged: function (e) {
+            var newDate = e.detail.date;
+
+            this.value.end_date = newDate;
+
+            this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
+        },
+
+        _clearCheckBoxes: function() {
+            for(var d = 0; d < this.value.days.length; d++)
+            {
+                var chkBox = this.$$('#' + this.value.days[d]);
+                chkBox.checked = false;
+            }
+            this.value.days = [];
         },
 
         _triggerValueChanged: function () {
             this.fire('valueChanged', this.value);
-            console.log(this.value);
         }
     });
 

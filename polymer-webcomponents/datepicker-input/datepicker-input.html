@@ -1,46 +1,47 @@
 <link rel="import" href="//rawgit.com/deltatre-webplu/forge-webcomponents/develop/paper-date-picker/paper-date-picker.html">
 
 <dom-module id="datepicker-input">
-    <style>
-        :host {
-          display: block;
-        }
-        .datepicker-input-container {
-          display: flex;
-          flex-direction: row;
-        }
-        .datepicker-input-container .datepicker-input {
-          flex-grow: 1;
-          --paper-input-container-disabled: {
-            opacity: 1;
-          };
-        }
-        .datepicker-input-container .datepicker-button {
-          margin: 8px;
-        }
-      </style>
-      <template>
-            <div class="datepicker-input-container">
-              <paper-input class="datepicker-input" value="{{formattedValue}}" label="[[label]]" disabled="true"></paper-input>
-              <paper-icon-button class="datepicker-button" icon="icons:date-range" on-click="openDatepicker" disabled="[[disabled]]"></paper-icon-button>
-              <template is="dom-if" if="[[value]]">
-                <paper-icon-button class="datepicker-button" icon="icons:close" on-click="deleteDate" disabled="[[disabled]]"></paper-icon-button>
-              </template>
-            </div>
-        
-            <paper-dialog id="datePicker"
-              modal
-              on-iron-overlay-closed="onDatePickerClosed">
-        
-              <paper-date-picker id="picker" date="[[_evalDate(value)]]"></paper-date-picker>
-        
-              <div class="buttons">
-                <paper-button dialog-dismiss>Cancel</paper-button>
-                <paper-button dialog-confirm autofocus>Accept</paper-button>
-              </div>
-        
-            </paper-dialog>
-        
-          </template>
+  <style>
+     :host {
+      display: block;
+    }
+
+    .datepicker-input {
+      --paper-input-container-disabled: {
+        opacity: 1;
+      };
+    }
+
+    .datepicker-input-container paper-icon-button {
+      color: gray;
+    }
+    
+    .datepicker-input-container .datepicker-button {
+      line-height: 70px;
+    }
+  </style>
+  <template>
+    <div class="datepicker-input-container layout horizontal">
+      <paper-input class="datepicker-input flex" value="{{formattedValue}}" label="[[label]]" disabled="true"></paper-input>
+      <div class="layout-fit datepicker-button">
+        <paper-icon-button  icon="icons:date-range" on-click="openDatepicker" disabled="[[disabled]]"></paper-icon-button>
+        <template is="dom-if" if="[[value]]">
+          <paper-icon-button icon="icons:close" on-click="deleteDate" disabled="[[disabled]]"></paper-icon-button>
+        </template>
+      </div>
+    </div>
+
+    <paper-dialog id="datePicker" modal on-iron-overlay-closed="onDatePickerClosed">
+
+      <paper-date-picker id="picker" date="[[_evalDate(value)]]"></paper-date-picker>
+
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button dialog-confirm autofocus>Accept</paper-button>
+      </div>
+
+    </paper-dialog>
+
+  </template>
 </dom-module>
 <script src="datepicker-input.js"></script>
