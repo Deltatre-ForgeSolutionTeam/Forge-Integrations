@@ -7,4 +7,4 @@ Install via npm http-server (npm install http-server -g) and use:
 
 To use paper-date-picker should import:
 
-    <link rel="import" href="//rawgit.com/deltatre-webplu/forge-webcomponents/develop/forge-datepicker-input/forge-datepicker-input.html">
+    <link rel="import" href="//rawgit.com/Deltatre-ForgeSolutionTeam/Forge-Integrations/develop/polymer-webcomponents/datepicker-input/datepicker-input.html">
