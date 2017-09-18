@@ -25,12 +25,23 @@
             }
         },
 
+        _quoteInput: function(e){
+            this.debounce('triggerOnValueChanged', this._triggerValueChanged, 2000);
+        },
         _quoteChanged: function(e){
-            Console.log("quoteChanged: " + e.target.value);
+            this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
         },
 
+        _authorInput: function(e){
+            this.debounce('triggerOnValueChanged', this._triggerValueChanged, 2000);
+        },
         _authorChanged: function(e){
-            Console.log("authorChanged: " + e.target.value);
+            this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
+        },
+
+        _triggerValueChanged: function () {
+            this.fire('valueChanged', this.value);
+            console.log(this.value);
         }
     });
 })();

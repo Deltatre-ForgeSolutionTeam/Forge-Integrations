@@ -10,7 +10,7 @@ app.get('/story-part-quote/search', function (req, res) {
 app.post('/story-part-quote/search', function (req, res) {
 
 	var result = "result";
-
+	var quoteData = { "quote": req.body.quote, "author": req.body.author };
 
 
 
@@ -18,7 +18,7 @@ app.post('/story-part-quote/search', function (req, res) {
 	res.json([{
 		"type": "story-part-quote",
 		"preview": result,
-		"content": "quote content"
+		"content": quoteData
 	}]);
 
 });
