@@ -25,7 +25,7 @@
         this.status.push("Did Not Participate");
         this.status.push("Limited Participation");
         this.status.push("Full Participation");
-        this.status.push("Out");
+        //this.status.push("Out");
     }
 
     function GameStatus() {
