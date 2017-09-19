@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <!-- <link rel="import" href="//rawgit.com/deltatre-webplu/forge-webcomponents/develop/forge-shared/polymer.html">
+    <script src="//cdn.jsdelivr.net/npm/@webcomponents/webcomponentsjs@1.0.11/webcomponents-lite.min.js"></script>
+   -->
+    <script src="//cdn.rawgit.com/download/polymer-cdn/2.0.1/lib/webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="../_demo/_imports.html">
+
+    <script src="../../web-component-tester/browser.js"></script>
+    <script src="../../test-fixture/test-fixture-mocha.js"></script>
+
+
+    <link rel="import" href="../player-card/player-card.html">
+    <script>
+        window.ForgeWebComponents.Settings.RootUrl = "../_demo/";
+    </script>
+
+</head>
+
+<body>
+
+    <test-fixture id="playerCard">
+        <template>
+            <player-card></player-card>
+        </template>
+    </test-fixture>
+
+
+    <test-fixture id="playerCardWithPlayerValue">
+        <template>
+            <player-card player='{"entityId":"sdasdasdasds","translationId":"sdasdasdasds","title":"player name","unpublished":false,"link":"player-link","thumbnail":"player-thumbnail"}'></player-card>
+        </template>
+    </test-fixture>
+
+
+
+    <script>
+        function done() {
+            console.log('DOM Loaded');
+        };
+
+        describe('<player-card> with player = null', function () {
+            var playerCard;
+            beforeEach(function () {
+                playerCard = fixture('playerCard');
+
+                flush(function () {
+                    done()
+                });
+            });
+
+            it('should display player name "(unknown)"', function () {
+                var playerName = playerCard.querySelector('.player-name.style-scope.player-card').innerText;
+                expect(playerName).to.be.equal("(unknown)");
+            });
+
+            it('should display icon-missing', function () {
+                var iconMissing = playerCard.querySelector('#icon-missing');
+
+                expect(iconMissing.id).to.be.equal('icon-missing');
+            });
+        });
+
+        describe('<player-card> with player not null', function () {
+            var playerCardWithValue;
+            beforeEach(function () {
+                playerCardWithValue = fixture('playerCardWithPlayerValue');
+
+                flush(function () {
+                    done()
+                });
+            });
+
+            it('should display player name "player name"', function () {
+                var playerName = playerCardWithValue.querySelector('.player-name.style-scope.player-card').innerText;
+                expect(playerName).to.be.equal("player name");
+            });
+        });
+    </script>
+</body>
+
+</html>
