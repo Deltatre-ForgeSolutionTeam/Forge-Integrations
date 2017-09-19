@@ -1,0 +1,39 @@
+<dom-module id="event-status">
+
+    <style include="iron-flex iron-flex-alignment">
+         :host {
+            display: block;
+        }
+
+        paper-icon-button {
+            color: gray;
+            line-height: 70px;
+        }
+    </style>
+
+    <template>
+        <div class="layout vertical">
+            <paper-toggle-button checked on-change="_onlineChanged">Online</paper-toggle-button>
+
+            <template is="dom-if" if="{{value.online}}">
+                <div class="layout horizontal">
+                    <paper-dropdown-menu label="Event Type" class="flex">
+                        <paper-listbox id="lsbEventTypes" slot="dropdown-content" class="dropdown-content" attr-for-selected="event-type-value" selected="{{value.type}}">
+                            <template is="dom-repeat" items="[[eventTypes.eventTypesList]]">
+                                <paper-item event-type-value="[[item.value]]" on-tap="_eventTypeSelected">[[item.label]]</paper-item>
+                            </template>
+                        </paper-listbox>
+                    </paper-dropdown-menu>
+
+                    <template is="dom-if" if="{{value.type}}">
+                        <paper-icon-button icon="icons:close" on-click="_deleteEventType"></paper-icon-button>
+                    </template>
+                </div>
+            </template>
+        </div>
+        </div>
+    </template>
+
+</dom-module>
+
+<script src="event-status.js"></script>
