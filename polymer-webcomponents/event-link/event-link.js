@@ -119,8 +119,11 @@
             if (typeLink === "externallink") {
                 this._externalLinkType = true;
             }
+            if(triggerChange && typeLink === "externallink"){
+                this.value.linkProperties = {};
+            }
 
-            if (typeLink === "nolink" || typeLink === "empty" || typeLink === "externallink") {
+            if (typeLink === "nolink" || typeLink === "empty") {
                 this.value.linkProperties = {};
             }
 
@@ -135,6 +138,14 @@
 
         _itemSelected: function (e) {
             this._loadEventTemplate(e.target.linkTypeValue,true);
+        },
+
+        _getExternalLinkUrl: function() {
+            if(this.value.linkProperties.externalLinkUrl){
+                return this.value.linkProperties.externalLinkUrl;
+            }
+            
+            return null;
         },
 
         _onExternalLinkInput: function () {
