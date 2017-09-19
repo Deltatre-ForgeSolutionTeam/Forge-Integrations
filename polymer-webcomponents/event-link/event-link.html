@@ -92,7 +92,7 @@
         <div class="layout vertical event-link-dropdown">
             <!--on-iron-select="_itemSelected"-->
             <paper-dropdown-menu label="Event Link Type">
-                <paper-listbox slot="dropdown-content" class="dropdown-content" attr-for-selected="link-type-value" selected="{{value.typeLink}}">
+                <paper-listbox slot="dropdown-content" class="dropdown-content" attr-for-selected="link-type-value" selected="{{value.typeLink}}" on-iron-select="_loadContent">
                     <template is="dom-repeat" items="[[linkTypes.data]]" as="eventLinkType">
                         <paper-item link-type-value="[[eventLinkType.value]]" on-tap="_itemSelected">[[eventLinkType.label]]</paper-item>
                     </template>

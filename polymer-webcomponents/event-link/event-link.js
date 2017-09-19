@@ -99,10 +99,7 @@
             if (!newValue) this.value = new EventLinkConfiguration();
         },
 
-
-        _itemSelected: function (e) {
-
-            var typeLink = e.target.linkTypeValue;
+        _loadEventTemplate: function(typeLink, triggerChange){
             this._showEditorialContent = false;
             this._linkToContentType = false;
             this._externalLinkType = false;
@@ -127,10 +124,19 @@
                 this.value.linkProperties = {};
             }
 
-            this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
-
-
+            if(triggerChange){
+                this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);    
+            }
         },
+
+        _loadContent: function (e) {
+            this._loadEventTemplate(this.value.typeLink,false);
+        },
+
+        _itemSelected: function (e) {
+            this._loadEventTemplate(e.target.linkTypeValue,true);
+        },
+
         _onExternalLinkInput: function () {
             this.debounce('triggerOnValueChanged', this._triggerValueChanged, 2000);
         },
