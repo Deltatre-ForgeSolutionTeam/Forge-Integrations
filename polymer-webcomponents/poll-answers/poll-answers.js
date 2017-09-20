@@ -7,10 +7,6 @@
         this.content = null;
     };
 
-    function  AnswerList(){
-        this.answers = [];
-    }
-
     Polymer({
         is: "poll-answers",
         behaviors: [
@@ -18,8 +14,8 @@
         ],
         properties: {
             value: {
-                type: Object,
-                value: new AnswerList(),
+                type: Array,
+                value: [],
                 observer: '_valueChanged'
             }
 
@@ -31,11 +27,11 @@
         },
 
         _valueChanged: function (newValue, oldValue) {
-            if (!newValue) this.value =  new AnswerList();
+            if (!newValue) this.value =  [];
         },
 
         _addAnswer: function(e){
-            var path = "value.answers";
+            var path = "value";
             this.push(path, new Answer(answerType));
             
             this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
@@ -50,7 +46,7 @@
         },
 
         _deleteAnswer: function(e){
-            var path = "value.answers";
+            var path = "value";
             this.splice(path, e.model.answerIndex, 1);
             this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
 

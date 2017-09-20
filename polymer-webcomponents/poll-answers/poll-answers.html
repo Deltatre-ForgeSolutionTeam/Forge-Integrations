@@ -22,7 +22,7 @@
 
     <template>
 
-        <template is="dom-repeat" items="[[value.answers]]" as="answer" index-as="answerIndex">
+        <template is="dom-repeat" items="[[value]]" as="answer" index-as="answerIndex">
             <template is="dom-if" if="[[ _isTextAnswer(answer) ]]">
                 <div class="layout horizontal poll-answer">
                     <div class="icon-bullet"></div>
