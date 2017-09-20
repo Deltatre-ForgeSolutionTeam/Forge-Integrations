@@ -1,0 +1,33 @@
+<dom-module id="poll-answers">
+    <style include="iron-flex iron-flex-alignment">
+         :host {
+            display: block;
+        }
+
+        .delete-answer{
+            color: var(--paper-blue-500);
+        }
+    </style>
+
+    <template>
+
+        [[value.AnswerList]]
+        <template is="dom-repeat" items="[[value.answers]]" as="answer" index-as="answerIndex">
+            <div class="layout horizontal">
+                <paper-input class="flex" value="{{answer.content}}" on-input="_onAnswerInput" on-change="_onAnswerChange" no-label-float="true"
+                    label="Answer Text"></paper-input>
+                <paper-icon-button class="delete-answer" icon="delete" on-tap="_deleteAnswer"></paper-icon-button>
+
+            </div>
+        </template>
+
+        <div class="layout horizontal">
+            <paper-button class="flex" on-tap="_addAnswer">
+                <iron-icon icon="add"></iron-icon>
+                Add New Answer
+            </paper-button>
+        </div>
+    </template>
+</dom-module>
+
+<script src="poll-answers.js"></script>
