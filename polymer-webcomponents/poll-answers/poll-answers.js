@@ -56,6 +56,10 @@
 
         },
 
+        _isTextAnswer: function(answer){
+            return answer.type === "text" ? true : false;
+        },
+
         _triggerValueChanged: function () {
             this.fire('valueChanged', this.value);
         }

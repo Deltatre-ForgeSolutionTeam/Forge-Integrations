@@ -3,24 +3,34 @@
          :host {
             display: block;
         }
-        .poll-answer{
+
+        .poll-answer {
             padding-bottom: 20px;
         }
-        .delete-answer{
+
+        .delete-answer {
+            color: var(--paper-blue-500);
+        }
+
+        div.icon-bullet:before {
+            content: "• ";
+            font-size: 35px;
+            padding: 10px;
             color: var(--paper-blue-500);
         }
     </style>
 
     <template>
 
-        [[value.AnswerList]]
         <template is="dom-repeat" items="[[value.answers]]" as="answer" index-as="answerIndex">
-            <div class="layout horizontal poll-answer">
-                <paper-input class="flex" value="{{answer.content}}" on-input="_onAnswerInput" on-change="_onAnswerChange" no-label-float="true"
-                    label="Answer Text"></paper-input>
-                <paper-icon-button class="delete-answer" icon="delete" on-tap="_deleteAnswer"></paper-icon-button>
-
-            </div>
+            <template is="dom-if" if="[[ _isTextAnswer(answer) ]]">
+                <div class="layout horizontal poll-answer">
+                    <div class="icon-bullet"></div>
+                    <paper-input class="flex" value="{{answer.content}}" on-input="_onAnswerInput" on-change="_onAnswerChange" no-label-float="true"
+                        label="Answer Text"></paper-input>
+                    <paper-icon-button class="delete-answer" icon="delete" on-tap="_deleteAnswer"></paper-icon-button>
+                </div>
+            </template>
         </template>
 
         <div class="layout horizontal">
