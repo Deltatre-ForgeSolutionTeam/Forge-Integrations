@@ -15,8 +15,10 @@ Install Java
 Install bower
     npm install -g bower
 
-Install web-component-tester
+Install web-component-tester (in the project folder)
+    npm install -g bower
     bower install Polymer/web-component-tester --save
+    bower install --save-dev web-component-tester
     
 Run Test 
     wct --configFile fst.wct.config.json -p

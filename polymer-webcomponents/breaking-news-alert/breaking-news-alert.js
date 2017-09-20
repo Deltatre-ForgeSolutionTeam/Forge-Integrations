@@ -12,7 +12,7 @@
         this.alertTypesList = [];
 
         this.alertTypesList.push({ "value": "homepage", "label": "Home Page" });
-        this.alertTypesList.push({ "value": "side-wide", "label": "Side Wide" });
+        this.alertTypesList.push({ "value": "site-wide", "label": "Site Wide" });
     }
 
     Polymer({

@@ -9,12 +9,17 @@
             color: gray;
             line-height: 70px;
         }
+
+        paper-dropdown-menu,
+        paper-listbox {
+            min-width: 250px;
+        }
     </style>
 
     <template>
         <div class="layout vertical">
             <div class="layout horizontal">
-                <paper-dropdown-menu label="Breaking News Alert" class="flex">
+                <paper-dropdown-menu label="Breaking News Alert" class="flex" horizontal-align="left">
                     <paper-listbox id="lsbAlertTypes" slot="dropdown-content" class="dropdown-content" attr-for-selected="alert-type-value" selected="{{value.type}}">
                         <template is="dom-repeat" items="[[alertTypes.alertTypesList]]">
                             <paper-item alert-type-value="[[item.value]]" on-tap="_alertTypeSelected">[[item.label]]</paper-item>

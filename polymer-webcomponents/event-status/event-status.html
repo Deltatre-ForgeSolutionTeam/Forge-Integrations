@@ -23,16 +23,21 @@
             top: 30px;
             position: absolute;
         }
+
+        paper-dropdown-menu,
+        paper-listbox {
+            min-width: 250px;
+        }
     </style>
 
     <template>
         <div class="layout horizontal">
             <div class="toggle-wrap">
-                <paper-toggle-button checked on-change="_onlineChanged">Online</paper-toggle-button>
+                <paper-toggle-button checked="{{value.online}}" on-change="_onlineChanged">Online</paper-toggle-button>
             </div>
             <template is="dom-if" if="{{value.online}}">
                 <div class="layout horizontal flex">
-                    <paper-dropdown-menu label="Event Type" class="flex">
+                    <paper-dropdown-menu label="Event Type" class="flex" horizontal-align="left">
                         <paper-listbox id="lsbEventTypes" slot="dropdown-content" class="dropdown-content" attr-for-selected="event-type-value" selected="{{value.type}}">
                             <template is="dom-repeat" items="[[eventTypes.eventTypesList]]">
                                 <paper-item event-type-value="[[item.value]]" on-tap="_eventTypeSelected">[[item.label]]</paper-item>

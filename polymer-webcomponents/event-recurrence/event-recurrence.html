@@ -17,13 +17,18 @@
         .day-toggle {
             padding-right: 10px;
         }
+
+        paper-dropdown-menu,
+        paper-listbox {
+            min-width: 250px;
+        }
     </style>
     <template>
         <div class="layout vertical">
-            <paper-dropdown-menu label="Recurrence setting">
-                <paper-listbox slot="dropdown-content" class="dropdown-content" attr-for-selected="recurrence-type-value" selected="{{value.period}}">
+            <paper-dropdown-menu label="Recurrence setting" horizontal-align="left">
+                <paper-listbox slot="dropdown-content flex" class="dropdown-content" attr-for-selected="recurrence-type-value" selected="{{value.period}}">
                     <template is="dom-repeat" items="[[recurrenceTypes.recurrenceTypeList]]">
-                        <paper-item recurrence-type-value="[[item.value]]" on-tap="_recurrenceTypeSelected">[[item.label]]</paper-item>
+                        <paper-item class="flex" recurrence-type-value="[[item.value]]" on-tap="_recurrenceTypeSelected">[[item.label]]</paper-item>
                     </template>
                 </paper-listbox>
             </paper-dropdown-menu>
