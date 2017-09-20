@@ -21,14 +21,15 @@
     </style>
 
     <template>
-
-        <template is="dom-repeat" items="[[value]]" as="answer" index-as="answerIndex">
-            <template is="dom-if" if="[[ _isTextAnswer(answer) ]]">
+        
+        <template is="dom-repeat" items="[[value]]" as="answer" index-as="indexAnswer">
+            <template is="dom-if" if="[[ _isTextAnswer(answer) ]]"  answer-index="[[indexAnswer]]">
                 <div class="layout horizontal poll-answer">
                     <div class="icon-bullet"></div>
                     <paper-input class="flex" value="{{answer.content}}" on-input="_onAnswerInput" on-change="_onAnswerChange" no-label-float="true"
                         label="Answer Text"></paper-input>
-                    <paper-icon-button class="delete-answer" icon="delete" on-tap="_deleteAnswer"></paper-icon-button>
+                        <paper-icon-button class="delete-answer" icon="delete" on-tap="_deleteAnswer"></paper-icon-button>
+                        
                 </div>
             </template>
         </template>

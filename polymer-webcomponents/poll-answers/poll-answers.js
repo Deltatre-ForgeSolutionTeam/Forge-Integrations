@@ -47,7 +47,8 @@
 
         _deleteAnswer: function(e){
             var path = "value";
-            this.splice(path, e.model.answerIndex, 1);
+            var _index = e.model.dataHost.answerIndex;
+            this.splice(path, _index, 1);
             this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
 
         },
