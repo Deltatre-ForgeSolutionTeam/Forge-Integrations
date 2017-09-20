@@ -3,7 +3,9 @@
          :host {
             display: block;
         }
-
+        .poll-answer{
+            padding-bottom: 20px;
+        }
         .delete-answer{
             color: var(--paper-blue-500);
         }
@@ -13,7 +15,7 @@
 
         [[value.AnswerList]]
         <template is="dom-repeat" items="[[value.answers]]" as="answer" index-as="answerIndex">
-            <div class="layout horizontal">
+            <div class="layout horizontal poll-answer">
                 <paper-input class="flex" value="{{answer.content}}" on-input="_onAnswerInput" on-change="_onAnswerChange" no-label-float="true"
                     label="Answer Text"></paper-input>
                 <paper-icon-button class="delete-answer" icon="delete" on-tap="_deleteAnswer"></paper-icon-button>
