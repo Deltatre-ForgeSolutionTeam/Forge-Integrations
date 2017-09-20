@@ -71,37 +71,25 @@
 
         <paper-card class="player-card-container">
 
-
-
-
             <template is="dom-if" if="[[ !player ]]">
-
                 <div class="card-content">
-
                     <div class="player-thumbnail">
                         <iron-icon id="icon-missing" class="icon-missing" icon="social:person"></iron-icon>
                     </div>
-
                     <div class="player-name">(unknown)</div>
-
                     <div class="not-visible-layer"></div>
-
                 </div>
-
                 <div class="card-actions layout horizontal">
                     <span class="flex"></span>
                     <paper-icon-button icon="delete" on-tap="_delete"></paper-icon-button>
                 </div>
-
             </template>
 
             <template is="dom-if" if="[[ player ]]">
-
                 <div class="card-content">
-
                     <div class="player-thumbnail">
                         <iron-icon class="icon-placeholder" icon="social:person"></iron-icon>
-                        <iron-image src="[[player.thumbnail]]" sizing="contain"></iron-image>
+                        <iron-image id="player-thumb" src="[[player.thumbnail]]" sizing="contain"></iron-image>
                     </div>
 
                     <div class="player-name">[[player.title]]</div>
@@ -110,15 +98,14 @@
                         <div class="not-visible-layer"></div>
                         <iron-icon class="not-visible-icon" icon="icons:visibility-off"></iron-icon>
                     </template>
-
                 </div>
 
                 <div class="card-actions layout horizontal">
-                    <a href$="[[player.link]]" tabindex="-1">
+                    <a href$="[[player.link]]" tabindex="-1" id="player-link">
                         <paper-icon-button icon="open-in-new"></paper-icon-button>
                     </a>
                     <span class="flex"></span>
-                    <paper-icon-button icon="delete" on-tap="_delete"></paper-icon-button>
+                    <paper-icon-button icon="delete" on-tap="_delete" id="player-delete"></paper-icon-button>
                 </div>
 
             </template>

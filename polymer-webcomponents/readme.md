@@ -7,6 +7,14 @@ Install via npm http-server and use:
 
 
 
+#Test Runner
+
+Install Java
+     https://java.com/download/
+
+Install bower
+    npm install -g bower
+
 Install web-component-tester
     bower install Polymer/web-component-tester --save
     

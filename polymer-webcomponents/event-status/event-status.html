@@ -10,25 +10,28 @@
             line-height: 70px;
         }
 
-        paper-toggle-button {
-            --paper-toggle-button-checked-bar-color:  var(--paper-blue-500);
-            --paper-toggle-button-checked-button-color:  var(--paper-blue-500);
-            --paper-toggle-button-checked-ink-color: var(--paper-blue-500);
-            margin-right: 15px;
-            margin-top: 40px;
+        .toggle-wrap {
+            position: relative;
+            height: 62px;
+            width: 100px;
         }
-        
-        paper-input-container {
-            padding: 0 !important; 
+
+        paper-toggle-button {
+            --paper-toggle-button-checked-bar-color: var(--paper-blue-500);
+            --paper-toggle-button-checked-button-color: var(--paper-blue-500);
+            --paper-toggle-button-checked-ink-color: var(--paper-blue-500);
+            top: 30px;
+            position: absolute;
         }
     </style>
 
     <template>
         <div class="layout horizontal">
-            <paper-toggle-button checked on-change="_onlineChanged">Online</paper-toggle-button>
-
+            <div class="toggle-wrap">
+                <paper-toggle-button checked on-change="_onlineChanged">Online</paper-toggle-button>
+            </div>
             <template is="dom-if" if="{{value.online}}">
-                <div class="layout horizontal flex dropdown-container">
+                <div class="layout horizontal flex">
                     <paper-dropdown-menu label="Event Type" class="flex">
                         <paper-listbox id="lsbEventTypes" slot="dropdown-content" class="dropdown-content" attr-for-selected="event-type-value" selected="{{value.type}}">
                             <template is="dom-repeat" items="[[eventTypes.eventTypesList]]">
