@@ -5,6 +5,7 @@
     function Answer(answerType){
         this.type = answerType;
         this.content = null;
+        this.id = uuid.v4()
     };
 
     Polymer({
