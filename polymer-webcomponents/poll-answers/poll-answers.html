@@ -11,7 +11,12 @@
         .delete-answer {
             color: var(--paper-blue-500);
         }
-
+        .poll-title{
+            padding: 10px;
+            color:#212121;
+            font-weight: 700;
+            font-size: 14px;
+        }
         div.icon-bullet:before {
             content: "• ";
             font-size: 35px;
@@ -21,7 +26,9 @@
     </style>
 
     <template>
-        
+        <div class="poll-title flex">
+            <span>Answer</span>
+        </div>
         <template is="dom-repeat" items="[[value]]" as="answer" index-as="indexAnswer">
             <template is="dom-if" if="[[ _isTextAnswer(answer) ]]"  answer-index="[[indexAnswer]]">
                 <div class="layout horizontal poll-answer">
