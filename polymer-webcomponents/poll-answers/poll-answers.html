@@ -27,7 +27,7 @@
 
     <template>
         <div class="poll-title flex">
-            <span>Answer</span>
+            <span>Answers</span>
         </div>
         <template is="dom-repeat" items="[[value]]" as="answer" index-as="indexAnswer">
             <template is="dom-if" if="[[ _isTextAnswer(answer) ]]"  answer-index="[[indexAnswer]]">
