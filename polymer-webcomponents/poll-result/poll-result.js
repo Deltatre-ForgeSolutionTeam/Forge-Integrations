@@ -1,5 +1,7 @@
 (function () {
-    
+
+    var oldPollEntityId = null;
+
     Polymer({
         is: "poll-result",
         behaviors: [
@@ -8,12 +10,17 @@
         properties: {
             value: {
                 type: Object,
-                value: {},
+                value: { },
                 observer: '_valueChanged'
             },
+
+            moduleEnabled: {
+                type: Boolean,
+                value: false
+            },
             pollResult: {
-                type:Object,
-                value: {}
+                type: Array,
+                value: [ ]
             }
         },
 
@@ -25,16 +32,18 @@
             if (!newValue) this.value =  [];
         },
 
-        _pollResultLoad: function(){
+        _pollResultLoad: function() {
             this.$.requestPollResult.generateRequest();
         },
 
+        _pollResultResponse: function(data) {
+            this.pollResult = data.detail.response.pollResult;
 
-        _pollResultResponse: function(data){
-            console.log(data.detail.response);
-            this.pollResult = data.detail.response;
+            if (this.pollResult.length > 0)
+                this.moduleEnabled = true;
+            else
+                this.moduleEnabled = false;
         }
-
     });
 
 
