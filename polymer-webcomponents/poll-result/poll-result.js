@@ -10,6 +10,10 @@
                 type: Object,
                 value: {},
                 observer: '_valueChanged'
+            },
+            pollResult: {
+                type:Object,
+                value: {}
             }
         },
 
@@ -22,14 +26,13 @@
         },
 
         _pollResultLoad: function(){
-            console.log("load result");
             this.$.requestPollResult.generateRequest();
         },
 
 
         _pollResultResponse: function(data){
             console.log(data.detail.response);
-
+            this.pollResult = data.detail.response;
         }
 
     });
