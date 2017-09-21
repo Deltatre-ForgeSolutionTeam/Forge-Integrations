@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+
+<head>
+    <script src="//cdn.rawgit.com/download/polymer-cdn/2.0.1/lib/webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="_imports.html">
+    <link rel="import" href="../breaking-news-alert/breaking-news-alert.html">
+</head>
+
+<body>
+
+<breaking-news-alert></breaking-news-alert>
+    
+</body>
+
+<script>
+        document.querySelector('breaking-news-alert').addEventListener('sendCommand', function (e) {
+            console.log('on sendCommand:', e.detail);
+        });
+    
+        document.querySelector('breaking-news-alert').addEventListener('valueChanged', function (e) {
+            console.log('on change:', e.detail);
+        });
+    
+    </script>
+
+
+
+</html>

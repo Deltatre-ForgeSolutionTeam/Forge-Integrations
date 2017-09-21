@@ -1,8 +1,7 @@
-<dom-module id="search-players">
-
+<dom-module id="search-editorial-content">
     <style include="iron-flex iron-flex-alignment">
         paper-dialog {
-            min-width: 600px;
+            width: 60%;
             top: 0px;
         }
 
@@ -10,53 +9,52 @@
             margin: 10px;
         }
 
-        .player-item {
+        .content-item {
             cursor: pointer;
             padding: 10px;
             border-bottom: solid 1px #eee;
         }
 
-        .player-thumbnail {
+        .content-thumbnail {
             width: 80px;
             height: 80px;
             position: relative;
         }
 
-        .player-text{
+        .content-text{
             padding-left: 20px;
         }
 
-        .player-thumbnail .icon-placeholder {
+        .content-thumbnail .icon-placeholder {
             position: absolute;
             top: 0;
             left: 0;
             color: gray;
         }
 
-        .player-thumbnail .icon-missing {
+        .content-thumbnail .icon-missing {
             color: var(--status-red-color);
         }
 
-        .player-thumbnail iron-image {
+        .content-thumbnail iron-image {
             width: 100%;
             height: 100%;
         }
 
-        .player-thumbnail iron-icon {
+        .content-thumbnail iron-icon {
             width: 100%;
             height: 100%;
         }
+
     </style>
 
     <template>
-
         <paper-dialog id="searchModal" modal on-iron-overlay-closed="_onSearchModalClose">
-
-            <h2>Search Players</h2>
+            <h2>Search {{editorialTypeContent.label}}</h2>
 
             <div class="search-bar layout horizontal">
                 <iron-icon icon="search"></iron-icon>
-                <paper-input class="flex" value="{{search}}" on-input="_searchChanged" on-change="_searchChanged" no-label-float="true" label="Player Name"
+                <paper-input class="flex" value="{{search}}" on-input="_searchChanged" on-change="_searchChanged" no-label-float="true" label="Search Text"
                     always-float-label></paper-input>
             </div>
 
@@ -64,21 +62,20 @@
 
                 <template is="dom-repeat" items="[[_results]]">
 
-                    <paper-item class="player-item" on-click="_select" on-dblclick="_selectAndConfirm">
-                        <paper-item-body two-line>
-                            <!--<div>[[item.Title]]</div>
-                            <div secondary>[[item.Slug]]</div>-->
+                    <paper-item class="content-item" on-click="_select" on-dblclick="_selectAndConfirm">
+                        <paper-item-body>
                             <div class="layout horizontal">
-                                <div class="player-thumbnail">
+                                <div class="content-thumbnail">
                                     <iron-icon class="icon-placeholder" icon="image:photo"></iron-icon>
-                                    <iron-image src="[[item.thumbnailUrl]]" sizing="contain"></iron-image>
+                                    <iron-image src="[[item.wcmThumbnailUrl]]" sizing="contain"></iron-image>
                                 </div>
 
-                                <div class="layout vertical flex player-text">
+                                <div class="layout vertical flex content-text">
                                     <div>[[item.Title]]</div>
                                     <div>[[item.Slug]]</div>
                                 </div>
                             </div>
+
                         </paper-item-body>
                     </paper-item>
 
@@ -89,12 +86,11 @@
             <div class="buttons">
                 <paper-button dialog-dismiss>Close</paper-button>
             </div>
-
         </paper-dialog>
-
 
     </template>
 
-    <script src="search-players.js"></script>
-
 </dom-module>
+
+
+<script src="search-editorial-content.js"></script>

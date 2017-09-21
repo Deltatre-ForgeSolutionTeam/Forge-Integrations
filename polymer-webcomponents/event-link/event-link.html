@@ -1,0 +1,180 @@
+<link rel="import" href="../search-editorial-content/search-editorial-content.html">
+
+<dom-module id="event-link">
+    <style include="iron-flex iron-flex-alignment">
+         :host {
+            display: block;
+        }
+
+        .event-link-templates {
+            padding-top: 15px;
+        }
+
+        .event-link-templates paper-icon-button {
+            color: gray;
+        }
+
+        .content-thumbnail {
+            width: 80px;
+            height: 80px;
+            position: relative;
+        }
+
+        .content-thumbnail .icon-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: gray;
+        }
+
+        .content-thumbnail iron-image {
+            width: 100%;
+            height: 100%;
+        }
+
+        .content-thumbnail iron-icon {
+            width: 100%;
+            height: 100%;
+        }
+
+        .content-text {
+            padding-left: 20px;
+        }
+
+        .card-actions {
+            border-left: solid 1px gray;
+        }
+
+        .menu-item {
+            padding: 20px;
+            width: 150px;
+            cursor: pointer;
+        }
+
+        .menu-item .item-label {
+            padding-left: 10px;
+        }
+
+        .menu-item iron-icon {
+            color: gray;
+        }
+
+        .no-value-card {
+            color: gray;
+            font-weight: bold;
+        }
+
+        .not-visible-layer {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .not-visible-icon {
+            color: var(--status-red-dark-color);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border-radius: 50%;
+            padding: 5px;
+        }
+    </style>
+
+    <template>
+        <div class="layout vertical event-link-dropdown">
+            <!--on-iron-select="_itemSelected"-->
+            <paper-dropdown-menu label="Event Link Type">
+                <paper-listbox slot="dropdown-content" class="dropdown-content" attr-for-selected="link-type-value" selected="{{value.typeLink}}" on-iron-select="_loadContent">
+                    <template is="dom-repeat" items="[[linkTypes.data]]" as="eventLinkType">
+                        <paper-item link-type-value="[[eventLinkType.value]]" on-tap="_itemSelected">[[eventLinkType.label]]</paper-item>
+                    </template>
+                </paper-listbox>
+            </paper-dropdown-menu>
+            <div class="event-link-templates">
+                <template is="dom-if" if="[[_linkToContentType]]">
+                    <div class="layout horizontal">
+                        <div>
+                            <paper-menu-button vertical-align="top" horizontal-align="left">
+                                <paper-icon-button icon="add" class="dropdown-trigger"></paper-icon-button>
+                                <paper-menu class="dropdown-content">
+                                    <template is="dom-repeat" items="[[editorialContentList.data]]">
+                                        <paper-item on-tap="_openSearch" class="menu-item layout horizontal">
+                                            <iron-icon icon="[[item.icon]]"></iron-icon>
+                                            <div class="flex item-label">[[item.label]]</div>
+                                        </paper-item>
+                                    </template>
+                                </paper-menu>
+                            </paper-menu-button>
+                        </div>
+                        <div class="editorial-content-link flex">
+                            <template is="dom-if" if="[[!_showEditorialContent]]">
+                                <paper-card class="layout horizontal">
+                                    <div class="card-content no-value-card">
+                                        (no value)
+                                    </div>
+                                </paper-card>
+                            </template>
+                            <template is="dom-if" if="[[_showEditorialContent]]">
+                                <paper-card class="layout horizontal">
+                                    <div class="card-content flex layout horizontal">
+                                        <div class="content-thumbnail">
+                                            <iron-icon class="icon-placeholder" icon="image:photo"></iron-icon>
+                                            <iron-image src="{{editorialContentSelected.wcmThumbnailUrl}}" sizing="contain"></iron-image>
+                                        </div>
+                                        <div class="layout vertical flex content-text">
+                                            <div>
+                                                <strong>[[editorialContentSelected.title]]</strong>
+                                            </div>
+                                            <div>
+                                                Slug: [[editorialContentSelected.slug]]
+                                            </div>
+                                           
+                                        </div>
+                                        
+                                        <template is="dom-if" if="[[_editorialContentUnpublished]]">
+                                            <div class="not-visible-layer"></div>
+                                            <iron-icon class="not-visible-icon" icon="icons:visibility-off"></iron-icon>
+                                        </template>
+                                    </div>
+                                    <div class="card-actions layout vertical">
+                                        <div class="flex">
+                                            <a href$="[[editorialContentSelected.wcmlink]]" tabindex="-1">
+                                                <paper-icon-button icon="open-in-new"></paper-icon-button>
+                                            </a>
+                                        </div>
+                                        <div class="flex">
+                                            <paper-icon-button icon="delete" on-tap="_deleteSelectedContent"></paper-icon-button>
+                                        </div>
+                                    </div>
+                                </paper-card>
+
+                            </template>
+                        </div>
+                    </div>
+                </template>
+
+                <template is="dom-if" if="[[_externalLinkType]]">
+                    <div>
+                        
+                        <paper-input value="{{value.linkProperties.externalLinkUrl}}" on-input="_onExternalLinkInput" on-change="_onExternalLinkChange"
+                            no-label-float="true" label="Type External Link Url"></paper-input>
+                    </div>
+                </template>
+            </div>
+        </div>
+
+        <search-editorial-content id="searchEditorialContent" on-content-selected="_editorialContentSelected"></search-editorial-content>
+    </template>
+
+
+</dom-module>
+
+<script src="event-link.js"></script>

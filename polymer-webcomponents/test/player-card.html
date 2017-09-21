@@ -1,0 +1,141 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="//cdn.rawgit.com/download/polymer-cdn/2.0.1/lib/webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="../_demo/_imports.html">
+    <script src="../../web-component-tester/browser.js"></script>
+    <script src="../../test-fixture/test-fixture-mocha.js"></script>
+    <script>
+        window.ForgeWebComponents.Settings.RootUrl = "../_demo/";
+    </script>
+
+
+    <!-- Web Components to test -->
+    <link rel="import" href="../player-card/player-card.html">
+    <!-- Web Components to test -->
+
+</head>
+
+<body>
+    
+    <test-fixture id="playerCard">
+        <template>
+            <player-card></player-card>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="playerCardWithPlayerValue">
+        <template>
+            <player-card player='{"entityId":"sdasdasdasds","translationId":"sdasdasdasds","title":"player name","unpublished":false,"link":"player-link","thumbnail":"player-thumbnail"}'></player-card>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="playerCardWithValueUnpublished">
+        <template>
+            <player-card player='{"entityId":"sdasdasdasds","translationId":"sdasdasdasds","title":"player name","unpublished":true,"link":"player-link","thumbnail":"player-thumbnail"}'></player-card>
+        </template>
+    </test-fixture>
+
+    <script>
+        function done() {
+            console.log('DOM Loaded');
+        };
+
+        describe('<player-card> with player = null', function () {
+            var playerCard;
+            beforeEach(function () {
+                playerCard = fixture('playerCard');
+
+                flush(function () {
+                    done()
+                });
+            });
+
+            it('should display player name "(unknown)"', function () {
+                var playerName = playerCard.querySelector('.player-name.style-scope.player-card').innerText;
+                expect(playerName).to.be.equal("(unknown)");
+            });
+
+            it('should display icon-missing', function () {
+                var iconMissing = playerCard.querySelector('#icon-missing');
+
+                expect(iconMissing.id).to.be.equal('icon-missing');
+            });
+        });
+
+        describe('<player-card> with player not null with status published', function () {
+            var playerCardWithValue;
+            beforeEach(function () {
+                playerCardWithValue = fixture('playerCardWithPlayerValue');
+
+                flush(function () {
+                    done()
+                });
+            });
+
+            it('should display player name "player name"', function () {
+                var playerName = playerCardWithValue.querySelector('.player-name.style-scope.player-card').innerText;
+                expect(playerName).to.be.equal("player name");
+            });
+
+            it('should display player thumbnail', function () {
+                var playerThumbUrl = playerCardWithValue.querySelector('#player-thumb img').src;
+                expect(playerThumbUrl.indexOf("player-thumbnail")).to.not.equal(-1);
+            });
+
+            it('should display player entity link', function () {
+                var playerLinkUrl = playerCardWithValue.querySelector('#player-link').href;
+                expect(playerLinkUrl.indexOf("player-link")).to.not.equal(-1);
+            });
+
+            it('should display player delete button', function () {
+                var playerDeleteButton = playerCardWithValue.querySelector('#player-delete');
+                expect(playerDeleteButton).to.not.equal(null);
+            });
+
+        });
+
+        describe('<player-card> with player not null with status unpublished', function () {
+            var playerCardWithValueUnpublished;
+            beforeEach(function () {
+                playerCardWithValueUnpublished = fixture('playerCardWithValueUnpublished');
+
+                flush(function () {
+                    done()
+                });
+            });
+
+            it('should display player name "player name"', function () {
+                debugger;
+                var playerName = playerCardWithValueUnpublished.querySelector('.player-name.style-scope.player-card').innerText;
+                expect(playerName).to.be.equal("player name");
+            });
+
+            it('should display player thumbnail', function () {
+                var playerThumbUrl = playerCardWithValueUnpublished.querySelector('#player-thumb img').src;
+                expect(playerThumbUrl.indexOf("player-thumbnail")).to.not.equal(-1);
+            });
+
+            it('should display player entity link', function () {
+                var playerLinkUrl = playerCardWithValueUnpublished.querySelector('#player-link').href;
+                expect(playerLinkUrl.indexOf("player-link")).to.not.equal(-1);
+            });
+
+            it('should display player delete button', function () {
+                var playerDeleteButton = playerCardWithValueUnpublished.querySelector('#player-delete');
+                expect(playerDeleteButton).to.not.equal(null);
+            });
+
+
+            it('should display not visible icon', function () {
+                var playerNotVisibleLayer = playerCardWithValueUnpublished.querySelector('.not-visible-layer');
+                expect(playerNotVisibleLayer).to.not.equal(null);
+            });
+
+
+        });
+    </script>
+</body>
+
+</html>

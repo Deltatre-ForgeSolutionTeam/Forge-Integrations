@@ -1,0 +1,12 @@
+<dom-module id="story-part-quote">
+    <style include="iron-flex iron-flex-alignment">
+        :host {
+           display: block;
+       }
+   </style>
+   <template>
+    <paper-textarea label="Quote" value="{{value.quote}}" on-input="_quoteInput" on-change="_quoteChanged"></paper-textarea>
+    <paper-input label="Author" value="{{value.author}}" on-input="_authorInput" on-change="_authorChanged"></paper-input>
+   </template>
+</dom-module>
+<script src="story-part-quote.js"></script>

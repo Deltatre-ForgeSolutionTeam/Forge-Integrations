@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+
+<head>
+    <script src="//cdn.rawgit.com/download/polymer-cdn/2.0.1/lib/webcomponentsjs/webcomponents-lite.js"></script>
+    <script>
+        /*
+      window.Polymer = window.Polymer || {};
+      window.Polymer.dom = 'shadow';
+      */
+    </script>
+
+    <link rel="import" href="_imports.html">
+    <link rel="import" href="../event-recurrence/event-recurrence.html">
+</head>
+
+<body>
+
+<event-recurrence value=''></event-recurrence>   
+    
+</body>
+
+<script>
+        document.querySelector('event-recurrence').addEventListener('sendCommand', function (e) {
+            console.log('on sendCommand:', e.detail);
+        });
+    
+        document.querySelector('event-recurrence').addEventListener('valueChanged', function (e) {
+            console.log('on change:', e.detail);
+        });
+    
+    </script>
+
+
+
+</html>

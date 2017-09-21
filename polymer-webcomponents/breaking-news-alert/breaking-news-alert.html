@@ -1,0 +1,41 @@
+<dom-module id="breaking-news-alert">
+    
+    <style include="iron-flex iron-flex-alignment">
+         :host {
+            display: block;
+        }
+
+        paper-icon-button {
+            color: gray;
+            line-height: 70px;
+        }
+
+        paper-dropdown-menu,
+        paper-listbox {
+            min-width: 250px;
+        }
+    </style>
+
+    <template>
+        <div class="layout vertical">
+            <div class="layout horizontal">
+                <paper-dropdown-menu label="Breaking News Alert" class="flex" horizontal-align="left">
+                    <paper-listbox id="lsbAlertTypes" slot="dropdown-content" class="dropdown-content" attr-for-selected="alert-type-value" selected="{{value.type}}">
+                        <template is="dom-repeat" items="[[alertTypes.alertTypesList]]">
+                            <paper-item alert-type-value="[[item.value]]" on-tap="_alertTypeSelected">[[item.label]]</paper-item>
+                        </template>
+                    </paper-listbox>
+                </paper-dropdown-menu>
+                <template is="dom-if" if="{{_alertEnabled}}">
+                    <paper-icon-button icon="icons:close" on-click="_deleteAlertType"></paper-icon-button>
+                </template>
+            </div>
+            <template is="dom-if" if="{{_alertEnabled}}">
+                <paper-input class="flex" value="{{value.url}}" on-input="_urlChanged" on-change="_urlChanged" label="Custom/External URL"></paper-input>
+            </template>
+        </div>
+    </template>
+
+</dom-module>
+
+<script src="breaking-news-alert.js"></script>
