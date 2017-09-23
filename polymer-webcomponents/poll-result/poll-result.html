@@ -98,7 +98,7 @@
                 <div class="card-content layout vertical">
                     <template is="dom-if" if="{{_moduleEnabled}}">
                         <div class="poll-question">
-                            <span class="q-label">Q:</span> {{value.pollQuestionText}}
+                            <span class="q-label">Q:</span> [[value.pollQuestionText]]
                         </div>
                         <div class="poll-answers layout vertical">
                             <div class="layout horizontal head-list">
@@ -127,6 +127,10 @@
                             </template>
 
                         </div>
+                        <div class="card-actions layout horizontal">
+                            <paper-button on-tap="_refreshData" class="flex">
+                                <iron-icon icon="icons:refresh"></iron-icon><span class="action-label">REFRESH DATA</span></paper-button>
+                        </div>
                     </template>
                     <template is="dom-if" if="{{!_moduleEnabled}}">
                         <div class="layout horizontal">
@@ -146,10 +150,7 @@
                     </template>
 
                 </div>
-                <div class="card-actions layout horizontal">
-                    <paper-button on-tap="_refreshData" class="flex">
-                        <iron-icon icon="icons:refresh"></iron-icon><span class="action-label">REFRESH DATA</span></paper-button>
-                </div>
+               
             </paper-card>
 
         </div>

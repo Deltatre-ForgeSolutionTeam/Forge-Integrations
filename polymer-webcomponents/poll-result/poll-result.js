@@ -58,7 +58,7 @@
 
             api.raw(url).then(function (result) {
                 self._hideLoading = true;
-                self._pollData = result;//enrichResultItems(result);
+                self._pollData = result;
                 self._pollResultLoad();
             }, function () {
                 self._hideLoading = true;
@@ -78,18 +78,29 @@
                 this.entity = {};
             } else {
                 if (this.entity.entityId) {
-                    this._getData(this.entity.entityId);
+                    this.debounce('triggerOnEntityChanged', this._triggerEntityChanged, 4000);
                 }
             }
         },
 
+        _triggerEntityChanged: function(){
+            console.log("_triggerEntityChanged")
+            this._moduleEnabled = false;
+            this._pollData = {}
+            this.value = new PollResults();
+
+            this._getData(this.entity.entityId);
+        },
 
         _pollResultLoad: function () {
             this.$.requestPollResult.generateRequest();
         },
 
         _pollResultResponse: function (data) {
-            this.value.pollQuestionText = this._pollData.Title;
+            
+            this.set('value.pollQuestionText', this._pollData.Title);
+
+            //this.value.pollQuestionText = this._pollData.Title;
 
             var pollAnswerList = this._pollData.ExtendedFields.answers;
             var pollShieldAnswerList = data.detail.response.pollResult;
@@ -126,6 +137,8 @@
 
         _refreshData: function () {
             this._moduleEnabled = false;
+            this._pollData = {}
+            this.value = new PollResults();
             this._getData(this.entity.entityId);
         },
 
