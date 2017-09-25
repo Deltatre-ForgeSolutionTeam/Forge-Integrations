@@ -98,7 +98,7 @@
 
         _pollResultResponse: function (data) {
             
-            this.set('value.pollQuestionText', this._pollData.Title);
+            this.set('value.pollQuestionText', this._pollData.ExtendedFields.question);
 
             //this.value.pollQuestionText = this._pollData.Title;
 
