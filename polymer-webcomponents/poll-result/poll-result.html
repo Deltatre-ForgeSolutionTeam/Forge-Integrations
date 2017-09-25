@@ -155,34 +155,6 @@
 
         </div>
 
-
-        <!--
-        <template is="dom-if" if="{{moduleEnabled}}">
-
-            <h4>Poll Result</h4>
-
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Answer</th>
-                        <th>Vote Number</th>
-                        <th>Vote Percentage</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <template is="dom-repeat" items="{{pollResult}}">
-                        <tr>
-                            <td>{{item.answerKey}}</td>
-                            <td>{{item.numberVote}}</td>
-                            <td>{{item.votePercentage}}</td>
-                        </tr>
-                    </template>
-                </tbody>
-            </table>
-
-        </template>-->
-
         <iron-ajax id="requestPollResult" url="https://nfl-dev-fst-wcm-integration.azurewebsites.net/feeds/shield/polls" handle-as="json"
             content-type="application/json" method="POST" on-response="_pollResultResponse" body='{"PollData": {"PollId": "{{_pollData.EntityId}}","DateOpen": "{{_pollData.ExtendedFields.openDate}}","DateClose": "{{_pollData.ExtendedFields.closeDate}}"}}'
             debounce-duration="3000">
