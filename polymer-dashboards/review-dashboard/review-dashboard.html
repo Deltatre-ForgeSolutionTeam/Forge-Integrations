@@ -1,0 +1,99 @@
+<dom-module id="review-dashboard">
+
+    <style include="iron-flex iron-flex-alignment">
+         :host {
+            display: block;
+        }
+
+        .dashboard-container {
+            margin: 8px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: row;
+        }
+
+        paper-progress {
+            display: block;
+            width: 100%;
+        }
+
+        paper-progress.slow {
+            --paper-progress-indeterminate-cycle-duration: 5s;
+        }
+
+        paper-progress.blue {
+            --paper-progress-active-color: var(--paper-blue-500);
+            --paper-progress-secondary-color: var(--paper-blue-500);
+        }
+
+        .entity-icon-wrapper {
+            display: inline-block;
+            box-sizing: border-box;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--google-grey-300);
+        }
+
+        .entity-icon {
+            margin: 8px;
+            width: 24px;
+            height: 24px;
+            --iron-icon-fill-color: white;
+        }
+
+        .clickable {
+            cursor: pointer;
+        }
+    </style>
+
+    <template>
+
+        <div class="dashboard-container">
+            <paper-card class="flex">
+
+                <paper-progress hidden="{{!_isDataLoading}}" class="blue slow" indeterminate></paper-progress>
+
+                <div class="card-content">
+
+                    <div class="layout horizontal end-justified">
+                        <paper-button on-tap="_bindData">
+                            <iron-icon icon="icons:refresh"></iron-icon><span class="action-label">REFRESH DATA</span></paper-button>
+                    </div>
+
+                    <template is="dom-if" if="{{_data.length}}">
+                        <template is="dom-repeat" items="{{_data}}">
+
+                            <paper-icon-item>
+                                <paper-ripple></paper-ripple>
+                                <div class="entity-icon-wrapper" style$="background:[[item.icon.color]]" item-icon>
+                                    <iron-icon class="entity-icon" icon="[[item.icon.icon]]"></iron-icon>
+                                </div>
+                                <paper-item-body two-line>
+                                    <div class="header clickable" on-tap="_openItem" href="{{item.url}}">[[item.title]]</div>
+                                    <div secondary>
+                                        <span class="strong">[[item.last_update_user]]</span> -
+                                        <moment-element date-time="[[item.last_update_date]]"></moment-element>
+                                    </div>
+                                </paper-item-body>
+                            </paper-icon-item>
+
+                        </template>
+                    </template>
+
+                    <template is="dom-if" if="{{!_data.length}}">
+                        <div>
+                            <h3 class="flex" style="text-align: center">There are not stories in review</h3>
+                        </div>
+                    </template>
+
+                </div>
+
+            </paper-card>
+        </div>
+
+    </template>
+
+</dom-module>
+
+<script src="review-dashboard.js"></script>
