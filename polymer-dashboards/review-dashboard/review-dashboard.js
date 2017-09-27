@@ -2,14 +2,22 @@
     "use strict";
 
     var api = ForgeWebComponents.Api;
+    var config = ForgeWebComponents.Config;
 
-    function EntityModel() {
-        this.title = null;
-        this.type = null;
-        this.url = null;
-        this.icon = null;
-        this.last_update_user = null;
-        this.last_update_date = null;
+    function ExistingEntityType(entityType, title, apiSlug, isCustom) {
+        this.entityType = entityType;
+        this.title = title;
+        this.apiSlug = apiSlug;
+        this.isCustom = isCustom;
+    }
+
+    function EntityTypeModel(entityType, title, icon, color, count, api) {
+        this.entityType = entityType;
+        this.title = title;
+        this.icon = icon;
+        this.color = color;
+        this.count = count;
+        this.api = api;
     }
 
     Polymer({
@@ -19,61 +27,110 @@
                 type: Boolean,
                 value: true
             },
-            _isDataReady: {
-                type: Boolean,
-                value: false
-            },
             _data: {
                 type: Array,
-                value: new Array()
+                value: []
+            },
+            _existingEntityTypes: {
+                type: Array,
+                value: []
             }
         },
 
         ready: function () {
+            this._initExistingEntityTypes();
             this._bindData();
         },
 
+        _checkExtractedEntities: function () {
+            if (!this._data.length && this._isDataLoading)
+                return true;
+            else
+                return false;
+        },
+
+        _initExistingEntityTypes: function () {
+            if (this._existingEntityTypes.length != 0)
+                this._existingEntityTypes = [];
+
+            // Built-in Entities
+            this._existingEntityTypes.push(new ExistingEntityType("story", "Story", "stories", false));
+            this._existingEntityTypes.push(new ExistingEntityType("photo", "Photo", "photos", false));
+            this._existingEntityTypes.push(new ExistingEntityType("album", "Album", "albums", false));
+            this._existingEntityTypes.push(new ExistingEntityType("document", "Document", "documents", false));
+            this._existingEntityTypes.push(new ExistingEntityType("selection", "Selection", "selections", false));
+            this._existingEntityTypes.push(new ExistingEntityType("tag", "Tag", "tags", false));
+
+            // Custom Entities
+            for (var i = 0; i < config["deltatre.forge.wcm"].CustomEntitiesConfiguration.Definitions.length; i++) {
+                var definition = config["deltatre.forge.wcm"].CustomEntitiesConfiguration.Definitions[i];
+                
+                this._existingEntityTypes.push(new ExistingEntityType(definition.Code, definition.Name, definition.Code, true));
+            }
+        },
+
+        _createTitleFromType: function (entityType) {
+            for (var i = 0; i < this._existingEntityTypes.length; i++) {
+                if (this._existingEntityTypes[i].entityType === entityType)
+                    return this._existingEntityTypes[i].title;
+            }
+        },
+
+        _getApiFromType: function (entityType) {
+            var retValue = "";
+
+            for (var i = 0; i < this._existingEntityTypes.length; i++) {
+                if (this._existingEntityTypes[i].entityType === entityType) {
+                    if (this._existingEntityTypes[i].isCustom)
+                        retValue = "/customentities/";
+
+                    retValue += this._existingEntityTypes[i].apiSlug;
+                }
+            }
+
+            return retValue;
+        },
+
         _bindData: function () {
-            var url = "deltatre.forge.wcm/api/stories/working?language=en-us&stage=unpublished&Workflows.WorkflowStatus=waiting";
+            var url = "/api/extensions/query/dashboards-wcm-stages-totals";
 
             var self = this;
-
-            self._isDataLoading = true;
-            self._isDataReady = false;
 
             api.raw(url).then(function (result) {
                 self._data = [];
                 self._parseRequestResult(self, result);
                 self._isDataLoading = false;
-                self._isDataReady = true;
             }, function () {
                 self._data = [];
-                self._isDataLoading = true;
-                self._isDataReady = false;
+                self._isDataLoading = false;
             });
         },
 
         _parseRequestResult: function (self, result) {
             for (var i = 0; i < result.length; i++) {
-                var item = result[i];
+                if (result[i].WorkflowStatus === "waiting") {
+                    var waitingEntities = result[i].ByEntity;
 
-                var newItem = new EntityModel();
-                newItem.title = item.Title;
-                newItem.type = item.EntityType;
-                newItem.url = ForgeWebComponents.Helpers.EntityHelper.createLink(item.EntityType, item.EntityId, item.Id);
-                newItem.icon = ForgeWebComponents.Helpers.EntityHelper.getEntityIcon(item.EntityType);
-                newItem.last_update_user = item.LastUpdateUser;
-                newItem.last_update_date = item.LastUpdateDate;
+                    for (var j = 0; j < waitingEntities.length; j++) {
+                        var item = waitingEntities[j];
 
-                self.push('_data', newItem);
+                        var api = null;
+
+                        var newItem = new EntityTypeModel(item.EntityType,
+                            self._createTitleFromType(item.EntityType),
+                            ForgeWebComponents.Helpers.EntityHelper.getEntityIcon(item.EntityType).icon,
+                            ForgeWebComponents.Helpers.EntityHelper.getEntityIcon(item.EntityType).color,
+                            item.Count,
+                            this._getApiFromType(item.EntityType));
+
+                        self.push("_data", newItem);
+                    }
+                }
             }
         },
-
-        _openItem: function (e) {
-            var url = e.target.href;
-
-            if (url)
-                location.href = url;
-        }
+        
+        _refreshData: function () {
+            this._bindData();
+        }        
     });
 })();

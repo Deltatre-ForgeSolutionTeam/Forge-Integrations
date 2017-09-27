@@ -1,3 +1,5 @@
+<link rel="import" href="../../polymer-cards/generic-entity-summary-card/generic-entity-summary-card.html">
+
 <dom-module id="review-dashboard">
 
     <style include="iron-flex iron-flex-alignment">
@@ -26,24 +28,14 @@
             --paper-progress-secondary-color: var(--paper-blue-500);
         }
 
-        .entity-icon-wrapper {
-            display: inline-block;
-            box-sizing: border-box;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--google-grey-300);
+        generic-entity-summary-card {
+            margin-left: 2.5%;
+            margin-bottom: 10px;
         }
 
-        .entity-icon {
-            margin: 8px;
-            width: 24px;
-            height: 24px;
-            --iron-icon-fill-color: white;
-        }
-
-        .clickable {
-            cursor: pointer;
+        .refresh-button {
+            margin-top: 10px;
+            margin-right: 10px;
         }
     </style>
 
@@ -54,36 +46,27 @@
 
                 <paper-progress hidden="{{!_isDataLoading}}" class="blue slow" indeterminate></paper-progress>
 
-                <div class="card-content">
+                <div class="layout horizontal end-justified">
+                    <paper-button class="refresh-button" on-tap="_refreshData">
+                        <iron-icon icon="icons:refresh"></iron-icon><span class="action-label">REFRESH DATA</span></paper-button>
+                </div>
 
-                    <div class="layout horizontal end-justified">
-                        <paper-button on-tap="_bindData">
-                            <iron-icon icon="icons:refresh"></iron-icon><span class="action-label">REFRESH DATA</span></paper-button>
-                    </div>
+                <div class="card-content layout horizontal wrap">
 
-                    <template is="dom-if" if="{{_data.length}}">
-                        <template is="dom-repeat" items="{{_data}}">
-
-                            <paper-icon-item>
-                                <paper-ripple></paper-ripple>
-                                <div class="entity-icon-wrapper" style$="background:[[item.icon.color]]" item-icon>
-                                    <iron-icon class="entity-icon" icon="[[item.icon.icon]]"></iron-icon>
-                                </div>
-                                <paper-item-body two-line>
-                                    <div class="header clickable" on-tap="_openItem" href="{{item.url}}">[[item.title]]</div>
-                                    <div secondary>
-                                        <span class="strong">[[item.last_update_user]]</span> -
-                                        <moment-element date-time="[[item.last_update_date]]"></moment-element>
-                                    </div>
-                                </paper-item-body>
-                            </paper-icon-item>
-
-                        </template>
+                    <template is="dom-repeat" items="{{_data}}">
+                        <generic-entity-summary-card class="flex-30" type="[[item.entityType]]" title="[[item.title]]" icon="[[item.icon]]" color="[[item.color]]"
+                            count="[[item.count]]" api="[[item.api]]"></generic-entity-summary-card>
                     </template>
 
-                    <template is="dom-if" if="{{!_data.length}}">
-                        <div>
-                            <h3 class="flex" style="text-align: center">There are not stories in review</h3>
+                    <template is="dom-if" if="{{_isDataLoading}}">
+                        <div class="flex layout horizontal center-justified">
+                            <h3>Loading Data...</h3>
+                        </div>
+                    </template>
+
+                    <template is="dom-if" if="{{_checkExtractedEntities}}">
+                        <div class="flex layout horizontal center-justified">
+                            <h3>There are not entites to review</h3>
                         </div>
                     </template>
 
