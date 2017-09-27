@@ -23,6 +23,10 @@
             padding: 10px;
             color: var(--paper-blue-500);
         }
+
+        paper-toast iron-icon {
+			color: var(--status-yellow-color);
+		}
     </style>
 
     <template>
@@ -47,7 +51,17 @@
                 Add New Answer
             </paper-button>
         </div>
+
+
+        <paper-toast id="toastWarningPoll" duration="4000">
+            <iron-icon icon="warning"></iron-icon>
+            <span class="flex">Warning  the answer text is empty</span>
+        </paper-toast>
+
     </template>
+
+    
+
 </dom-module>
 
 <script src="poll-answers.js"></script>
