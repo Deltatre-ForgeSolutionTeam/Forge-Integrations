@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+
+<head>
+    <script src="//cdn.rawgit.com/download/polymer-cdn/2.0.1/lib/webcomponentsjs/webcomponents-lite.js"></script>
+    <script>
+        /*
+      window.Polymer = window.Polymer || {};
+      window.Polymer.dom = 'shadow';
+      */
+    </script>
+    <link rel="import" href="_imports.html">
+    <link rel="import" href="../event-status/event-status.html">
+</head>
+
+<body>
+    <event-status value='{"typeLink":"externallink","linkProperties":{"externalLinkUrl":"sdfsdfsdfsdfsdf"}}'></event-status>
+</body>
+
+<script>
+    document.querySelector('event-status').addEventListener('sendCommand', function (e) {
+        console.log('on sendCommand:', e.detail);
+    });
+
+    document.querySelector('event-status').addEventListener('valueChanged', function (e) {
+        console.log('on change:', e.detail);
+    });
+</script>
+
+</html>
