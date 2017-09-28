@@ -3,11 +3,11 @@
 let app = require('../expressApp.js');
 var escape = require('escape-html');
 
-app.get('/table-input/search', function (req, res) {
+app.get('/story-part-table/search', function (req, res) {
 	res.json({ "error": "I feel a disturbance in the Force, you should use POST, not GET." });
 });
 
-app.post('/table-input/search', function (req, res) {
+app.post('/story-part-table/search', function (req, res) {
 
 	console.log(JSON.stringify(req.body));
 
