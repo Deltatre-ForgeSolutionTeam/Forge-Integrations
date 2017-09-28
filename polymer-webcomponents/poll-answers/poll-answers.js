@@ -35,7 +35,7 @@
 
                 var path = "value";
                 var positionLength = this.value.length;
-                document.querySelector('paper-button').hidden = false;
+                document.querySelector('paper-button').disabled = false;
 
                 if(positionLength == 0){
                     this.push(path, new Answer(answerType));
@@ -55,7 +55,7 @@
                                     return;
                                 }   
                             }else{
-                                document.querySelector('paper-button').hidden = true;
+                                document.querySelector('paper-button').disabled = true;
                             }
                         }
                         else{
@@ -64,7 +64,7 @@
                         }
                     }else{
                         //e.target.hidden = true;
-                        document.querySelector('paper-button').hidden = true;
+                        document.querySelector('paper-button').disabled = true;
                     }
                 }       
             },
@@ -87,7 +87,7 @@
                 console.log(this.value.length);
 
                 if(this.value.length < 10){
-                    document.querySelector('paper-button').hidden = false;
+                    document.querySelector('paper-button').disabled = false;
                 }
             },
 
