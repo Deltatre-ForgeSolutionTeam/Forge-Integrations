@@ -116,15 +116,20 @@
 
                 var path = "value.answers";
 
-                if (answerVote) {
-                    this.push(path, new PollAnswer(answer, answerVote))
-                } else {
-                    var emptyShieldData = {
-                        numberVote: "0",
-                        votePercentage: "0"
-                    };
+                if(answer.content != "" || answer.content != null )
+                {
+                    if (answerVote) {
+                    
+                        this.push(path, new PollAnswer(answer, answerVote))
+                    
+                    } else {
+                        var emptyShieldData = {
+                            numberVote: "0",
+                            votePercentage: "0"
+                        };
 
-                    this.push(path, new PollAnswer(answer, emptyShieldData))
+                        this.push(path, new PollAnswer(answer, emptyShieldData))
+                    }
                 }
             }
 
