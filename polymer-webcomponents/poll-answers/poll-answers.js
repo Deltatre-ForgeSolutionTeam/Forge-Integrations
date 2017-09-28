@@ -36,25 +36,31 @@
                 var path = "value";
                 var positionLength = this.value.length;
                 document.querySelector('paper-button').hidden = false;
-                //e.target.hidden = false;
-            
+
                 if(positionLength == 0){
                     this.push(path, new Answer(answerType));
-                    this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
-                   
-                }else{
+                    this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);                  
+                }
+                else{
                     if(positionLength <= 10)
                     {
-                        if(this.value[positionLength - 1]){
-        
-                        var lastPositionInsert = this.value[positionLength - 1];
-                            if(lastPositionInsert.content){
-                            this.push(path, new Answer(answerType));
-                            this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
+                        if(Boolean(this.value[positionLength - 1].content)){       
+                            var lastPositionInsert = this.value[positionLength - 1];
+                            if(positionLength != 10){
+                                if(lastPositionInsert.content){
+                                    this.push(path, new Answer(answerType));
+                                    this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
+                                }else{
+                                    toastWarningPoll.open();
+                                    return;
+                                }   
                             }else{
-                                toastWarningPoll.open();
-                                return;
-                            }           
+                                document.querySelector('paper-button').hidden = true;
+                            }
+                        }
+                        else{
+                            toastWarningPoll.open();
+                            return;
                         }
                     }else{
                         //e.target.hidden = true;
@@ -85,8 +91,6 @@
                 }
             },
 
-           
-    
             _isTextAnswer: function(answer){
                 return answer.type === "text" ? true : false;
             },
