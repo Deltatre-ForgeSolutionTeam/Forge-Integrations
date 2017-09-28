@@ -35,18 +35,18 @@
 
                 var path = "value";
                 var positionLength = this.value.length;
-                document.querySelector('paper-button').disabled = false;
+                document.querySelector('paper-button').hidden = false;
 
                 if(positionLength == 0){
                     this.push(path, new Answer(answerType));
                     this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);                  
                 }
                 else{
-                    if(positionLength <= 10)
+                    if(positionLength <= 9)
                     {
                         if(Boolean(this.value[positionLength - 1].content)){       
                             var lastPositionInsert = this.value[positionLength - 1];
-                            if(positionLength != 10){
+                            if(positionLength != 9){
                                 if(lastPositionInsert.content){
                                     this.push(path, new Answer(answerType));
                                     this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
@@ -55,7 +55,10 @@
                                     return;
                                 }   
                             }else{
-                                document.querySelector('paper-button').disabled = true;
+
+                                this.push(path, new Answer(answerType));
+                                this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
+                                document.querySelector('paper-button').hidden = true;
                             }
                         }
                         else{
@@ -64,7 +67,7 @@
                         }
                     }else{
                         //e.target.hidden = true;
-                        document.querySelector('paper-button').disabled = true;
+                        document.querySelector('paper-button').hidden = true;
                     }
                 }       
             },
@@ -87,7 +90,7 @@
                 console.log(this.value.length);
 
                 if(this.value.length < 10){
-                    document.querySelector('paper-button').disabled = false;
+                    document.querySelector('paper-button').hidden = false;
                 }
             },
 
