@@ -116,7 +116,7 @@
 
                 var path = "value.answers";
 
-                if(answer.content != "" || answer.content != null )
+                if(Boolean(answer.content))
                 {
                     if (answerVote) {
                     

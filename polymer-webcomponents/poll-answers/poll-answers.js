@@ -43,7 +43,7 @@
                     this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
                    
                 }else{
-                    if(positionLength < 10)
+                    if(positionLength <= 10)
                     {
                         if(this.value[positionLength - 1]){
         
