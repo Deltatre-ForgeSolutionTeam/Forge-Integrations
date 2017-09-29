@@ -57,7 +57,7 @@
 
         _bindData: function () {
             if (this.type) {
-                var url = "deltatre.forge.wcm/api/" + this.api + "/working?language=en-us&WorkflowFields.approvalStatus=waiting&limit=5";
+                var url = "deltatre.forge.wcm/api/" + this.api + "/working?language=en-us&WorkflowFields.approvalStatus=waiting&limit=6";
 
                 var self = this;
 
@@ -66,7 +66,7 @@
                     self._parseRequestResult(self, result);
                     self._isDataLoading = false;
 
-                    if (self._data.length >= 5)
+                    if (result.length > 5)
                         self._enableViewAll = true;
                 }, function () {
                     self._data = [];
@@ -77,7 +77,14 @@
         },
 
         _parseRequestResult: function (self, result) {
-            for (var i = 0; i < result.length; i++) {
+            var length = 0;
+
+            if (result.length > 5)
+                length = 5;
+            else
+                length = result.length;
+
+            for (var i = 0; i < length; i++) {
                 var item = result[i];
 
                 var entityType = null;

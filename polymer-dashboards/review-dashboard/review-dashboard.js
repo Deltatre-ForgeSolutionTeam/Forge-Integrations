@@ -39,7 +39,7 @@
 
         ready: function () {
             this._initExistingEntityTypes();
-            this._bindData();
+            this._bindData(Date.now());
         },
 
         _checkExtractedEntities: function () {
@@ -64,7 +64,7 @@
             // Custom Entities
             for (var i = 0; i < config["deltatre.forge.wcm"].CustomEntitiesConfiguration.Definitions.length; i++) {
                 var definition = config["deltatre.forge.wcm"].CustomEntitiesConfiguration.Definitions[i];
-                
+
                 this._existingEntityTypes.push(new ExistingEntityType(definition.Code, definition.Name, definition.Code, true));
             }
         },
@@ -91,17 +91,22 @@
             return retValue;
         },
 
-        _bindData: function () {
-            var url = "/api/extensions/query/dashboards-wcm-stages-totals";
+        _bindData: function (timeStamp) {
+            var url = null;
+
+            if (timeStamp != null)
+                url = "/api/extensions/query/dashboards-wcm-stages-totals?" + timeStamp;
+            else
+                url = "/api/extensions/query/dashboards-wcm-stages-totals";
+
+            this._clearData();
 
             var self = this;
 
             api.raw(url).then(function (result) {
-                self._data = [];
                 self._parseRequestResult(self, result);
                 self._isDataLoading = false;
             }, function () {
-                self._data = [];
                 self._isDataLoading = false;
             });
         },
@@ -128,9 +133,15 @@
                 }
             }
         },
-        
+
         _refreshData: function () {
-            this._bindData();
-        }        
+            this._isDataLoading = true;
+            this._bindData(Date.now());
+        },
+
+        _clearData: function () {
+            this._data = [];
+            this.set("_data", []);
+        }
     });
 })();
