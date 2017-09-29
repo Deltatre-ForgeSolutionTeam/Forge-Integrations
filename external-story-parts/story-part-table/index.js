@@ -2,7 +2,7 @@
 
 let app = require('../expressApp.js');
 
-app.get('/table-input', function(req, res) {
+app.get('/story-part-table', function(req, res) {
 	res.json({
 		"icon":"grid_on",
 		"schema":{
@@ -11,10 +11,10 @@ app.get('/table-input', function(req, res) {
 			"properties": {
 				"tableValue": {
 					"type": "polymer",
-					"extended-type": "forge-table-input"
+					"extended-type": "story-part-table"
 				}
 			}
 		},
-		"search":"http://forge-external-story-parts.azurewebsites.net/table-input/search"
+		"search":"http://forge-external-story-parts.azurewebsites.net/story-part-table/search"
 	});
 });
