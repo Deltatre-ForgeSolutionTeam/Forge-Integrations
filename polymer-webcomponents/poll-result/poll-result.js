@@ -116,8 +116,8 @@
 
                 var path = "value.answers";
 
-                if(Boolean(answer.content))
-                {
+                //if(Boolean(answer.content))
+                //{ 
                     if (answerVote) {
                     
                         this.push(path, new PollAnswer(answer, answerVote))
@@ -131,7 +131,7 @@
                         this.push(path, new PollAnswer(answer, emptyShieldData))
                     }
                 }
-            }
+                //}
 
             this._moduleEnabled = true;
 
