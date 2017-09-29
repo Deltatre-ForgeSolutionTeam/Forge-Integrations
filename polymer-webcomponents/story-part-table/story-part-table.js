@@ -89,7 +89,7 @@
             this.onChange();
         },
         computeCanAddRow: function (splices) {
-            return this.value.columns.length > 0;
+            return this.value && this.value.columns && this.value.columns.length > 0;
         }
     });
 })();
