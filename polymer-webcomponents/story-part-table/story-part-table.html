@@ -9,7 +9,7 @@
           <template is="dom-repeat" items="{{value.columns}}" as="column">
             <th>
               <span>
-                    <paper-icon-button icon="icons:delete" on-click="deleteColumn"></paper-icon-button>
+                    <paper-icon-button icon="icons:delete" title="Delete column" on-click="deleteColumn"></paper-icon-button>
                     <paper-input value="{{column.content}}" placeholder="Title" on-input="onInput" on-change="onChange" disabled="[[disabled]]" no-label-float="true"></paper-input>
                 </span>
             </th>
@@ -30,7 +30,7 @@
               </td>
             </template>
             <td>
-              <paper-icon-button icon="icons:delete" on-click="deleteRow"></paper-icon-button>
+              <paper-icon-button icon="icons:delete" title="Delete row" on-click="deleteRow"></paper-icon-button>
             </td>
           </tr>
         </template>
