@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({
 
 let port = process.env.PORT || 1337;
 
-let tableinput = require('./table-input/parts.js');
+let tableinput = require('./story-part-table/parts.js');
 let storypartquote = require('./story-part-quote/parts.js');
 
 	app.listen(port, function(){
