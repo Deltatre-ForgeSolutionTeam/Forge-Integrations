@@ -112,6 +112,8 @@
         },
 
         _parseRequestResult: function (self, result) {
+            var tempData = [];
+
             for (var i = 0; i < result.length; i++) {
                 if (result[i].WorkflowStatus === "waiting") {
                     var waitingEntities = result[i].ByEntity;
@@ -128,10 +130,20 @@
                             item.Count,
                             this._getApiFromType(item.EntityType));
 
-                        self.push("_data", newItem);
+                        tempData.push(newItem);
                     }
                 }
             }
+
+            self._orderData(tempData);
+
+            self.set("_data", tempData);
+        },
+
+        _orderData: function (data) {
+            data.sort(function (a, b) {
+                return b.count - a.count;
+            });
         },
 
         _refreshData: function () {

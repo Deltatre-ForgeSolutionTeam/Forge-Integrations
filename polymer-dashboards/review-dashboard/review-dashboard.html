@@ -8,7 +8,6 @@
         }
 
         .dashboard-container {
-            margin: 8px;
             overflow-y: auto;
             display: flex;
             flex-direction: row;
@@ -34,45 +33,41 @@
         }
 
         .refresh-button {
-            margin-top: 10px;
-            margin-right: 10px;
+            margin: 10px;
         }
     </style>
 
     <template>
 
-        <div class="dashboard-container">
-            <paper-card class="flex">
+        <div class="dashboard-container layout vertical">
 
-                <paper-progress hidden="{{!_isDataLoading}}" class="blue slow" indeterminate></paper-progress>
+            <paper-progress hidden="{{!_isDataLoading}}" class="blue slow" indeterminate></paper-progress>
 
-                <div class="layout horizontal end-justified">
-                    <paper-button class="refresh-button" on-tap="_refreshData">
-                        <iron-icon icon="icons:refresh"></iron-icon><span class="action-label">REFRESH DATA</span></paper-button>
-                </div>
+            <div class="layout horizontal end-justified">
+                <paper-button class="refresh-button" on-tap="_refreshData">
+                    <iron-icon icon="icons:refresh"></iron-icon><span class="action-label">REFRESH DATA</span></paper-button>
+            </div>
 
-                <div class="card-content layout horizontal wrap">
+            <div class="card-content layout horizontal wrap">
 
-                    <template is="dom-repeat" items="{{_data}}">
-                        <generic-entity-summary-card class="flex-30" type="[[item.entityType]]" title="[[item.title]]" icon="[[item.icon]]" color="[[item.color]]"
-                            count="[[item.count]]" api="[[item.api]]"></generic-entity-summary-card>
-                    </template>
+                <template is="dom-repeat" items="{{_data}}">
+                    <generic-entity-summary-card class="flex-30" type="[[item.entityType]]" title="[[item.title]]" icon="[[item.icon]]" color="[[item.color]]"
+                        count="[[item.count]]" api="[[item.api]]"></generic-entity-summary-card>
+                </template>
 
-                    <template is="dom-if" if="{{_isDataLoading}}">
-                        <div class="flex layout horizontal center-justified">
-                            <h3>Loading Data...</h3>
-                        </div>
-                    </template>
+                <template is="dom-if" if="{{_isDataLoading}}">
+                    <div class="flex layout horizontal center-justified">
+                        <h3>Loading Data...</h3>
+                    </div>
+                </template>
 
-                    <template is="dom-if" if="{{_checkExtractedEntities}}">
-                        <div class="flex layout horizontal center-justified">
-                            <h3>There are not entites to review</h3>
-                        </div>
-                    </template>
+                <template is="dom-if" if="{{_checkExtractedEntities}}">
+                    <div class="flex layout horizontal center-justified">
+                        <h3>There are not entites to review</h3>
+                    </div>
+                </template>
 
-                </div>
-
-            </paper-card>
+            </div>
         </div>
 
     </template>
