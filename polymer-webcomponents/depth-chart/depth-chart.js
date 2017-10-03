@@ -104,13 +104,15 @@
 
         _valueChanged: function (newValue, oldValue) {
             if (!newValue) this.value = new DepthChart();
+
+            console.log(this.value);
         },
 
         _entityChanged: function (entity, oldValue) {
 
             if (!entity || typeof entity === 'string') return;
 
-            console.log(entity);
+            //console.log(entity);
 
             const array = entity.referenceFields[REFERENCE_FIELD_NAME] || [];
             this._players = {};
@@ -119,6 +121,15 @@
                 this._players[player.entityId] = new PlayerReference(player.entityId, player.id, player.title, player.type, player.stage, player.thumbnailUrl);
             }
 
+        },
+
+        _onSectionInput: function(){
+            this.debounce('triggerOnValueChanged', this._triggerValueChanged, 2000);
+        },
+
+
+        _onSectionChange: function(){
+            this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
         },
 
         _onPositionInput: function () {
@@ -213,6 +224,10 @@
         },
 
         _sortChange: function (e) {
+            this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
+        },
+
+        _sortPositionChange: function(e){
             this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
         },
 

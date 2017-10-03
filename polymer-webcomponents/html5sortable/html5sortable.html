@@ -1,0 +1,292 @@
+<!--
+
+# polymer-html5sortable
+
+[Polymer](https://www.polymer-project.org/) wrapper for [html5sortable](https://github.com/lukasoppermann/html5sortable) library.
+
+## Demo
+[https://trofrigo.github.io/polymer-html5sortable/](https://trofrigo.github.io/polymer-html5sortable/)
+
+## Using the element
+
+This element must be placed always as a `parentNode` of a `dom-repeat` template.
+```
+<html5-sortable>
+    <template is="dom-repeat"
+              items="[[ items ]]">
+
+    </template>
+</html5-sortable>
+```
+
+
+### Basic list
+
+```
+<ul>
+    <html5-sortable>
+        <template is="dom-repeat"
+                  items="[[ items ]]">
+            <li>[[ item ]]</li>
+        </template>
+    </html5-sortable>
+</ul>
+```
+
+### Linked lists
+
+```
+<!-- var listItems = ['Item 1', 'Item 2', 'Item 3'] - ->
+<ul id="list">
+    <html5-sortable connect-with="connectedlist">
+        <template is="dom-repeat"
+                  items="[[ listItems ]]">
+            <li>[[ item ]]</li>
+        </template>
+    </html5-sortable>
+</ul>
+
+
+<!-- var gridItems = ['1', '2', '3'] - ->
+<div id="grid">
+    <html5-sortable connect-with="connectedlist">
+        <template is="dom-repeat"
+                  items="[[ gridItems ]]">
+            <li>[[ item ]]</li>
+        </template>
+    </html5-sortable>
+</div>
+```
+
+Note: Under the hood, the `<html5-sortable>` element will move the value from the original
+array to the new one every time you drag an element. After that, `dom-repeat` elements will
+notice the splices and rerender the lists. This functionality allows you to have your application
+model synchronized and ready to be used.
+
+### Infinite sortable tree (nested lists)
+
+
+```
+
+<!-- Defining the tree node element - ->
+
+<dom-module id="sortable-tree">
+    <template>
+        [[ rootNode.label ]]
+        <ul>
+            <html5-sortable connect-with="sortable-tree"
+                            style="min-height: 10px;">
+                <template is="dom-repeat"
+                          items="[[ rootNode.children ]]">
+                    <li>
+                        <sortable-tree root-node="[[ item ]]">
+                    </li>
+                </template>
+            </html5-sortable>
+        </ul>
+    </template>
+    <script>
+        Polymer({
+            is: 'sortable-tree',
+            properties : {
+                rootNode: Object
+            }
+        });
+    </script>
+</dom-module>
+```
+Note: In order to be able to drag elements into an empty children array,
+the `html5-sortable` element that surrounds the array's dom-repeat,
+must have a minimum height.
+
+```
+<!-- Defining the tree model - ->
+var tree = {
+    label : 'node 1',
+    children: [
+        {
+            label: 'node 1.1',
+            children: []
+        },
+        {
+            label: 'node 1.2',
+            children: [
+                {
+                    label: 'node 1.2.1',
+                    children: []
+                },
+                {
+                    label: 'node 1.2.2',
+                    children: []
+                },
+            ]
+        },
+        {
+            label: 'node 1.3',
+            children: []
+        },
+    ]
+};
+```
+
+Showing the tree
+
+```
+<sortable-tree root-node="[[ tree ]]"></sortable-tree>
+
+```
+
+
+@demo demo/index.html
+-->
+
+<dom-module id="html5-sortable">
+    <template>
+        <content></content>
+    </template>
+
+    <script src="html.sortable.js"></script>
+    <script>
+        Polymer({
+
+            is: 'html5-sortable',
+
+            properties: {
+                /** Use items option to specify which items inside the element should be sortable */
+                items: String,
+                /** Use handle option to restrict drag start to the specified element */
+                handle: String,
+                /** Setting forcePlaceholderSize option to true, forces the placeholder to have a height */
+                forcePlaceholderSize: {
+                    type: Boolean,
+                    value: false
+                },
+                /** Use connectWith option to create connected lists. Unique string, which is not used for other connectWith sortables */
+                connectWith: {
+                    type: String,
+                    value: function () {
+                        return Math.random().toString();
+                    }
+                },
+                /** Use placeholder option to specify the markup of the placeholder. Example `<tr><td colspan="7">&nbsp;</td></tr>` */
+                placeholder: String,
+                /** Use hoverClass option to specify applying a css class to the hovered element rather than relying on :hover. This can eliminate some potential drag and drop issues where another element thinks it is being hovered over. */
+                hoverClass: String,
+                /** Use placeholderClass option to specify applying a css class to the placeholder element.*/
+                placeholderClass: String,
+                /** Use draggingClass option to specify applying a css class to the dragging element.*/
+                draggingClass: String,
+                /** User disabled option to prevent an a list to be reordered or modified.*/
+                disabled: {
+                    type: Boolean,
+                    value: false,
+                    observer: '_onDisabledChanged'
+                }
+            },
+
+            listeners: {
+                'sortstart': '_onSortstart',
+                'sortupdate': '_onSortupdate',
+                'sortstop': '_onSortstop'
+            },
+
+            attached: function () {
+                //Reloading the sortable every time that dom-repeat changes
+                this._getRepeater(this).addEventListener('dom-change', function () {
+                    this.init();
+                }.bind(this));
+
+                this.async(function () {
+                    this.init();
+                });
+            },
+            detached: function () {
+                this.destroy();
+            },
+            init: function () {
+                var self = this,
+                        config = {};
+
+                //Adding config
+                Object.keys(this.properties).forEach(function (key) {
+                    if (typeof self.get(key) != 'undefined') {
+                        config[key] = self.get(key);
+                    }
+                });
+
+                //Adding custom children selector function
+                config.getChildren = function(element){
+                    return Polymer.dom(element).children.filter(function (element) {
+                        return element.tagName.toLowerCase() !== 'template';
+                    });
+                };
+
+                this.sortable = sortable(this, config);
+            },
+            destroy: function () {
+                if (this.sortable) {
+                    sortable(this, 'destroy');
+                    delete this.sortable;
+                }
+            },
+            _onDisabledChanged: function (newValue, oldValue) {
+                if (this.sortable) {
+                    if (newValue === false) {
+                        sortable(this, 'enable');
+                    } else {
+                        sortable(this, 'disable');
+                    }
+                }
+            },
+            _onSortstart: function (event) {
+                this.fire('sort-start', event);
+            },
+            _onSortstop: function (event) {
+                this.fire('sort-stop', event);
+            },
+            /**
+             * This callback is called every time that an element is moved, inside of a list or from one one to another
+             * @param event
+             * @private
+             */
+            _onSortupdate: function (event) {
+                var item = event.detail.item,
+                    startparent = event.detail.startparent,
+                    startrepeater = this._getRepeater(startparent),
+                    endparent = event.detail.endparent,
+                    endrepeater = this._getRepeater(endparent),
+                    model = startrepeater.modelForElement(item)[startrepeater.as],
+                    index, oldindex;
+
+                //The index returned by the event, are not correct because it excludes those which are no selectable
+                index = [].indexOf.call(endparent.children, item);
+                oldindex = startrepeater.indexForElement(item);
+
+                if (endparent === this && startparent === this) {
+                    //Moving the element to this new index
+                    endrepeater.splice('items', index, 0, startrepeater.splice('items', oldindex, 1)[0]);
+                } else if(endparent === this){
+                    //Adding the element into the new parent
+                    //Obtaining the model of the new item
+                    endrepeater.splice('items', index, 0, model);
+                } else if(startparent == this) {
+                    //Removing the element from the old parent
+                    startrepeater.splice('items', oldindex, 1);
+                }
+
+                this.fire('sort-update', event);
+            },
+            _getChildren: function (node) {
+                return [].filter.call(node.children, function (child) {
+                    return child.tagName.toLowerCase() !== 'template';
+                });
+            },
+
+            _getRepeater: function (node) {
+                return [].filter.call(node.children, function (child) {
+                    return child.tagName.toLowerCase() === 'template' && child.is === 'dom-repeat'
+                })[0];
+            }
+        });
+    </script>
+</dom-module>

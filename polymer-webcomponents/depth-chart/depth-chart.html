@@ -1,7 +1,8 @@
-<link rel="import" href="../search-players/search-players.html">
-<link rel="import" href="../player-card/player-card.html">
+<link rel="import" href="../search-players/search-players.html" />
+<!--<link rel="import" href="../sortable-js/polymer-sortablejs.html" />-->
+<link rel="import" href="../html5sortable/html5sortable.html" />
+<link rel="import" href="../player-card/player-card.html" />
 
-<link rel="import" href="../sortable-js/polymer-sortablejs.html" />
 
 <dom-module id="depth-chart">
 
@@ -12,7 +13,6 @@
 
 		.section-add-position {
 			margin-bottom: 20px;
-			
 		}
 
 		paper-toolbar.section-header {
@@ -59,8 +59,6 @@
 		paper-toast iron-icon {
 			color: var(--status-yellow-color);
 		}
-
-		
 	</style>
 
 
@@ -70,40 +68,57 @@
 		<template is="dom-repeat" items="[[value.sections]]" as="section" index-as="sectionIndex">
 
 			<paper-toolbar class="section-header">
-				<span slot="top">[[localize(section.name)]]</span>
+				<span slot="top" class="flex">
+					<paper-input class="flex" value="{{section.name}}" on-input="_onSectionInput" on-change="_onSectionChange" no-label-float="true" label="Section Label"></paper-input>
+				</span>
 			</paper-toolbar>
 
-			<template is="dom-repeat" items="[[section.positions]]" as="position" index-as="positionIndex" section-index="[[sectionIndex]]">
 
-				<div class="layout horizontal position-row">
-					<div class="layout vertical">
-						<div class="position-input-container layout horizontal">
-							<paper-icon-button icon="delete" on-tap="_deletePosition"></paper-icon-button>
-							<paper-input class="flex" value="{{position.name}}" on-input="_onPositionInput" on-change="_onPositionChange" no-label-float="true"
-							 label="Position Code"></paper-input>
+			<!--<sortable-js class=" layout vertical wrap flex" on-end="_sortChange">-->
+			<div class="flex">
+				<html5-sortable class="flex" on-sort-stop="_sortChange">
+					<template is="dom-repeat" items="[[section.positions]]" as="position" index-as="positionIndex" section-index="[[sectionIndex]]">
+						<div class="flex">
+							<div class="layout horizontal position-row">
+								<div class="layout vertical">
+									<div class="position-input-container layout horizontal">
+										<paper-icon-button icon="unfold-more"></paper-icon-button>
+										<paper-icon-button icon="delete" on-tap="_deletePosition"></paper-icon-button>
+										<paper-input class="flex" value="{{position.name}}" on-input="_onPositionInput" on-change="_onPositionChange" no-label-float="true"
+										 label="Position Code"></paper-input>
+									</div>
+									<div>
+										<paper-button class="flex" on-tap="_addPlayer">
+											<iron-icon icon="add"></iron-icon>
+											Add New Player
+										</paper-button>
+									</div>
+
+								</div>
+
+
+								<div class="flex ">
+									<!---<sortable-js class=" layout horizontal wrap" on-end="_sortChange">-->
+									<html5-sortable  class="flex layout horizontal wrap" on-sort-stop="_sortChange">
+										<template is="dom-repeat" items="[[position.players]]" as="playerEntityId" index-as="playerIndex" section-index="[[sectionIndex]]"
+										 position-index="[[positionIndex]]">
+											<player-card player="[[_getPlayer(playerEntityId)]]" on-delete-player="_deletePlayer"></player-card>
+										</template>
+									</html5-sortable>
+									<!--</sortable-js>-->
+
+								</div>
+							</div>
 						</div>
-						<div>
-							<paper-button class="flex" on-tap="_addPlayer">
-								<iron-icon icon="add"></iron-icon>
-								Add New Player
-							</paper-button>
-						</div>
 
-					</div>
+					</template>
+				</html5-sortable>
+			</div>
+			<!--</sortable-js>-->
 
 
-					<div class="flex layout horizontal wrap">
-						<sortable-js class=" layout horizontal wrap" on-end="_sortChange">
-							<template is="dom-repeat" items="[[position.players]]" as="playerEntityId" index-as="playerIndex" section-index="[[sectionIndex]]"
-							 position-index="[[positionIndex]]">
-								<player-card player="[[_getPlayer(playerEntityId)]]" on-delete-player="_deletePlayer"></player-card>
-							</template>
-						</sortable-js>
 
-					</div>
-				</div>
 
-			</template>
 
 			<div class="section-add-position layout horizontal">
 				<paper-button class="flex" on-tap="_addPosition">
