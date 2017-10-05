@@ -96,7 +96,7 @@
 
             _isTextAnswer: function(answer,indexAnswer){
 
-                if(indexAnswer > 9)
+                if(indexAnswer >= 9)
                 {
                     document.querySelector('paper-button').hidden = true;
                 }
