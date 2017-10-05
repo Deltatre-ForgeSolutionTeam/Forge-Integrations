@@ -94,11 +94,16 @@
                 }
             },
 
-            _isTextAnswer: function(answer){
+            _isTextAnswer: function(answer,indexAnswer){
+
+                if(indexAnswer >= 9)
+                {
+                    document.querySelector('paper-button').hidden = true;
+                }
                 return answer.type === "text" ? true : false;
             },
     
-            _triggerValueChanged: function () {
+            _triggerValueChanged: function () {   
                 this.fire('valueChanged', this.value);
             }
         });
