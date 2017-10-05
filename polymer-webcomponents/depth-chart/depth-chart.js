@@ -103,6 +103,9 @@
             this._currentSectionIndex = null;
             this._currentPositionIndex = null;
             this._currentTierIndex = null;
+
+            this.tiers = [];
+            needBind = true;
         },
 
         _getPlayer: function (playerEntityId) {
@@ -117,6 +120,8 @@
             if (!newValue) {
                 this.value = new DepthChart();
             }
+
+            console.log("READY");
 
             if (needBind) {
                 this._bindLocalTiers();
