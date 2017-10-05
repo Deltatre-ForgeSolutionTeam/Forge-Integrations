@@ -38,32 +38,29 @@
             _pollData: {
                 type: Object,
                 value: {}
+            },
+            _showEmptyData: {
+                type: Boolean,
+                value: false
             }
         },
 
         ready: function () {
             this._moduleEnabled = false;
             this._pollData = {};
-
-            console.log(this.entity);
         },
 
 
         _getData: function (entityId) {
-
             var url = "deltatre.forge.wcm/api/customEntities/poll/working/culture/en-us/entityid/" + entityId;
 
             var self = this;
-            self._hideLoading = false;
 
             api.raw(url).then(function (result) {
-                self._hideLoading = true;
                 self._pollData = result;
                 self._pollResultLoad();
             }, function () {
-                self._hideLoading = true;
                 self._pollData = {};
-                console.error(arguments);
             });
 
         },
@@ -97,10 +94,7 @@
         },
 
         _pollResultResponse: function (data) {
-            
             this.set('value.pollQuestionText', this._pollData.ExtendedFields.question);
-
-            //this.value.pollQuestionText = this._pollData.Title;
 
             var pollAnswerList = this._pollData.ExtendedFields.answers;
             var pollShieldAnswerList = data.detail.response.pollResult;
@@ -134,23 +128,20 @@
             }
 
             this._moduleEnabled = true;
+            this._showEmptyData = false;
+        },
 
-            console.log(this.value);
-
-
+        _pollResultError: function (e) {
+            this._pollData = { };
+            this._moduleEnabled = true;
+            this._showEmptyData = true;
         },
 
         _refreshData: function () {
             this._moduleEnabled = false;
-            this._pollData = {}
+            this._pollData = { };
             this.value = new PollResults();
             this._getData(this.entity.entityId);
         },
-
-
-
     });
-
-
-
 })();

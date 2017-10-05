@@ -112,6 +112,19 @@
                                     % Vote
                                 </div>
                             </div>
+
+                            <template is="dom-if" if="{{_showEmptyData}}">
+                                <div class="layout horizontal">
+                                    <div class="flex">
+                                        <div class="layout vertical">
+                                            <div class="flex loading-text">
+                                                There is no data to show.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+
                             <template is="dom-repeat" items="{{value.answers}}" as="answer">
                                 <div class="layout horizontal answer-item">
                                     <div class="answer">
@@ -150,14 +163,14 @@
                     </template>
 
                 </div>
-               
+
             </paper-card>
 
         </div>
 
         <iron-ajax id="requestPollResult" url="https://nfl-dev-fst-wcm-integration.azurewebsites.net/feeds/shield/polls" handle-as="json"
             content-type="application/json" method="POST" on-response="_pollResultResponse" body='{"PollData": {"PollId": "{{_pollData.EntityId}}","DateOpen": "{{_pollData.ExtendedFields.openDate}}","DateClose": "{{_pollData.ExtendedFields.closeDate}}"}}'
-            debounce-duration="3000">
+            debounce-duration="3000" on-error="_pollResultError">
         </iron-ajax>
 
     </template>
