@@ -178,7 +178,7 @@
             }
         },
 
-        _convertLocalTiersInObjects: function() {
+        _convertLocalTiersInObjects: function () {
             var retValue = [];
 
             for (var i = 0; i < this.tiers.length; i++) {
@@ -374,6 +374,19 @@
                     this.splice("value.sections." + s + ".positions." + p + ".tiers", index, 1);
                 }
             }
+        },
+
+        _showOrHidePositionContent: function (e) {
+            var id = e.currentTarget.getAttribute('ident');
+            var status = e.currentTarget.icon;
+            var collapse = this.$$('iron-collapse[ident="' + id + '"]');
+
+            if (status === "expand-more")
+                e.currentTarget.icon = "expand-less";
+            else
+                e.currentTarget.icon = "expand-more";
+
+            collapse.toggle();
         },
 
         _callValueChanged: function (mills) {

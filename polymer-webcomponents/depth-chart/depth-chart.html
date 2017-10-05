@@ -126,37 +126,40 @@
 										<paper-icon-button icon="delete" on-tap="_deletePosition"></paper-icon-button>
 										<paper-input class="flex" value="{{position.name}}" on-input="_onPositionInput" on-change="_onPositionChange" no-label-float="true"
 										 label="Position Code"></paper-input>
+										<paper-icon-button icon="expand-more" ident$="subItem[[positionIndex]]" on-tap="_showOrHidePositionContent"></paper-icon-button>
 									</div>
 								</div>
 
-								<div class="flex">
-									<div class="layout vertical">
-										<template is="dom-repeat" items="[[position.tiers]]" as="tier" index-as="tierIndex" position-index="[[positionIndex]]">
-											<paper-card class="tier-card">
-												<div class="card-content">
+								<iron-collapse ident$="subItem[[positionIndex]]">
+									<div class="flex">
+										<div class="layout vertical">
+											<template is="dom-repeat" items="[[position.tiers]]" as="tier" index-as="tierIndex" position-index="[[positionIndex]]">
+												<paper-card class="tier-card">
+													<div class="card-content">
 
-													<div class="layout horizontal">
-														<h4 class="flex">[[tier.name]]</h4>
-														<paper-button on-tap="_addPlayer">
-															<iron-icon icon="add"></iron-icon>
-															Add New Player
-														</paper-button>
+														<div class="layout horizontal">
+															<h4 class="flex">[[tier.name]]</h4>
+															<paper-button on-tap="_addPlayer">
+																<iron-icon icon="add"></iron-icon>
+																Add New Player
+															</paper-button>
+														</div>
+
+														<div class="flex">
+															<html5-sortable class="flex layout horizontal wrap" on-sort-stop="_sortChange">
+																<template is="dom-repeat" items="[[tier.players]]" as="playerEntityId" index-as="playerIndex" section-index="[[sectionIndex]]"
+																 position-index="[[positionIndex]]" tier-index="[[tierIndex]]">
+																	<player-card player="[[_getPlayer(playerEntityId)]]" on-delete-player="_deletePlayer"></player-card>
+																</template>
+															</html5-sortable>
+														</div>
+
 													</div>
-
-													<div class="flex">
-														<html5-sortable class="flex layout horizontal wrap" on-sort-stop="_sortChange">
-															<template is="dom-repeat" items="[[tier.players]]" as="playerEntityId" index-as="playerIndex" section-index="[[sectionIndex]]"
-															 position-index="[[positionIndex]]" tier-index="[[tierIndex]]">
-																<player-card player="[[_getPlayer(playerEntityId)]]" on-delete-player="_deletePlayer"></player-card>
-															</template>
-														</html5-sortable>
-													</div>
-
-												</div>
-											</paper-card>
-										</template>
+												</paper-card>
+											</template>
+										</div>
 									</div>
-								</div>
+								</iron-collapse>
 
 							</paper-card>
 						</template>
