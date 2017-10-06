@@ -11,12 +11,14 @@
         .delete-answer {
             color: var(--paper-blue-500);
         }
-        .poll-title{
+
+        .poll-title {
             padding-bottom: 10px;
-            color:#212121;
+            color: #212121;
             font-weight: 700;
             font-size: 14px;
         }
+
         div.icon-bullet:before {
             content: "• ";
             font-size: 35px;
@@ -25,8 +27,8 @@
         }
 
         paper-toast iron-icon {
-			color: var(--status-yellow-color);
-		}
+            color: var(--status-yellow-color);
+        }
     </style>
 
     <template>
@@ -34,24 +36,25 @@
             <span>Answers</span>
         </div>
         <template is="dom-repeat" items="[[value]]" as="answer" index-as="indexAnswer">
-            <template is="dom-if" if="[[ _isTextAnswer(answer,indexAnswer) ]]"  answer-index="[[indexAnswer]]">
+            <template is="dom-if" if="[[ _isTextAnswer(answer,indexAnswer) ]]" answer-index="[[indexAnswer]]">
                 <div class="layout horizontal poll-answer">
                     <div class="icon-bullet"></div>
                     <paper-input class="flex" value="{{answer.content}}" on-input="_onAnswerInput" on-change="_onAnswerChange" no-label-float="true"
                         label="Answer Text"></paper-input>
-                        <paper-icon-button class="delete-answer" icon="delete" on-tap="_deleteAnswer"></paper-icon-button>
-                        
+                    <paper-icon-button class="delete-answer" icon="delete" on-tap="_deleteAnswer"></paper-icon-button>
+
                 </div>
             </template>
         </template>
 
-        <div class="layout horizontal">
-            <paper-button class="flex" on-tap="_addAnswer">
-                <iron-icon  icon="add"></iron-icon>
-                   Add New Answer
-            </paper-button>
-        </div>
-
+        <template is="dom-if" if="{{_showAddButton}}">
+            <div class="layout horizontal">
+                <paper-button class="flex" on-tap="_addAnswer">
+                    <iron-icon icon="add"></iron-icon>
+                    Add New Answer
+                </paper-button>
+            </div>
+        </template>
 
         <paper-toast id="toastWarningPoll" duration="4000">
             <iron-icon icon="warning"></iron-icon>
@@ -60,7 +63,7 @@
 
     </template>
 
-    
+
 
 </dom-module>
 
