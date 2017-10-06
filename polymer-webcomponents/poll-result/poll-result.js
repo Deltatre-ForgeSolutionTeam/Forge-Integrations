@@ -80,7 +80,7 @@
             }
         },
 
-        _triggerEntityChanged: function(){
+        _triggerEntityChanged: function () {
             console.log("_triggerEntityChanged")
             this._moduleEnabled = false;
             this._pollData = {}
@@ -94,52 +94,58 @@
         },
 
         _pollResultResponse: function (data) {
-            this.set('value.pollQuestionText', this._pollData.ExtendedFields.question);
+            if (data.detail.response != null) {
+                this.set('value.pollQuestionText', this._pollData.ExtendedFields.question);
 
-            var pollAnswerList = this._pollData.ExtendedFields.answers;
-            var pollShieldAnswerList = data.detail.response.pollResult;
+                var pollAnswerList = this._pollData.ExtendedFields.answers;
+                var pollShieldAnswerList = data.detail.response.pollResult;
 
-            for (var i = 0; i < pollAnswerList.length; i++) {
-                var answer = pollAnswerList[i];
+                for (var i = 0; i < pollAnswerList.length; i++) {
+                    var answer = pollAnswerList[i];
 
-                var answerVote = pollShieldAnswerList.find(function (s) {
-                    if (s.answerKey === answer.id) {
-                        return s;
-                    }
-                });
+                    var answerVote = pollShieldAnswerList.find(function (s) {
+                        if (s.answerKey === answer.id) {
+                            return s;
+                        }
+                    });
 
-                var path = "value.answers";
+                    var path = "value.answers";
 
-                if(Boolean(answer.content))
-                { 
-                    if (answerVote) {
-                    
-                        this.push(path, new PollAnswer(answer, answerVote))
-                    
-                    } else {
-                        var emptyShieldData = {
-                            numberVote: "0",
-                            votePercentage: "0"
-                        };
+                    if (Boolean(answer.content)) {
+                        if (answerVote) {
 
-                        this.push(path, new PollAnswer(answer, emptyShieldData))
+                            this.push(path, new PollAnswer(answer, answerVote))
+
+                        } else {
+                            var emptyShieldData = {
+                                numberVote: "0",
+                                votePercentage: "0"
+                            };
+
+                            this.push(path, new PollAnswer(answer, emptyShieldData))
+                        }
                     }
                 }
+
+                this._showEmptyData = false;
+            }
+
+            else {
+                this._showEmptyData = true;
             }
 
             this._moduleEnabled = true;
-            this._showEmptyData = false;
         },
 
         _pollResultError: function (e) {
-            this._pollData = { };
+            this._pollData = {};
             this._moduleEnabled = true;
             this._showEmptyData = true;
         },
 
         _refreshData: function () {
             this._moduleEnabled = false;
-            this._pollData = { };
+            this._pollData = {};
             this.value = new PollResults();
             this._getData(this.entity.entityId);
         },
