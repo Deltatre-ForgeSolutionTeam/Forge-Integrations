@@ -16,7 +16,7 @@ app.post('/story-part-html-not-supported/search', function (req, res) {
 						'<iron-icon icon="warning" style=" width: 32px; height: auto; margin-right: 10px; color: red;"></iron-icon>' +
 						'<span>This part contains the following HTML Code that is not supported:</span>' +
 					'</div>' +
-					'<textarea disabled style="-webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; padding: 5px; font-family: Consolas,monospace">' + bodyValue + '</textarea>' +
+					'<pre>' + escape(bodyValue) + '</pre>' +
 				'</div>';
 
 	var valueData = { "content": bodyValue };
