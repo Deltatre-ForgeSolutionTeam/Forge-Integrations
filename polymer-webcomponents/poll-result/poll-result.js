@@ -94,8 +94,10 @@
         },
 
         _pollResultResponse: function (data) {
+            this.set('value.pollQuestionText', this._pollData.ExtendedFields.question);
+            
             if (data.detail.response != null) {
-                this.set('value.pollQuestionText', this._pollData.ExtendedFields.question);
+                
 
                 var pollAnswerList = this._pollData.ExtendedFields.answers;
                 var pollShieldAnswerList = data.detail.response.pollResult;
