@@ -97,9 +97,7 @@
         _pollResultResponse: function (data) {
             
             this.set('value.pollQuestionText', this._pollData.ExtendedFields.question);
-
-            console.log(this._pollData);
-           
+         
             if(this._pollData.ExtendedFields.closeDate != null && this._pollData.ExtendedFields.openDate != null)
             {
                 if (data.detail.response != null) {
