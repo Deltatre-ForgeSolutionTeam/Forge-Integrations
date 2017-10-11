@@ -46,7 +46,8 @@
         },
 
         ready: function () {
-            this._moduleEnabled = false;
+            this._moduleEnabled = true;
+            this._showEmptyData = true;
             this._pollData = {};
         },
 
@@ -97,42 +98,45 @@
             
             this.set('value.pollQuestionText', this._pollData.ExtendedFields.question);
 
-            if (data.detail.response != null) {
-                
-
-                var pollAnswerList = this._pollData.ExtendedFields.answers;
-                var pollShieldAnswerList = data.detail.response.pollResult;
-
-                for (var i = 0; i < pollAnswerList.length; i++) {
-                    var answer = pollAnswerList[i];
-
-                    var answerVote = pollShieldAnswerList.find(function (s) {
-                        if (s.answerKey === answer.id) {
-                            return s;
-                        }
-                    });
-
-                    var path = "value.answers";
-
-                    if (Boolean(answer.content)) {
-                        if (answerVote) {
-
-                            this.push(path, new PollAnswer(answer, answerVote))
-
-                        } else {
-                            var emptyShieldData = {
-                                numberVote: "0",
-                                votePercentage: "0"
-                            };
-
-                            this.push(path, new PollAnswer(answer, emptyShieldData))
+            console.log(this._pollData);
+           
+            if(this._pollData.ExtendedFields.closeDate != null && this._pollData.ExtendedFields.openDate != null)
+            {
+                if (data.detail.response != null) {
+                    
+                    var pollAnswerList = this._pollData.ExtendedFields.answers;
+                    var pollShieldAnswerList = data.detail.response.pollResult;
+    
+                    for (var i = 0; i < pollAnswerList.length; i++) {
+                        var answer = pollAnswerList[i];
+    
+                        var answerVote = pollShieldAnswerList.find(function (s) {
+                            if (s.answerKey === answer.id) {
+                                return s;
+                            }
+                        });
+    
+                        var path = "value.answers";
+    
+                        if (Boolean(answer.content)) {
+                            if (answerVote) {
+    
+                                this.push(path, new PollAnswer(answer, answerVote))
+    
+                            } else {
+                                var emptyShieldData = {
+                                    numberVote: "0",
+                                    votePercentage: "0"
+                                };
+    
+                                this.push(path, new PollAnswer(answer, emptyShieldData))
+                            }
                         }
                     }
+
+                    this._showEmptyData = false;
                 }
-
-                this._showEmptyData = false;
             }
-
             else {
                 this._showEmptyData = true;
             }
