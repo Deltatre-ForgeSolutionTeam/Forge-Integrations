@@ -74,6 +74,14 @@
 		.tier-card {
 			margin: 10px;
 		}
+
+		.header {
+			color: var(--paper-blue-500);
+		}
+
+		.header iron-icon {
+			margin: 0 10px 0 15px;
+		}
 	</style>
 
 	<template>
@@ -81,8 +89,11 @@
 		<paper-card class="flex layout vertical configuration">
 
 			<div class="header flex">
-				<paper-button on-tap="_showOrHideTiersConfiguration">
-					<iron-icon icon="settings"></iron-icon><span class="action-label">Tiers Configuration</span></paper-button>
+				<div class="layout horizontal center">
+					<iron-icon icon="settings"></iron-icon>
+					<span class="flex">TIERS CONFIGURATION</span>
+					<paper-icon-button icon="expand-more" on-tap="_showOrHideTiersConfiguration"></paper-icon-button>
+				</div>
 			</div>
 
 			<iron-collapse opened="{{showTiersConfiguration}}">
@@ -126,11 +137,11 @@
 										<paper-icon-button icon="delete" on-tap="_deletePosition"></paper-icon-button>
 										<paper-input class="flex" value="{{position.name}}" on-input="_onPositionInput" on-change="_onPositionChange" no-label-float="true"
 										 label="Position Code"></paper-input>
-										<paper-icon-button icon="expand-more" ident$="subItem[[positionIndex]]" on-tap="_showOrHidePositionContent"></paper-icon-button>
+										<paper-icon-button icon="expand-more" ident$="subItem[[positionIndex]]" on-tap="_togglePositionContent"></paper-icon-button>
 									</div>
 								</div>
 
-								<iron-collapse ident$="subItem[[positionIndex]]">
+								<iron-collapse opened="[[_showOrHidePositionContent(sectionIndex, positionIndex)]]" ident$="subItem[[positionIndex]]">
 									<div class="flex">
 										<div class="layout vertical">
 											<template is="dom-repeat" items="[[position.tiers]]" as="tier" index-as="tierIndex" position-index="[[positionIndex]]">

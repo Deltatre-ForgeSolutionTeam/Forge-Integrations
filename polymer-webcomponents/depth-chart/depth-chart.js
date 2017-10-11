@@ -120,9 +120,7 @@
             if (!newValue) {
                 this.value = new DepthChart();
             }
-
-            console.log("READY");
-
+            debugger;
             if (needBind) {
                 this._bindLocalTiers();
             }
@@ -155,6 +153,8 @@
         },
 
         _addPosition: function (e) {
+            debugger;
+
             var path = "value.sections." + e.model.sectionIndex + ".positions";
             var positionLength = this.value.sections[e.model.sectionIndex].positions.length;
 
@@ -329,11 +329,11 @@
                             var tierToAdd = this.value.sections[0].positions[0].tiers[i].name;
 
                             this.push("tiers", tierToAdd);
-
-                            needBind = false;
                         }
                     }
                 }
+
+                needBind = false;
             }
         },
 
@@ -376,7 +376,17 @@
             }
         },
 
-        _showOrHidePositionContent: function (e) {
+        _showOrHidePositionContent: function (sectionIndex, positionIndex) {
+            var position = this.value.sections[sectionIndex].positions[positionIndex];
+
+            if (position.name === "" ||
+                position.name === null)
+                return true;
+            else
+                return false;
+        },
+
+        _togglePositionContent: function (e) {
             var id = e.currentTarget.getAttribute('ident');
             var status = e.currentTarget.icon;
             var collapse = this.$$('iron-collapse[ident="' + id + '"]');
