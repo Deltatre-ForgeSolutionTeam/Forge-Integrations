@@ -2,7 +2,6 @@
 
     var api = ForgeWebComponents.Api;
 
-
     function PollResults() {
         this.pollQuestionText = null;
         this.answers = [];

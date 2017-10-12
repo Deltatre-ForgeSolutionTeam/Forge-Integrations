@@ -1,3 +1,5 @@
+<link rel="import" href="../_common/libs/marked-element/market-element.html">
+
 <dom-module id="poll-result">
     <style include="iron-flex iron-flex-alignment">
          :host {
@@ -26,7 +28,6 @@
         .card-actions .action-label {
             padding-left: 10px;
         }
-
 
         .card-content .poll-question {
             padding-bottom: 15px;
@@ -58,11 +59,6 @@
         .card-content .poll-answers .head-list {
             padding-bottom: 5px;
             border-bottom: solid 1px gray;
-        }
-
-        .card-content .poll-question .q-label {
-            font-weight: bold;
-            padding-left: 3px;
         }
 
         .loading-text {
@@ -98,7 +94,9 @@
                 <div class="card-content layout vertical">
                     <template is="dom-if" if="{{_moduleEnabled}}">
                         <div class="poll-question">
-                            <span class="q-label">Q:</span> [[value.pollQuestionText]]
+                            <marked-element markdown="[[value.pollQuestionText]]">
+                                <div slot="markdown-html"></div>
+                            </marked-element>
                         </div>
                         <div class="poll-answers layout vertical">
                             <div class="layout horizontal head-list">
