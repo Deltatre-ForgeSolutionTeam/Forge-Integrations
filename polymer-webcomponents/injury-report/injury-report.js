@@ -95,9 +95,6 @@
 
 
         ready: function () {
-            console.log("ready");
-
-
 
         },
 
@@ -150,10 +147,7 @@
             return this.value.playerList[playerIndex].gameStatus ? this.value.playerList[playerIndex].gameStatus : null;
         },
 
-        _itemSelected: function (e) {
-
-            console.log('item selected');
-            
+        _itemSelected: function (e) {            
             var day = e.target.attributes.day.value;
             var playerIndex = e.model.dataHost.playerIndex;
             var status = e.target.value;
@@ -199,7 +193,6 @@
 
         _triggerValueChanged: function () {
             this.fire('valueChanged', this.value);
-            console.log(this.value);
         },
     });
 })();

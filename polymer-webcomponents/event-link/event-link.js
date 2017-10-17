@@ -84,12 +84,9 @@
                 self._hideLoading = true;
                 self._result = result;
                 self._editorialContentUnpublished = result.Stage == 'unpublished' ? true : false;;
-
             }, function () {
                 self._hideLoading = true;
                 self._result = {};
-
-                console.error(arguments);
             });
 
         },
@@ -163,17 +160,14 @@
 
         _triggerValueChanged: function () {
             this.fire('valueChanged', this.value);
-            console.log(this.value);
         },
 
         _editorialContentSelected: function (e) {
-            console.log(this.editorialContentSelected);
             this._showEditorialContent = true;
             this._editorialContentUnpublished = false;
             this.value.linkProperties.editorialContent = new EditorialContent(e.detail.editorialContent);
             this.editorialContentSelected = this.value.linkProperties.editorialContent;
             this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
-            console.log(this.editorialContentSelected);
         },
 
         _deleteSelectedContent: function () {

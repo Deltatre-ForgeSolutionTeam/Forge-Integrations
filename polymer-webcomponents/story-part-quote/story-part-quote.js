@@ -41,7 +41,6 @@
 
         _triggerValueChanged: function () {
             this.fire('valueChanged', this.value);
-            console.log(this.value);
         }
     });
 })();

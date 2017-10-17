@@ -81,7 +81,6 @@
         },
 
         _triggerEntityChanged: function () {
-            console.log("_triggerEntityChanged")
             this._moduleEnabled = false;
             this._pollData = {}
             this.value = new PollResults();

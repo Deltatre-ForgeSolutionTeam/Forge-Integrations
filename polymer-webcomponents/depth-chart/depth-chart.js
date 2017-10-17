@@ -120,7 +120,6 @@
             if (!newValue) {
                 this.value = new DepthChart();
             }
-            debugger;
             if (needBind) {
                 this._bindLocalTiers();
             }
@@ -153,8 +152,6 @@
         },
 
         _addPosition: function (e) {
-            debugger;
-
             var path = "value.sections." + e.model.sectionIndex + ".positions";
             var positionLength = this.value.sections[e.model.sectionIndex].positions.length;
 

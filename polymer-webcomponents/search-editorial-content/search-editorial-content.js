@@ -61,7 +61,6 @@
             }, function () {
                 self._hideLoading = true;
                 self._results = [];
-                console.error(arguments);
             });
 
         },
