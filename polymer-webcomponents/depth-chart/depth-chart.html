@@ -137,7 +137,7 @@
 										<paper-icon-button icon="delete" on-tap="_deletePosition"></paper-icon-button>
 										<paper-input class="flex" value="{{position.name}}" on-input="_onPositionInput" on-change="_onPositionChange" no-label-float="true"
 										 label="Position Code"></paper-input>
-										<paper-icon-button icon="expand-more" ident$="subItem[[positionIndex]]" on-tap="_togglePositionContent"></paper-icon-button>
+										<paper-icon-button icon="{{_initExpandStatus(sectionIndex, positionIndex)}}" ident$="subItem[[positionIndex]]" on-tap="_togglePositionContent"></paper-icon-button>
 									</div>
 								</div>
 
@@ -193,6 +193,11 @@
 		<paper-toast id="toastWarningPlayerPosition" duration="4000">
 			<iron-icon icon="warning"></iron-icon>
 			<span class="flex">The player is already in this position.</span>
+		</paper-toast>
+
+		<paper-toast id="toastWarningTier" duration="4000">
+			<iron-icon icon="warning"></iron-icon>
+			<span class="flex">Command "Add new tier" skipped because you have already a new tier empty.</span>
 		</paper-toast>
 
 		<paper-toast id="toastWarningPostitionRow" duration="4000">

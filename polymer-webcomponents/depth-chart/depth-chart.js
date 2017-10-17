@@ -152,27 +152,39 @@
         },
 
         _addPosition: function (e) {
-            var path = "value.sections." + e.model.sectionIndex + ".positions";
-            var positionLength = this.value.sections[e.model.sectionIndex].positions.length;
+            var sectionIndex = e.model.sectionIndex;
+            var path = "value.sections." + sectionIndex + ".positions";
+            var positionLength = this.value.sections[sectionIndex].positions.length;
+            var positions = this.value.sections[sectionIndex].positions;
 
+            debugger;
             if (positionLength == 0) {
                 this.push(path, new DepthChartPosition("", this._convertLocalTiersInObjects()));
 
                 this._callValueChanged(0);
-            } else {
-                if (this.value.sections[e.model.sectionIndex].positions[positionLength - 1]) {
-                    var lastPositionInsert = this.value.sections[e.model.sectionIndex].positions[positionLength - 1];
-
-                    if (lastPositionInsert.name || lastPositionInsert.tiers.length > 0) {
-                        this.push(path, new DepthChartPosition("", this._convertLocalTiersInObjects()));
-
-                        this._callValueChanged(0);
-                    } else {
-                        toastWarningPostitionRow.open();
-                        return;
-                    }
-                }
             }
+            else {
+                if (!this._checkIfPositionExists(positions, "")) {
+                    this.push(path, new DepthChartPosition("", this._convertLocalTiersInObjects()));
+
+                    this._callValueChanged(0);
+                }
+                else
+                    toastWarningPostitionRow.open();
+            }
+        },
+
+        _checkIfPositionExists: function (positions, positionName) {
+            debugger;
+            var retValue = false;
+
+            for (var i = 0; i < positions.length; i++) {
+                if (positions[i].name === null ||
+                    (positionName === positions[i].name))
+                    retValue = true;
+            }
+
+            return retValue;
         },
 
         _convertLocalTiersInObjects: function () {
@@ -270,22 +282,42 @@
             return true;
         },
 
-        _showOrHideTiersConfiguration: function () {
-            if (this.showTiersConfiguration)
+        _showOrHideTiersConfiguration: function (e) {
+            if (this.showTiersConfiguration) {
                 this.showTiersConfiguration = false;
-            else
+                e.currentTarget.icon = "expand-more";
+            }
+            else {
                 this.showTiersConfiguration = true;
+                e.currentTarget.icon = "expand-less";
+            }
         },
 
         _addTier: function () {
             if (this.tiers == null)
                 this.tiers = [];
 
-            this.push("tiers", "");
+            if (!this._checkIfTierExists("")) {
+                this.push("tiers", "");
 
-            this._addTierInPositions("");
+                this._addTierInPositions("");
 
-            this._callValueChanged(0);
+                this._callValueChanged(0);
+            }
+            else
+                toastWarningTier.open();
+        },
+
+        _checkIfTierExists: function (tier) {
+            var retValue = false;
+
+            for (var i = 0; i < this.tiers.length; i++) {
+                if (this.tiers[i] === null ||
+                    (tier === this.tiers[i]))
+                    retValue = true;
+            }
+
+            return retValue;
         },
 
         _deleteTier: function (e) {
@@ -388,12 +420,23 @@
             var status = e.currentTarget.icon;
             var collapse = this.$$('iron-collapse[ident="' + id + '"]');
 
+            debugger;
             if (status === "expand-more")
                 e.currentTarget.icon = "expand-less";
             else
                 e.currentTarget.icon = "expand-more";
 
             collapse.toggle();
+        },
+
+        _initExpandStatus: function (sectionIndex, positionIndex) {
+            var retValue = "expand-more";
+
+            if (this.value.sections[sectionIndex].positions[positionIndex].name === null ||
+                this.value.sections[sectionIndex].positions[positionIndex].name === "")
+                retValue = "expand-less";
+            
+            return retValue;
         },
 
         _callValueChanged: function (mills) {
