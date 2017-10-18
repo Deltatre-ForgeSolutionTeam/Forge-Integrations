@@ -21,9 +21,9 @@
     function DepthChart() {
         this.sections = [];
 
-        this.sections.push(new DepthChartSection("offense"));
-        this.sections.push(new DepthChartSection("defense"));
-        this.sections.push(new DepthChartSection("specialTeams"));
+        this.sections.push(new DepthChartSection("Offense"));
+        this.sections.push(new DepthChartSection("Defense"));
+        this.sections.push(new DepthChartSection("Special Teams"));
     }
 
     function ReferenceFieldItemsCommandBody(entityId, translationId, aggregateType, fieldName, refEntityId, refEntityType) {
