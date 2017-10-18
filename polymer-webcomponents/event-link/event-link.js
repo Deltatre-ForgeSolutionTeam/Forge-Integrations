@@ -179,6 +179,7 @@
         _deleteTypeLink: function () {
             this.value = new EventLinkConfiguration();
             this._linkToContentType = false;
+            this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
         }
     });
 })();
