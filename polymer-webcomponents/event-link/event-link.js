@@ -6,7 +6,6 @@
     function EventLinkTypeList() {
         this.data = [];
 
-        this.data.push({ "value": "empty", "label": "Empty" });
         this.data.push({ "value": "linktocontent", "label": "Link To Content" });
         this.data.push({ "value": "externallink", "label": "External Link" });
         this.data.push({ "value": "nolink", "label": "No Link" });
@@ -67,7 +66,6 @@
         },
 
         _getData: function () {
-
             var content = this.value.linkProperties.editorialContent;
 
             var url = "/deltatre.forge.wcm/api/stories/working/" + content.translationId;
@@ -96,7 +94,7 @@
             if (!newValue) this.value = new EventLinkConfiguration();
         },
 
-        _loadEventTemplate: function(typeLink, triggerChange){
+        _loadEventTemplate: function (typeLink, triggerChange) {
             this._showEditorialContent = false;
             this._linkToContentType = false;
             this._externalLinkType = false;
@@ -116,7 +114,7 @@
             if (typeLink === "externallink") {
                 this._externalLinkType = true;
             }
-            if(triggerChange && typeLink === "externallink"){
+            if (triggerChange && typeLink === "externallink") {
                 this.value.linkProperties = {};
             }
 
@@ -124,24 +122,24 @@
                 this.value.linkProperties = {};
             }
 
-            if(triggerChange){
-                this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);    
+            if (triggerChange) {
+                this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
             }
         },
 
         _loadContent: function (e) {
-            this._loadEventTemplate(this.value.typeLink,false);
+            this._loadEventTemplate(this.value.typeLink, false);
         },
 
         _itemSelected: function (e) {
-            this._loadEventTemplate(e.target.linkTypeValue,true);
+            this._loadEventTemplate(e.target.linkTypeValue, true);
         },
 
-        _getExternalLinkUrl: function() {
-            if(this.value.linkProperties.externalLinkUrl){
+        _getExternalLinkUrl: function () {
+            if (this.value.linkProperties.externalLinkUrl) {
                 return this.value.linkProperties.externalLinkUrl;
             }
-            
+
             return null;
         },
 
@@ -176,7 +174,11 @@
             this.editorialContentSelected = {};
             this.value.linkProperties = {};
             this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
+        },
+        
+        _deleteTypeLink: function () {
+            this.value = new EventLinkConfiguration();
+            this._linkToContentType = false;
         }
-
     });
 })();
