@@ -30,10 +30,11 @@
 
     function GameStatus() {
         this.status = [];
-        this.status.push("Not Listed");
-        this.status.push("Questionable");
-        this.status.push("Doubtful");
-        this.status.push("Out");
+        this.status.push("ACTIVE");
+        this.status.push("PROBABLE");
+        this.status.push("QUESTIONABLE");
+        this.status.push("DOUBTFUL");
+        this.status.push("INACTIVE");
     }
 
 
