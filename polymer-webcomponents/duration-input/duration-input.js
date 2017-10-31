@@ -18,7 +18,7 @@
 
         onValueChanged: function (newValue, oldValue)
         {
-            if (newValue)
+            if (newValue && newValue != "")
             {
                 if (newValue != oldValue)
                     this.formattedValue = moment('2017-01-01').add(moment.duration(this.value)).format("HH:mm:ss");
@@ -31,7 +31,9 @@
         {
             if (oldValue != null && newValue != oldValue)
             {
-                if (newValue.length == 8)
+                if (newValue.length == 0)
+                    this.fire('valueChanged', null);
+                else if (newValue.length == 8)
                 {
                     var v = moment.duration(newValue).toISOString();
                     this.fire('valueChanged', v);
