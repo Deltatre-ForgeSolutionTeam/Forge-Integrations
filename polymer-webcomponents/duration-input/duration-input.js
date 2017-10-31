@@ -32,7 +32,7 @@
             if (oldValue != null && newValue != oldValue)
             {
                 if (newValue.length == 0)
-                    this.fire('valueChanged', null);
+                    this.fire('valueChanged', "");
                 else if (newValue.length == 8)
                 {
                     var v = moment.duration(newValue).toISOString();
