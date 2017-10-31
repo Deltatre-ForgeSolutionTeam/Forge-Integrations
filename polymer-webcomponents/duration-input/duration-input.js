@@ -31,8 +31,11 @@
         {
             if (oldValue != null && newValue != oldValue)
             {
-                var v = moment.duration(newValue).toISOString();
-                this.fire('valueChanged', v);
+                if (newValue.length == 8)
+                {
+                    var v = moment.duration(newValue).toISOString();
+                    this.fire('valueChanged', v);
+                }
             }
         }        
     });
