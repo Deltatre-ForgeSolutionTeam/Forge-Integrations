@@ -19,7 +19,10 @@
         onValueChanged: function (newValue, oldValue)
         {
             if (newValue)
-                this.formattedValue = moment('2017-01-01').add(moment.duration(this.value)).format("HH:mm:ss");
+            {
+                if (newValue != oldValue)
+                    this.formattedValue = moment('2017-01-01').add(moment.duration(this.value)).format("HH:mm:ss");
+            }
             else
                 this.formattedValue = null;
         },
