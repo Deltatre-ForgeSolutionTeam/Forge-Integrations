@@ -7,6 +7,7 @@
             {
                 type: String,
                 value: "",
+                observer: 'onValueChanged'
             },
             formattedValue: {
                 type: String,
@@ -15,17 +16,20 @@
             }
         },
 
-        ready: function()
+        onValueChanged: function (newValue, oldValue)
         {
-            this.formattedValue = moment('2017-01-01').add(moment.duration(this.value)).format("HH:mm:ss");
+            if (newValue)
+                this.formattedValue = moment('2017-01-01').add(moment.duration(this.value)).format("HH:mm:ss");
+            else
+                this.formattedValue = null;
         },
 
         onFormattedValueChanged: function (newValue, oldValue)
         {
             if (oldValue != null && newValue != oldValue)
             {
-                this.value = moment.duration(newValue).toISOString();
-                this.fire('valueChanged', this.value);
+                var v = moment.duration(newValue).toISOString();
+                this.fire('valueChanged', v);
             }
         }        
     });
