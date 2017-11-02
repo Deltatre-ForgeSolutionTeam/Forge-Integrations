@@ -28,6 +28,11 @@
 			width: 192px;
 		}
 
+		.player-card-placeholder {
+			border: 1px dashed rgba(0, 0, 0, 0.3);
+			border-radius: 5px;
+		}
+
 		.position-row {
 			margin: 10px;
 		}
@@ -157,7 +162,7 @@
 														</div>
 
 														<div class="flex">
-															<html5-sortable class="flex layout horizontal wrap" on-sort-stop="_sortChange">
+															<html5-sortable class="flex layout horizontal wrap" on-sort-stop="_sortChange" placeholder-class="player-card player-card-placeholder depth-chart">
 																<template is="dom-repeat" items="[[tier.players]]" as="playerEntityId" index-as="playerIndex" section-index="[[sectionIndex]]"
 																 position-index="[[positionIndex]]" tier-index="[[tierIndex]]">
 																	<player-card player="[[_getPlayer(playerEntityId)]]" on-delete-player="_deletePlayer"></player-card>

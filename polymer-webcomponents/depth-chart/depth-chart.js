@@ -157,7 +157,6 @@
             var positionLength = this.value.sections[sectionIndex].positions.length;
             var positions = this.value.sections[sectionIndex].positions;
 
-            debugger;
             if (positionLength == 0) {
                 this.push(path, new DepthChartPosition("", this._convertLocalTiersInObjects()));
 
@@ -175,7 +174,6 @@
         },
 
         _checkIfPositionExists: function (positions, positionName) {
-            debugger;
             var retValue = false;
 
             for (var i = 0; i < positions.length; i++) {
@@ -420,7 +418,6 @@
             var status = e.currentTarget.icon;
             var collapse = this.$$('iron-collapse[ident="' + id + '"]');
 
-            debugger;
             if (status === "expand-more")
                 e.currentTarget.icon = "expand-less";
             else
