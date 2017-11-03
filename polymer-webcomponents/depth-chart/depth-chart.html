@@ -142,11 +142,11 @@
 										<paper-icon-button icon="delete" on-tap="_deletePosition"></paper-icon-button>
 										<paper-input class="flex" value="{{position.name}}" on-input="_onPositionInput" on-change="_onPositionChange" no-label-float="true"
 										 label="Position Code"></paper-input>
-										<paper-icon-button icon="{{_initExpandStatus(sectionIndex, positionIndex)}}" ident$="subItem[[positionIndex]]" on-tap="_togglePositionContent"></paper-icon-button>
+										<paper-icon-button icon="{{_initExpandStatus(sectionIndex, positionIndex)}}" ident$="subItem-[[sectionIndex]]-[[positionIndex]]" on-tap="_togglePositionContent"></paper-icon-button>
 									</div>
 								</div>
 
-								<iron-collapse opened="[[_showOrHidePositionContent(sectionIndex, positionIndex)]]" ident$="subItem[[positionIndex]]">
+								<iron-collapse opened="[[_showOrHidePositionContent(sectionIndex, positionIndex)]]" ident$="subItem-[[sectionIndex]]-[[positionIndex]]">
 									<div class="flex">
 										<div class="layout vertical">
 											<template is="dom-repeat" items="[[position.tiers]]" as="tier" index-as="tierIndex" position-index="[[positionIndex]]">
