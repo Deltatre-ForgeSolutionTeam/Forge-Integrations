@@ -1,5 +1,5 @@
 (function () {
     Polymer({
-        is: "void",
+        is: "void-component",
      });
 })();
