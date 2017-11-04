@@ -31,7 +31,7 @@
         {
             if (oldValue != null && newValue != oldValue)
             {
-                if (newValue.length == 0)
+                if (!newValue || newValue.length == 0)
                     this.fire('valueChanged', "");
                 else if (newValue.length == 8)
                 {
