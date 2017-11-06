@@ -1,0 +1,57 @@
+<link rel="import" href="../image-picker/image-picker.html">
+<link rel="import" href="../accessible-link/accessible-link.html">
+
+<dom-module id="game-sponsors">
+
+    <style include="iron-flex iron-flex-alignment">
+         :host {
+            display: block;
+        }
+
+        paper-card {
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .sponsor-image {
+            width: 200px;
+            height: 200px;
+        }
+
+        .sponsor-name {
+            margin-left: 10px;
+        }
+
+        .sponsor-link {
+            margin-left: 10px;
+        }
+    </style>
+
+    <template>
+        <div class="layout vertical">
+            <h4>Sponsors</h4>
+
+            <template is="dom-repeat" items="{{value.sponsors}}" as="sponsor">
+                <paper-card class="layout horizontal">
+                    <image-picker class="sponsor-image" on-image-picked="_sponsorImagePicked" on-image-removed="_sponsorImageRemoved" image="{{sponsor.image}}"></image-picker>
+                    <div class="layout vertical flex">
+                        <paper-input class="flex sponsor-name" value="{{sponsor.name}}" on-input="_sponsorNameChanged" on-change="_sponsorNameChanged"
+                            label="Sponsor Name"></paper-input>
+                        <accessible-link title="Sponsor Link" style="margin-left: 10px;" on-link-changed="_sponsorLinkChanged" link="{{sponsor.link}}"></accessible-link>
+                    </div>
+
+                </paper-card>
+            </template>
+
+            <template is="dom-if" if="{{_showAddButton}}">
+                <paper-button on-tap="_addSponsor">
+                    <iron-icon icon="icons:add"></iron-icon>
+                    <span class="action-label">ADD NEW SPONSOR</span>
+                </paper-button>
+            </template>
+        </div>
+    </template>
+
+</dom-module>
+
+<script src="game-sponsors.js"></script>
