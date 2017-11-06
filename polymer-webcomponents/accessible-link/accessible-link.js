@@ -20,11 +20,32 @@
             },
             title: {
                 type: String
+            },
+            entity: {
+                type: Object,
+                observer: "_entityChanged"
+            },
+            fieldName: {
+                type: String,
+
             }
         },
 
         ready: function () {
-            
+
+        },
+
+        _entityChanged: function (newValue, oldValue) {
+            if (this.entity && this.fieldName &&
+                typeof this.entity != "string") {
+                var customEntitiesDefinitions = ForgeWebComponents.Config["deltatre.forge.wcm"].CustomEntitiesConfiguration.Definitions;
+
+                for (var i = 0; i < customEntitiesDefinitions.length; i++) {
+                    if (customEntitiesDefinitions[i].Code === this.entity.entityCode) {
+                        this.title = customEntitiesDefinitions[i].JsonSchema.properties[this.fieldName].title;
+                    }
+                }
+            }
         },
 
         _displayTextChanged: function (e) {
