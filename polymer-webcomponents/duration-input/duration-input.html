@@ -1,8 +1,27 @@
 <dom-module id="duration-input">
 
+    <style include="iron-flex iron-flex-alignment">
+        :host {
+            display: block;
+        }
+
+        .description {
+            color: #B6B6B6;
+            font-size: 12px;
+            font-family: RobotoDraft, Roboto, "Helvetica Neue", sans-serif;
+            top: 0px;
+            bottom: 0px;
+            left: 0px;
+            right: 0px;
+            margin: 0px;
+            padding: 0px;
+        }
+    </style>
+
     <template>
-        <div class="layout horizontal">
-            <paper-input value="{{formattedValue}}" label="Duration"></paper-input>
+        <div class="layout vertical">
+            <paper-input value="{{formattedValue}}" label="{{title}}"></paper-input>
+            <div class="description">{{description}}</div>
         </div>
     </template>
 
