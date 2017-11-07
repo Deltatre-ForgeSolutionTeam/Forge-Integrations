@@ -33,21 +33,30 @@
             {
                 type: String,
                 value: "Duration of the video (hh:mm:ss)."
+            },
+            isReady:
+            {
+                type: Boolean
             }
+        },
+
+        ready: function () {
+            this.isReady = true;
         },
 
         onValueChanged: function (newValue, oldValue) {
-            if (newValue && newValue != null && newValue != "") {
-                if (newValue != oldValue)
+            if (this.isReady) {
+                if (newValue == "")
+                    this.formattedValue = "";
+                else
                     this.formattedValue = moment('2017-01-01').add(moment.duration(this.value)).format("HH:mm:ss");
             }
-            else
-                this.formattedValue = null;
         },
 
         onFormattedValueChanged: function (newValue, oldValue) {
-            if (oldValue != null && newValue != null && newValue != oldValue) {
-                if (!newValue || newValue.length == 0){
+            if (this.isReady && oldValue)
+            {
+                if (newValue.length == 0) {
                     this.value = "";
                     this.notifyValueChanged();
                 }
@@ -58,9 +67,8 @@
             }
         },
 
-        setLabels: function()
-        {
-            if (this.entity && this.fieldName){
+        setLabels: function () {
+            if (this.entity && this.fieldName) {
                 if (this.entity.type == 'customEntity') {
                     var defs = ForgeWebComponents.Config["deltatre.forge.wcm"].CustomEntitiesConfiguration.Definitions;
                     var i;
@@ -83,5 +91,6 @@
 
         triggerValueChanged: function () {
             this.fire('valueChanged', this.value);
-        }    });
+        }
+    });
 })();
