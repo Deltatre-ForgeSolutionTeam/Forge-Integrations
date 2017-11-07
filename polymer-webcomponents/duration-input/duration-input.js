@@ -17,12 +17,12 @@
             entity:
             {
                 type: Object,
-                observer: 'setLabels'
+                observer: 'setCustomEntityProperties'
             },
             fieldName:
             {
                 type: String,
-                observer: 'setLabels'
+                observer: 'setCustomEntityProperties'
             },
             title:
             {
@@ -33,6 +33,11 @@
             {
                 type: String,
                 value: "Duration of the video (hh:mm:ss)."
+            },
+            readonly:
+            {
+                type: Boolean,
+                value: false
             },
             isReady:
             {
@@ -67,7 +72,7 @@
             }
         },
 
-        setLabels: function () {
+        setCustomEntityProperties: function () {
             if (this.entity && this.fieldName) {
                 if (this.entity.type == 'customEntity') {
                     var defs = ForgeWebComponents.Config["deltatre.forge.wcm"].CustomEntitiesConfiguration.Definitions;
@@ -78,6 +83,7 @@
                             var p = def.JsonSchema.properties[this.fieldName];
                             this.title = p.title;
                             this.description = p.description;
+                            this.readonly = p.readonly;
                             break;
                         }
                     }
