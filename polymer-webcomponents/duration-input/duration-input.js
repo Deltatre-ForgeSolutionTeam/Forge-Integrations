@@ -46,7 +46,7 @@
         },
 
         onFormattedValueChanged: function (newValue, oldValue) {
-            if (oldValue != null && newValue != oldValue) {
+            if (oldValue != null && newValue != null && newValue != oldValue) {
                 if (!newValue || newValue.length == 0){
                     this.value = "";
                     this.notifyValueChanged();
