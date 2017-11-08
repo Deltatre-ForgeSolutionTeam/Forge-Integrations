@@ -14,13 +14,13 @@
         <div class="layout vertical">
             <h4>{{title}}</h4>
             <div class="layout horizontal">
-                <paper-input class="flex margin-right" value="{{link.displayText}}" on-input="_displayTextChanged" on-change="_displayTextChanged" label="Display Text"></paper-input>
-                <paper-input class="flex" value="{{link.accessibleText}}" on-input="_accessibleTextChanged" on-change="_accessibleTextChanged"
+                <paper-input class="flex margin-right" value="{{value.displayText}}" on-input="_displayTextChanged" on-change="_displayTextChanged" label="Display Text"></paper-input>
+                <paper-input class="flex" value="{{value.accessibleText}}" on-input="_accessibleTextChanged" on-change="_accessibleTextChanged"
                     label="Accessible Text"></paper-input>
             </div>
             <div class="layout horizontal">
-                <paper-input class="flex margin-right" value="{{link.url}}" on-input="_urlChanged" on-change="_urlChanged" label="URL"></paper-input>
-                <paper-toggle-button checked="{{link.openInNewTab}}" on-change="_openInNewTabChanged">Open in New Tab</paper-toggle-button>
+                <paper-input class="flex margin-right" value="{{value.url}}" on-input="_urlChanged" on-change="_urlChanged" label="URL"></paper-input>
+                <paper-toggle-button checked="{{value.openInNewTab}}" on-change="_openInNewTabChanged">Open in New Tab</paper-toggle-button>
             </div>
         </div>
     </template>

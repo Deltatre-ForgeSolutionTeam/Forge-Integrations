@@ -14,9 +14,10 @@
     Polymer({
         is: "accessible-link",
         properties: {
-            link: {
+            value: {
                 type: Object,
-                value: new AccessibleLink()
+                value: new AccessibleLink(),
+                observer: "_valueChanged"
             },
             title: {
                 type: String
@@ -35,6 +36,11 @@
 
         },
 
+        _valueChanged: function (newValue, oldValue) {
+            if (!newValue)
+                this.set("value", new AccessibleLink());
+        },
+
         _entityChanged: function (newValue, oldValue) {
             if (this.entity && this.fieldName &&
                 typeof this.entity != "string") {
@@ -49,31 +55,42 @@
         },
 
         _displayTextChanged: function (e) {
-            this.link.displayText = e.target.value;
-            this._callLinkChanged(this.link);
+            this.value.displayText = e.target.value;
+            this._callLinkChanged(this.value);
         },
 
         _accessibleTextChanged: function (e) {
-            this.link.accessibleText = e.target.value;
-            this._callLinkChanged(this.link);
+            this.value.accessibleText = e.target.value;
+            this._callLinkChanged(this.value);
         },
 
         _urlChanged: function (e) {
-            this.link.url = e.target.value;
-            this._callLinkChanged(this.link);
+            this.value.url = e.target.value;
+            this._callLinkChanged(this.value);
         },
 
         _openInNewTabChanged: function (e) {
-            this.link.openInNewTab = e.target.checked;
-            this._callLinkChanged(this.link);
+            this.value.openInNewTab = e.target.checked;
+            this._callLinkChanged(this.value);
         },
 
         _callLinkChanged: function (link) {
             this.dispatchEvent(createLinkChangedEvent(link));
+
+            if (this.entity != null)
+                this._callValueChanged();
         },
 
         _clear: function () {
-            this.properties.link.value = new AccessibleLink();
+            this.value = new AccessibleLink();
+        },
+
+        _callValueChanged: function () {
+            this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
+        },
+
+        _triggerValueChanged: function () {
+            this.fire('valueChanged', this.value);
         }
     });
 })();
