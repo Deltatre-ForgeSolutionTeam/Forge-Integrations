@@ -135,6 +135,19 @@
             }
         },
 
+        _deleteSponsor: function (e) {
+            var sponsorIndex = e.model.index;
+            var sponsors = this.value.sponsors;
+            var sponsorImage = sponsors[sponsorIndex].image
+
+            if (sponsorImage != null)
+                this._removeImageToReferenceField(sponsorImage);
+
+            sponsors.splice(sponsorIndex, 1);
+
+            this._callValueChanged();
+        },
+
         _callValueChanged: function () {
             this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
         },
