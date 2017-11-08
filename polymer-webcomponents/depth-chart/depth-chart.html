@@ -37,6 +37,12 @@
 			margin: 10px;
 		}
 
+		.position-row-placeholder {
+			border: 1px dashed rgba(0, 0, 0, 0.3);
+			border-radius: 5px;
+			min-height: 50px;
+		}
+
 		.position-row paper-icon-button {
 			color: var(--paper-blue-500);
 		}
@@ -132,7 +138,7 @@
 				</paper-toolbar>
 
 				<div class="flex">
-					<html5-sortable class="flex" on-sort-stop="_sortChange">
+					<html5-sortable class="flex" on-sort-stop="_sortChange" placeholder-class="position-row position-row-placeholder depth-chart">
 						<template is="dom-repeat" items="[[section.positions]]" as="position" index-as="positionIndex" section-index="[[sectionIndex]]">
 							<paper-card class="layout vertical position-row">
 
