@@ -43,6 +43,8 @@
             if (this.image != null &&
                 this.image.id != null)
                 this._refreshData();
+            else
+                this._startData();
         },
 
         _imageChanged: function (newValue, oldValue) {
@@ -51,9 +53,31 @@
         },
 
         _searchData: function () {
+            this.searchResult = null;
+
             var url = "/deltatre.forge.wcm/api/photos/working?language=en-us&terms=";
 
             url = this.searchImageName ? url + encodeURI(this.searchImageName) : url;
+
+            var self = this;
+
+            api.raw(url).then(function (result) {
+                if (result.length > 0) {
+                    for (var i = 0; i < result.length; i++) {
+                        result[i].thumbnailUrl = ForgeWebComponents.Helpers.EntityHelper.createThumbnailUrl(result[i].EntityType, result[i].Id);
+                    }
+                }
+
+                self.searchResult = result;
+            }, function () {
+                self.searchResult = [];
+            });
+        },
+
+        _startData: function () {
+            this.searchResult = null;
+            
+            var url = "/deltatre.forge.wcm/api/photos/working?limit=10";
 
             var self = this;
 
