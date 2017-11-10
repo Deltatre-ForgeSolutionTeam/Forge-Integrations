@@ -111,13 +111,13 @@
 
         .go-to-detail-button {
             z-index: 1;
-            --paper-fab-background: #ccc;
+            --paper-fab-background: rgb(0, 0, 0, 0);
         }
     </style>
 
     <template>
         <div class="piccker-container">
-            <template is="dom-if" if="{{thumbnailUrl}}">
+            <template is="dom-if" if="{{image.thumbnailUrl}}">
                 <div class="go-to-detail-button-container layout horizontal">
                     <div class="flex"></div>
                     <paper-fab mini class="go-to-detail-button " icon="icons:open-in-new" title="Go to Photo's Details" on-tap="_goToPhotoDetails"></paper-fab>
@@ -133,14 +133,14 @@
                 </paper-button>
             </div>
 
-            <img class="main-image" src="{{thumbnailUrl}}" />
-            
-            <template is="dom-if" if="{{!published}}">
+            <img class="main-image" src="{{image.thumbnailUrl}}" />
+
+            <template is="dom-if" if="{{!image.published}}">
                 <div class="not-visible-layer"></div>
                 <iron-icon class="not-visible-icon" icon="icons:visibility-off"></iron-icon>
             </template>
 
-            <template is="dom-if" if="{{thumbnailUrl}}">
+            <template is="dom-if" if="{{image.thumbnailUrl}}">
                 <div class="layout horizontal pick-buttons-container">
                     <paper-fab mini class="pick-button-edit" icon="editor:mode-edit" title="Edit" on-tap="_editPickedImage"></paper-fab>
                     <div class="flex"></div>

@@ -1,7 +1,7 @@
 (function () {
 
     const REFERENCE_FIELD_NAME = "gameSponsorReferenceImages";
-    const REFERENCE_FIELD_TYPE = "customentity.game";
+    const REFERENCE_FIELDtype = "customentity.game";
 
     function AccessibleLink() {
         this.displayText = null;
@@ -23,12 +23,12 @@
     function ReferenceFieldItemsCommandBody(gameEntity, imageEntity) {
         this.aggregateId = gameEntity.entityId;
         this.translationId = gameEntity.id;
-        this.aggregateType = REFERENCE_FIELD_TYPE;
+        this.aggregateType = REFERENCE_FIELDtype;
         this.fieldName = REFERENCE_FIELD_NAME;
         this.referencedItems = [
             {
-                entityType: imageEntity.entityType,
-                entityId: imageEntity.entityId
+                entityType: imageEntity.type,
+                entityId: imageEntity._entityId
             }
         ];
     }
@@ -148,6 +148,24 @@
             sponsors.splice(sponsorIndex, 1);
 
             this._callValueChanged();
+        },
+
+        _checkPublished: function (index) {
+            debugger;
+            var retValue = true;
+
+            var sponsorImage = this.value.sponsors[index].image;
+
+            if (sponsorImage != null && sponsorImage._entityId != null && sponsorImage.type != null) {
+                if (this.entity.referenceFields[REFERENCE_FIELD_NAME][index].entityId === sponsorImage._entityId) {
+                    var stage = this.entity.referenceFields[REFERENCE_FIELD_NAME][index].stage;
+
+                    if (stage === "unpublished")
+                        retValue = false;
+                }
+            }
+
+            return retValue;
         },
 
         _callValueChanged: function () {

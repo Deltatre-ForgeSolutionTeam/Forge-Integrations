@@ -11,8 +11,13 @@
     }
 
     function Image() {
-        this._entityId = null;
-        this.type = null;
+        this.id = null;
+        this.entityId = null;
+        this.entityType = null;
+        this.thumbnailUrl = null;
+        this.title = null;
+        this.fileName = null;
+        this.published = true;
     }
 
     Polymer({
@@ -26,48 +31,29 @@
                 value: new Image(),
                 observer: "_imageChanged"
             },
-            published: {
-                type: Boolean,
-                value: true,
-                observer: "_publishedChanged"
-            },
             searchImageName: {
                 type: String
             },
             searchResult: {
                 type: Object
-            },
-            translationId: {
-                type: String,
-                value: null
-            },
-            thumbnailUrl: {
-                type: String,
-                value: null
             }
         },
 
         ready: function () {
-            if (this.image._entityId != null &&
-                this.image.type != null)
-                this._loadExistingData();
+            if (this.image != null &&
+                this.image.id != null)
+                this._refreshData();
         },
 
         _imageChanged: function (newValue, oldValue) {
-            if (newValue === null)
+            if (newValue == null)
                 this.image = new Image();
-        },
-
-        _publishedChanged: function (newValue, oldValue) {
-            debugger;
-            if (this.published === null)
-                this.published = true;
         },
 
         _searchData: function () {
             this.searchResult = null;
 
-            var url = "/deltatre.forge.wcm/api/photos/working?language=nd-nd&terms=";
+            var url = "/deltatre.forge.wcm/api/photos/working?language=en-us&terms=";
 
             url = this.searchImageName ? url + encodeURI(this.searchImageName) : url;
 
@@ -88,8 +74,8 @@
 
         _startData: function () {
             this.searchResult = null;
-
-            var url = "/deltatre.forge.wcm/api/photos/working?language=nd-nd&limit=10";
+            
+            var url = "/deltatre.forge.wcm/api/photos/working?limit=10";
 
             var self = this;
 
@@ -106,18 +92,31 @@
             });
         },
 
-        _loadExistingData: function () {
-            var url = "/deltatre.forge.wcm/api/photos/working/culture/nd-nd/entityid/";
+        _refreshData: function () {
+            var url = "/deltatre.forge.wcm/api/photos/working/";
 
-            url = this.image._entityId ? url + encodeURI(this.image._entityId) : null;
+            url = this.image.id ? url + encodeURI(this.image.id) : null;
 
             if (url != null) {
                 var self = this;
 
                 api.raw(url).then(function (result) {
                     if (result != null) {
-                        self.set("translationId", result.Id);
-                        self.set("thumbnailUrl", ForgeWebComponents.Helpers.EntityHelper.createThumbnailUrl(self.image.type, result.Id));
+                        var imageDataRefreshed = result;
+
+                        if (self.image.title != imageDataRefreshed.Title)
+                            self.set("image.title", imageDataRefreshed.Title);
+
+                        if (self.image.thumbnailUrl != ForgeWebComponents.Helpers.EntityHelper.createThumbnailUrl(self.image.entityType, self.image.id))
+                            self.set("image.thumbnailUrl", ForgeWebComponents.Helpers.EntityHelper.createThumbnailUrl(self.image.entityType, self.image.id));
+
+                        if (self.image.fileName != imageDataRefreshed.OriginalFileName)
+                            self.set("image.fileName", imageDataRefreshed.OriginalFileName);
+
+                        var refreshedStage = imageDataRefreshed.Stage == "published" ? true : false;
+
+                        if (self.image.stage != refreshedStage)
+                            self.set("image.published", refreshedStage);
                     }
                 }, function () {
                     console.log("Image's data cannot be refreshed.")
@@ -141,10 +140,13 @@
 
             var pickedImage = this.searchResult[photoIndex];
 
-            this.translationId = pickedImage.Id;
-            this.image._entityId = pickedImage.EntityId;
-            this.image.type = pickedImage.EntityType;
-            this.thumbnailUrl = pickedImage.thumbnailUrl;
+            this.image.id = pickedImage.Id;
+            this.image.entityId = pickedImage.EntityId;
+            this.image.entityType = pickedImage.EntityType;
+            this.image.thumbnailUrl = pickedImage.thumbnailUrl;
+            this.image.title = pickedImage.Title;
+            this.image.fileName = pickedImage.OriginalFileName;
+            this.image.published = pickedImage.Stage === "published" ? true : false;
 
             this._closeDialog();
 
@@ -162,7 +164,7 @@
         },
 
         _goToPhotoDetails: function () {
-            var link = ForgeWebComponents.Helpers.EntityHelper.createLink(this.image.type, this.image._entityId, this.translationId);
+            var link = ForgeWebComponents.Helpers.EntityHelper.createLink(this.image.entityType, this.image.entityId, this.image.id);
 
             window.location.href = link;
         },
@@ -175,29 +177,15 @@
             this.$.searchModal.close();
         },
 
-        _checkPublished: function () {
-            debugger;
-            var retValue = true;
-
-            if (this.published === null)
-                retValue = false;
-            else
-                retValue = this.published;
-
-            return retValue;
-        },
-
         _clear: function () {
             this.image = null;
-            this.thumbnailUrl = null;
-            this.published = null;
             this.searchImageName = null;
             this.searchResult = null;
         },
 
         _callImagePicked: function (imagePicked) {
             this.dispatchEvent(createImagePickedEvent(imagePicked));
-            //this._clear();
+            this._clear();
         },
 
         _callImageRemoved: function (imageRemoved) {
