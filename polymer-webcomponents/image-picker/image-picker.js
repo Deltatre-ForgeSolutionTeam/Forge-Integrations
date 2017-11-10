@@ -43,8 +43,6 @@
             if (this.image != null &&
                 this.image.id != null)
                 this._refreshData();
-            else
-                this._startData();
         },
 
         _imageChanged: function (newValue, oldValue) {
@@ -127,6 +125,7 @@
         },
 
         _chooseImage: function () {
+            this._startData();
             this._openDialog();
         },
 
@@ -155,6 +154,7 @@
         },
 
         _editPickedImage: function () {
+            this._startData();
             this._openDialog();
         },
 
