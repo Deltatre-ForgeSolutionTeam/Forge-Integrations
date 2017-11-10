@@ -163,6 +163,12 @@
             this._clear();
         },
 
+        _goToPhotoDetails: function () {
+            var link = ForgeWebComponents.Helpers.EntityHelper.createLink(this.image.entityType, this.image.entityId, this.image.id);
+
+            window.location.href = link;
+        },
+
         _openDialog: function () {
             this.$.searchModal.open();
         },

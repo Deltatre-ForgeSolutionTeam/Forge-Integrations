@@ -104,10 +104,26 @@
             border-radius: 50%;
             padding: 5px;
         }
+
+        .go-to-detail-button-container {
+            padding: 10px;
+        }
+
+        .go-to-detail-button {
+            z-index: 1;
+            --paper-fab-background: rgb(0, 0, 0, 0);
+        }
     </style>
 
     <template>
         <div class="piccker-container">
+            <template is="dom-if" if="{{image.thumbnailUrl}}">
+                <div class="go-to-detail-button-container layout horizontal">
+                    <div class="flex"></div>
+                    <paper-fab mini class="go-to-detail-button " icon="icons:open-in-new" title="Go to Photo's Details" on-tap="_goToPhotoDetails"></paper-fab>
+                </div>
+            </template>
+
             <iron-icon icon="image:photo" class="no-thumbnail-icon"></iron-icon>
 
             <div class="pick-container">
