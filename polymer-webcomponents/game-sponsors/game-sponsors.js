@@ -71,6 +71,8 @@
                 this.value.sponsors != null &&
                 this.value.sponsors.length >= 3)
                 this._showAddButton = false;
+            else
+                this._showAddButton = true;
         },
 
         _addSponsor: function () {
