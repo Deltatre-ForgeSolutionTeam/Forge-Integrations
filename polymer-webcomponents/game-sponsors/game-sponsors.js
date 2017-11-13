@@ -52,7 +52,12 @@
                 observer: '_valueChanged'
             },
             entity: {
-                type: Object
+                type: Object,
+                observer: "_entityChanged"
+            },
+            refreshedTimes: {
+                type: Number,
+                value: 0
             },
             _showAddButton: {
                 type: Boolean,
@@ -73,6 +78,17 @@
                 this._showAddButton = false;
             else
                 this._showAddButton = true;
+        },
+
+        _entityChanged: function (newValue, oldValue) {
+            if (newValue != null && oldValue != null) {
+                if (typeof newValue === "object" && typeof oldValue === "object") {
+                    if (newValue.referenceFields[REFERENCE_FIELD_NAME] != oldValue.referenceFields[REFERENCE_FIELD_NAME]) {
+                        // force the re-render of the component
+                        this.refreshedTimes++;
+                    }
+                }
+            }
         },
 
         _addSponsor: function () {
@@ -150,17 +166,17 @@
             this._callValueChanged();
         },
 
-        _checkPublished: function (index) {
+        _checkPublished: function (sponsorImage, refreshedTimes) {
             var retValue = true;
 
-            var sponsorImage = this.value.sponsors[index].image;
-
             if (sponsorImage != null && sponsorImage._entityId != null && sponsorImage.type != null) {
-                if (this.entity.referenceFields[REFERENCE_FIELD_NAME][index].entityId === sponsorImage._entityId) {
-                    var stage = this.entity.referenceFields[REFERENCE_FIELD_NAME][index].stage;
+                for (var i = 0; i < this.entity.referenceFields[REFERENCE_FIELD_NAME].length; i++) {
+                    var referenceImage = this.entity.referenceFields[REFERENCE_FIELD_NAME][i];
 
-                    if (stage === "unpublished")
+                    if (referenceImage.entityId === sponsorImage._entityId &&
+                        referenceImage.stage === "unpublished") {
                         retValue = false;
+                    }
                 }
             }
 

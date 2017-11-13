@@ -129,8 +129,9 @@
             this._openDialog();
         },
 
-        _searchChanged: function () {
-            this._searchData();
+        _searchChanged: function (e) {
+            if (e.data != null)
+                this._searchData();
         },
 
         _pickImageFromSearch: function (e) {

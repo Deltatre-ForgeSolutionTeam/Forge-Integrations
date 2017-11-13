@@ -37,7 +37,8 @@
 
             <template is="dom-repeat" items="{{value.sponsors}}" as="sponsor">
                 <paper-card class="layout horizontal">
-                    <image-picker class="sponsor-image" on-image-picked="_sponsorImagePicked" on-image-removed="_sponsorImageRemoved" image="{{sponsor.image}}" published="{{_checkPublished(index)}}"></image-picker>
+                    <image-picker class="sponsor-image" image="{{sponsor.image}}" published="{{_checkPublished(sponsor.image, refreshedTimes)}}" on-image-picked="_sponsorImagePicked"
+                        on-image-removed="_sponsorImageRemoved"></image-picker>
                     <div class="layout vertical flex">
                         <div class="layout horizontal center">
                             <paper-input class="flex sponsor-name" value="{{sponsor.name}}" on-input="_sponsorNameChanged" on-change="_sponsorNameChanged"
