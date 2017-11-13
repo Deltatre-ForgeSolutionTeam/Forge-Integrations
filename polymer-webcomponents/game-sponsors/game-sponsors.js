@@ -151,7 +151,6 @@
         },
 
         _checkPublished: function (index) {
-            debugger;
             var retValue = true;
 
             var sponsorImage = this.value.sponsors[index].image;

@@ -59,7 +59,6 @@
         },
 
         _publishedChanged: function (newValue, oldValue) {
-            debugger;
             if (this.published === null)
                 this.published = true;
         },
@@ -176,7 +175,6 @@
         },
 
         _checkPublished: function () {
-            debugger;
             var retValue = true;
 
             if (this.published === null)
