@@ -154,7 +154,6 @@
         },
 
         _deleteSponsor: function (e) {
-            debugger;
             var sponsorIndex = e.model.index;
             var sponsorImage = this.value.sponsors[sponsorIndex].image;
 
