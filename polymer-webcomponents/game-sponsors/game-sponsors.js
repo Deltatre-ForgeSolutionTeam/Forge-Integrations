@@ -154,14 +154,14 @@
         },
 
         _deleteSponsor: function (e) {
+            debugger;
             var sponsorIndex = e.model.index;
-            var sponsors = this.value.sponsors;
-            var sponsorImage = sponsors[sponsorIndex].image
+            var sponsorImage = this.value.sponsors[sponsorIndex].image;
 
             if (sponsorImage != null)
                 this._removeImageToReferenceField(sponsorImage);
 
-            sponsors.splice(sponsorIndex, 1);
+            this.splice("value.sponsors", sponsorIndex, 1);
 
             this._callValueChanged();
         },
