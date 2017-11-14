@@ -88,7 +88,8 @@
             bottom: 0;
             right: 0;
             left: 0;
-            background-color: rgba(0, 0, 0, 0.1);
+            background-color: white;
+            opacity: 0.4;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -134,7 +135,7 @@
             </div>
 
             <img class="main-image" src="{{thumbnailUrl}}" />
-            
+
             <template is="dom-if" if="{{!published}}">
                 <div class="not-visible-layer"></div>
                 <iron-icon class="not-visible-icon" icon="icons:visibility-off"></iron-icon>
