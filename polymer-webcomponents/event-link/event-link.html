@@ -139,26 +139,26 @@
                                     <div class="card-content flex layout horizontal">
                                         <div class="content-thumbnail">
                                             <iron-icon class="icon-placeholder" icon="image:photo"></iron-icon>
-                                            <iron-image src="{{editorialContentSelected.wcmThumbnailUrl}}" sizing="contain"></iron-image>
+                                            <iron-image src="{{_getEditorialContentThumbnailUrl(entity)}}" sizing="contain"></iron-image>
                                         </div>
                                         <div class="layout vertical flex content-text">
                                             <div>
-                                                <strong>[[editorialContentSelected.title]]</strong>
+                                                <strong>{{_getEditorialContentTitle(entity)}}</strong>
                                             </div>
                                             <div>
-                                                Slug: [[editorialContentSelected.slug]]
+                                                Slug: {{_getEditorialContentSlug(entity)}}
                                             </div>
 
                                         </div>
 
-                                        <template is="dom-if" if="[[_editorialContentUnpublished]]">
+                                        <template is="dom-if" if="{{!_getEditorialContentPublishState(entity)}}">
                                             <div class="not-visible-layer"></div>
                                             <iron-icon class="not-visible-icon" icon="icons:visibility-off"></iron-icon>
                                         </template>
                                     </div>
                                     <div class="card-actions layout vertical">
                                         <div class="flex">
-                                            <a href$="[[editorialContentSelected.wcmlink]]" tabindex="-1">
+                                            <a href$="{{_getEditorialContentExternalLink(entity)}}" tabindex="-1">
                                                 <paper-icon-button icon="open-in-new"></paper-icon-button>
                                             </a>
                                         </div>

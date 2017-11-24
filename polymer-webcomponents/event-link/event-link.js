@@ -1,6 +1,8 @@
 (function () {
 
-    var _editorialContentUnpublished = false;
+    var REFERENCE_FIELD_NAME = "eventLinkReferenceFields";
+    var REFERENCE_FIELD_TYPE = "customentity.event";
+
     var api = ForgeWebComponents.Api;
 
     function EventLinkTypeList() {
@@ -9,7 +11,6 @@
         this.data.push({ "value": "linktocontent", "label": "Link To Content" });
         this.data.push({ "value": "externallink", "label": "External Link" });
         this.data.push({ "value": "nolink", "label": "No Link" });
-
     }
 
     function EditorialContentList() {
@@ -25,17 +26,38 @@
     }
 
     function EditorialContent(content) {
-        this.entityId = content.EntityId;
-        this.translationId = content.Id;
-        this.contentType = content.EntityType;
+        this._entityId = content.EntityId;
+        this.entityType = content.EntityType;
         this.entityCode = content.EntityCode;
-        this.slug = content.Slug;
-        this.title = content.Title
-        this.wcmThumbnailUrl = content.wcmThumbnailUrl;
-        this.wcmlink = content.wcmlink;
     }
 
+    function ReferenceFieldItemsCommandBody(eventEntity, referenceEntity) {
+        this.aggregateId = eventEntity.entityId;
+        this.translationId = eventEntity.id;
+        this.aggregateType = REFERENCE_FIELD_TYPE;
+        this.fieldName = REFERENCE_FIELD_NAME;
 
+        var referenceEntityType = referenceEntity.EntityCode == null ?
+            referenceEntity.EntityType :
+            referenceEntity.EntityType + "." + referenceEntity.EntityCode;
+
+        this.referencedItems = [
+            {
+                entityType: referenceEntityType,
+                entityId: referenceEntity.EntityId
+            }
+        ];
+    }
+
+    function AddReferenceFieldItemsCommand(eventEntity, referenceEntity) {
+        this.commandName = "AddReferenceFieldItemsCommand";
+        this.commandBody = new ReferenceFieldItemsCommandBody(eventEntity, referenceEntity);
+    }
+
+    function RemoveReferenceFieldItemsCommand(eventEntity, referenceEntity) {
+        this.commandName = "RemoveReferenceFieldItemsCommand";
+        this.commandBody = new ReferenceFieldItemsCommandBody(eventEntity, referenceEntity);
+    }
 
     Polymer({
         is: "event-link",
@@ -44,6 +66,9 @@
                 type: Object,
                 value: new EventLinkConfiguration(),
                 observer: '_valueChanged'
+            },
+            entity: {
+                type: Object
             },
             linkTypes: {
                 type: Object,
@@ -81,14 +106,11 @@
             api.raw(url).then(function (result) {
                 self._hideLoading = true;
                 self._result = result;
-                self._editorialContentUnpublished = result.Stage == 'unpublished' ? true : false;;
             }, function () {
                 self._hideLoading = true;
                 self._result = {};
             });
-
         },
-
 
         _valueChanged: function (newValue, oldValue) {
             if (!newValue) this.value = new EventLinkConfiguration();
@@ -101,30 +123,25 @@
 
             if (typeLink === "linktocontent") {
                 this._linkToContentType = true;
-                if (this.value.linkProperties.editorialContent != null) {
 
+                if (this.value.linkProperties.editorialContent != null) {
                     this._getData()
                     this._showEditorialContent = true;
                     this.editorialContentSelected = this.value.linkProperties.editorialContent;
-                } else {
-                    this.value.linkProperties = {};
                 }
+                else
+                    this.value.linkProperties = {};
             }
 
-            if (typeLink === "externallink") {
+            if (typeLink === "externallink")
                 this._externalLinkType = true;
-            }
-            if (triggerChange && typeLink === "externallink") {
+            if (triggerChange && typeLink === "externallink")
                 this.value.linkProperties = {};
-            }
-
-            if (typeLink === "nolink" || typeLink === "empty") {
+            if (typeLink === "nolink" || typeLink === "empty")
                 this.value.linkProperties = {};
-            }
 
-            if (triggerChange) {
-                this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
-            }
+            if (triggerChange)
+                this._callValueChanged(0);
         },
 
         _loadContent: function (e) {
@@ -132,54 +149,164 @@
         },
 
         _itemSelected: function (e) {
+            if (this.editorialContentSelected._entityId != null) {
+                var referenceToRemove = {
+                    EntityId: this.editorialContentSelected._entityId,
+                    EntityCode: this.editorialContentSelected.entityCode,
+                    EntityType: this.editorialContentSelected.entityType
+                };
+
+                debugger;
+                this._removeContentToReferenceField(referenceToRemove);
+            }
+
             this._loadEventTemplate(e.target.linkTypeValue, true);
         },
 
-        _getExternalLinkUrl: function () {
-            if (this.value.linkProperties.externalLinkUrl) {
-                return this.value.linkProperties.externalLinkUrl;
-            }
-
-            return null;
-        },
-
         _onExternalLinkInput: function () {
-            this.debounce('triggerOnValueChanged', this._triggerValueChanged, 2000);
+            this._callValueChanged(2000);
         },
 
         _onExternalLinkChange: function () {
-            this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
+            this._callValueChanged(0);
         },
 
         _openSearch: function (e) {
             this.$.searchEditorialContent.open(e.model.item);
-            this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
+
+            this._callValueChanged(0);
+        },
+
+        _editorialContentSelected: function (e) {
+            if (this.editorialContentSelected._entityId != null) {
+                var referenceToRemove = {
+                    EntityId: this.editorialContentSelected._entityId,
+                    EntityCode: this.editorialContentSelected.entityCode,
+                    EntityType: this.editorialContentSelected.entityType
+                };
+
+                this._removeContentToReferenceField(referenceToRemove);
+            }
+
+            this._showEditorialContent = true;
+
+            this.value.linkProperties.editorialContent = new EditorialContent(e.detail.editorialContent);
+            this.editorialContentSelected = this.value.linkProperties.editorialContent;
+
+            this._addContentToReferenceField(e.detail.editorialContent);
+
+            this._callValueChanged(0);
+        },
+
+        _deleteSelectedContent: function () {
+            if (this.editorialContentSelected._entityId != null) {
+                var referenceToRemove = {
+                    EntityId: this.editorialContentSelected._entityId,
+                    EntityCode: this.editorialContentSelected.entityCode,
+                    EntityType: this.editorialContentSelected.entityType
+                };
+
+                this._removeContentToReferenceField(referenceToRemove);
+            }
+
+            this._showEditorialContent = false;
+            this.editorialContentSelected = {};
+            this.value.linkProperties = {};
+
+            this._callValueChanged(0);
+        },
+
+        _deleteTypeLink: function () {
+            if (this.editorialContentSelected._entityId != null) {
+                var referenceToRemove = {
+                    EntityId: this.editorialContentSelected._entityId,
+                    EntityCode: this.editorialContentSelected.entityCode,
+                    EntityType: this.editorialContentSelected.entityType
+                };
+
+                this._removeContentToReferenceField(referenceToRemove);
+            }
+
+            this.value = new EventLinkConfiguration();
+            this._linkToContentType = false;
+
+            this._callValueChanged(0);
         },
 
         _triggerValueChanged: function () {
             this.fire('valueChanged', this.value);
         },
 
-        _editorialContentSelected: function (e) {
-            this._showEditorialContent = true;
-            this._editorialContentUnpublished = false;
-            this.value.linkProperties.editorialContent = new EditorialContent(e.detail.editorialContent);
-            this.editorialContentSelected = this.value.linkProperties.editorialContent;
+        _callValueChanged: function (mills) {
             this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
         },
 
-        _deleteSelectedContent: function () {
-            this._showEditorialContent = false;
-            this._editorialContentUnpublished = false;
-            this.editorialContentSelected = {};
-            this.value.linkProperties = {};
-            this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
+        _addContentToReferenceField: function (content) {
+            const command = new AddReferenceFieldItemsCommand(this.entity, content);
+            this.fire('sendCommand', command);
         },
-        
-        _deleteTypeLink: function () {
-            this.value = new EventLinkConfiguration();
-            this._linkToContentType = false;
-            this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
+
+        _removeContentToReferenceField: function (content) {
+            const command = new RemoveReferenceFieldItemsCommand(this.entity, content);
+            this.fire('sendCommand', command);
+        },
+
+        _getEditorialContentTitle: function (entity) {
+            var retValue = null;
+
+            if (entity.referenceFields != null &&
+                entity.referenceFields[REFERENCE_FIELD_NAME] != null &&
+                entity.referenceFields[REFERENCE_FIELD_NAME][0] != null)
+                retValue = entity.referenceFields[REFERENCE_FIELD_NAME][0].title;
+
+            return retValue;
+        },
+
+        _getEditorialContentSlug: function (entity) {
+            var retValue = null;
+
+            if (entity.referenceFields != null &&
+                entity.referenceFields[REFERENCE_FIELD_NAME] != null &&
+                entity.referenceFields[REFERENCE_FIELD_NAME][0] != null)
+                retValue = entity.referenceFields[REFERENCE_FIELD_NAME][0].slug;
+
+            return retValue;
+        },
+
+        _getEditorialContentThumbnailUrl: function (entity) {
+            var retValue = null;
+
+            if (entity.referenceFields != null &&
+                entity.referenceFields[REFERENCE_FIELD_NAME] != null &&
+                entity.referenceFields[REFERENCE_FIELD_NAME][0] != null)
+                retValue = ForgeWebComponents.Helpers.EntityHelper.createThumbnailUrl(entity.referenceFields[REFERENCE_FIELD_NAME][0].type,
+                    entity.referenceFields[REFERENCE_FIELD_NAME][0].id);
+
+            return retValue;
+        },
+
+        _getEditorialContentExternalLink: function (entity) {
+            var retValue = null;
+
+            if (entity.referenceFields != null &&
+                entity.referenceFields[REFERENCE_FIELD_NAME] != null &&
+                entity.referenceFields[REFERENCE_FIELD_NAME][0] != null)
+                retValue = ForgeWebComponents.Helpers.EntityHelper.createLink(entity.referenceFields[REFERENCE_FIELD_NAME][0].type,
+                    entity.referenceFields[REFERENCE_FIELD_NAME][0].entityId,
+                    entity.referenceFields[REFERENCE_FIELD_NAME][0].id);
+
+            return retValue;
+        },
+
+        _getEditorialContentPublishState: function (entity) {
+            var retValue = false;
+
+            if (entity.referenceFields != null &&
+                entity.referenceFields[REFERENCE_FIELD_NAME] != null &&
+                entity.referenceFields[REFERENCE_FIELD_NAME][0] != null)
+                retValue = entity.referenceFields[REFERENCE_FIELD_NAME][0].stage == "published" ? true : false;
+
+            return retValue;
         }
     });
 })();
