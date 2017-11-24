@@ -38,7 +38,7 @@
 
 
     function Player(player) {
-
+        
         const entityType = player.EntityCode ? player.EntityType + "." + player.EntityCode : player.EntityType;
 
         this.entityId = player.EntityId;
@@ -50,13 +50,13 @@
         this.days = [];
         this.gameStatus = null;
         this.injuryDescription = null;
+        this.personId = player.ExtendedFields.personId;
     };
 
     function PlayerDayReport(day, status) {
         this.day = day;
         this.status = status;
     }
-
 
     Polymer({
         is: "injury-report",
