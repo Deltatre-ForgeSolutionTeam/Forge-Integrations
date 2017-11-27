@@ -27,7 +27,7 @@
 
     function EditorialContent(content) {
         this._entityId = content.EntityId;
-        this.entityType = content.EntityType;
+        this.type = content.EntityType;
         this.entityCode = content.EntityCode;
     }
 
@@ -153,10 +153,9 @@
                 var referenceToRemove = {
                     EntityId: this.editorialContentSelected._entityId,
                     EntityCode: this.editorialContentSelected.entityCode,
-                    EntityType: this.editorialContentSelected.entityType
+                    EntityType: this.editorialContentSelected.type
                 };
 
-                debugger;
                 this._removeContentToReferenceField(referenceToRemove);
             }
 
@@ -182,7 +181,7 @@
                 var referenceToRemove = {
                     EntityId: this.editorialContentSelected._entityId,
                     EntityCode: this.editorialContentSelected.entityCode,
-                    EntityType: this.editorialContentSelected.entityType
+                    EntityType: this.editorialContentSelected.type
                 };
 
                 this._removeContentToReferenceField(referenceToRemove);
@@ -203,7 +202,7 @@
                 var referenceToRemove = {
                     EntityId: this.editorialContentSelected._entityId,
                     EntityCode: this.editorialContentSelected.entityCode,
-                    EntityType: this.editorialContentSelected.entityType
+                    EntityType: this.editorialContentSelected.type
                 };
 
                 this._removeContentToReferenceField(referenceToRemove);
@@ -221,7 +220,7 @@
                 var referenceToRemove = {
                     EntityId: this.editorialContentSelected._entityId,
                     EntityCode: this.editorialContentSelected.entityCode,
-                    EntityType: this.editorialContentSelected.entityType
+                    EntityType: this.editorialContentSelected.type
                 };
 
                 this._removeContentToReferenceField(referenceToRemove);
