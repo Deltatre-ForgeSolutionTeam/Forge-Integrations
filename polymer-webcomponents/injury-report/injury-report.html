@@ -12,7 +12,8 @@
             margin-bottom: 20px;
         }
 
-        .position-row paper-dropdown-menu,.position-row paper-input  {
+        .position-row paper-dropdown-menu,
+        .position-row paper-input {
             padding: 10px;
         }
 
@@ -20,20 +21,25 @@
             color: var(--status-yellow-color);
         }
 
-        .add-player{
+        .add-player {
             background-color: #eeeeee;
         }
     </style>
 
     <template>
-        <template is="dom-repeat" items="{{value.playerList}}" as="player" index-as="playerIndex">
+        <template is="dom-repeat" items="{{value.playersList}}" as="player" index-as="playerIndex">
 
             <div class="layout horizontal position-row flex">
-                <player-card player="[[player]]" on-delete-player="_deletePlayer"></player-card>
+                
+                <player-card player="{{_getPlayerEntity(entity, player)}}" on-delete-player="_deletePlayer"></player-card>
+
                 <div class="layout vertical flex">
-                            <paper-input value="{{player.injuryDescription}}" on-input="_onInjuryDescriptionInput" on-change="_onInjuryDescriptionChange"
-                            no-label-float="true" label="Injury"></paper-input>
+
+                    <paper-input value="{{player.injuryDescription}}" on-input="_onInjuryDescriptionInput" on-change="_onInjuryDescriptionChange"
+                        no-label-float="true" label="Injury"></paper-input>
+
                     <div class="layout horizontal flex">
+
                         <paper-dropdown-menu label="Monday" class="flex">
                             <paper-listbox slot="dropdown-content" class="dropdown-content" attr-for-selected="value" selected="[[_getDayValue('Monday',playerIndex)]]">
                                 <template is="dom-repeat" items="[[injuryDaysStatus.status]]" as="status" player-index="[[playerIndex]]">
@@ -41,6 +47,7 @@
                                 </template>
                             </paper-listbox>
                         </paper-dropdown-menu>
+
                         <paper-dropdown-menu label="Tuesday" class="flex">
                             <paper-listbox slot="dropdown-content" class="dropdown-content" attr-for-selected="value" selected="[[_getDayValue('Tuesday',playerIndex)]]">
                                 <template is="dom-repeat" items="[[injuryDaysStatus.status]]" as="status" player-index="[[playerIndex]]">
@@ -56,8 +63,11 @@
                                 </template>
                             </paper-listbox>
                         </paper-dropdown-menu>
+
                     </div>
+
                     <div class="layout horizontal flex">
+
                         <paper-dropdown-menu label="Thursday" class="flex">
                             <paper-listbox slot="dropdown-content" class="dropdown-content" attr-for-selected="value" selected="[[_getDayValue('Thursday',playerIndex)]]">
                                 <template is="dom-repeat" items="[[injuryDaysStatus.status]]" as="status" player-index="[[playerIndex]]">
@@ -81,15 +91,17 @@
                                 </template>
                             </paper-listbox>
                         </paper-dropdown-menu>
-                    </div>
-                    <paper-dropdown-menu label="Game Status" class="flex">
 
+                    </div>
+
+                    <paper-dropdown-menu label="Game Status" class="flex">
                         <paper-listbox slot="dropdown-content" class="dropdown-content" attr-for-selected="value" selected="[[_getStatusValue(playerIndex)]]">
                             <template is="dom-repeat" items="[[injuryGameStatus.status]]" as="status" player-index="[[playerIndex]]">
                                 <paper-item value="[[status]]" day="game-status" on-tap="_itemSelected">[[status]]</paper-item>
                             </template>
                         </paper-listbox>
                     </paper-dropdown-menu>
+
                 </div>
         </template>
 
@@ -102,8 +114,6 @@
 
         <search-players id="searchPlayers" on-player-selected="_playerSelected"></search-players>
 
-
-
         <paper-toast id="toastWarningPlayerInserted" duration="4000">
             <iron-icon icon="warning"></iron-icon>
             <span class="flex">The player is already inserted in this injury report.</span>
@@ -111,8 +121,6 @@
 
 
     </template>
-
-
 
     <script src="injury-report.js"></script>
 </dom-module>

@@ -89,19 +89,19 @@
                 <div class="card-content">
                     <div class="player-thumbnail">
                         <iron-icon class="icon-placeholder" icon="social:person"></iron-icon>
-                        <iron-image id="player-thumb" src="[[player.thumbnail]]" sizing="contain"></iron-image>
+                        <iron-image id="player-thumb" src="{{_getPlayerThumbnail(player)}}" sizing="contain"></iron-image>
                     </div>
 
-                    <div class="player-name">[[player.title]]</div>
+                    <div class="player-name">{{player.title}}</div>
                    
-                    <template is="dom-if" if="[[player.unpublished]]">
+                    <template is="dom-if" if="{{!_getPlayerPublished(player)}}">
                         <div class="not-visible-layer"></div>
                         <iron-icon class="not-visible-icon" icon="icons:visibility-off"></iron-icon>
                     </template>
                 </div>
 
                 <div class="card-actions layout horizontal">
-                    <a href$="[[player.link]]" tabindex="-1" id="player-link">
+                    <a href$="{{_getPlayerLink(player)}}" tabindex="-1" id="player-link">
                         <paper-icon-button icon="open-in-new"></paper-icon-button>
                     </a>
                     <span class="flex"></span>

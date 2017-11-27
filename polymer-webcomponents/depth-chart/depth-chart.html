@@ -171,7 +171,7 @@
 															<html5-sortable class="flex layout horizontal wrap" on-sort-stop="_sortChange" placeholder-class="player-card player-card-placeholder depth-chart">
 																<template is="dom-repeat" items="[[tier.players]]" as="playerEntityId" index-as="playerIndex" section-index="[[sectionIndex]]"
 																 position-index="[[positionIndex]]" tier-index="[[tierIndex]]">
-																	<player-card player="[[_getPlayer(playerEntityId)]]" on-delete-player="_deletePlayer"></player-card>
+																	<player-card player="[[_getPlayer(entity, playerEntityId)]]" on-delete-player="_deletePlayer"></player-card>
 																</template>
 															</html5-sortable>
 														</div>

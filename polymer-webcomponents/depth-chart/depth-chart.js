@@ -51,16 +51,6 @@
         this.commandBody = new ReferenceFieldItemsCommandBody(entity.entityId, entity.id, entity.fullTypeName || entity.type, REFERENCE_FIELD_NAME, player.entityId, player.type);
     }
 
-    function PlayerReference(entityId, translationId, title, type, stage, thumbnailUrl) {
-        this.entityId = entityId;
-        this.translationId = translationId;
-        this.title = title;
-        this.type = type;
-        this.unpublished = stage === "unpublished";
-        this.link = ForgeWebComponents.Helpers.EntityHelper.createLink(type, entityId, translationId);
-        this.thumbnail = thumbnailUrl || ForgeWebComponents.Helpers.EntityHelper.createThumbnailUrl(type, translationId);
-    }
-
     Polymer({
         is: "depth-chart",
         behaviors: [
@@ -80,7 +70,6 @@
             },
             entity: {
                 type: Object,
-                observer: '_entityChanged'
             },
             schema: {
                 type: Object
@@ -108,12 +97,34 @@
             needBind = true;
         },
 
-        _getPlayer: function (playerEntityId) {
-            return this._players[playerEntityId];
+        _getPlayer: function (entity, playerEntityId) {
+            var retValue = null;
+
+            if (entity.referenceFields != null &&
+                entity.referenceFields[REFERENCE_FIELD_NAME] != null){
+                for (var i = 0; i < entity.referenceFields[REFERENCE_FIELD_NAME].length; i++) {
+                    var player = entity.referenceFields[REFERENCE_FIELD_NAME][i];
+
+                    if (player.entityId === playerEntityId)
+                        retValue = player;
+                }
+            }
+
+            return retValue;
         },
 
-        _getPlayerLink: function (playerEntityId) {
-            return this._getPlayer(playerEntityId).link;
+        _getPlayerLink: function (entity, playerEntityId) {
+            var retValue = null;
+
+            if (entity.referenceFields != null &&
+                entity.referenceFields[REFERENCE_FIELD_NAME] != null) {
+                var player = this._getPlayer(entity, playerEntityId);
+
+                if (player != null)
+                    retValue = ForgeWebComponents.Helpers.EntityHelper.createLink(player.type, player.entityId, player.id);
+            }
+
+            return retValue;
         },
 
         _valueChanged: function (newValue, oldValue) {
@@ -122,17 +133,6 @@
             }
             if (needBind) {
                 this._bindLocalTiers();
-            }
-        },
-
-        _entityChanged: function (entity, oldValue) {
-            if (!entity || typeof entity === 'string') return;
-
-            const array = entity.referenceFields[REFERENCE_FIELD_NAME] || [];
-            this._players = {};
-            for (var i = 0; i < array.length; i++) {
-                var player = array[i];
-                this._players[player.entityId] = new PlayerReference(player.entityId, player.id, player.title, player.type, player.stage, player.thumbnailUrl);
             }
         },
 
@@ -214,7 +214,6 @@
         _deletePlayer: function (e) {
             const path = "value.sections." + e.model.dataHost.sectionIndex + ".positions." + e.model.dataHost.positionIndex + ".tiers." + e.model.dataHost.tierIndex + ".players";
             const removed = this.splice(path, e.model.playerIndex, 1)[0];
-            const player = this._players[removed];
 
             if (player && this._isPlayerAbsent(removed)) {
                 const command = new RemoveReferenceFieldItemsCommand(this.entity, player, this.fieldName);
@@ -236,9 +235,6 @@
 
             var path = "value.sections." + this._currentSectionIndex + ".positions." + this._currentPositionIndex + ".tiers." + this._currentTierIndex + ".players";
             this.push(path, player.EntityId);
-
-            const entityType = player.EntityCode ? player.EntityType + "." + player.EntityCode : player.EntityType;
-            this._players[player.EntityId] = new PlayerReference(player.EntityId, player.Id, player.Title, entityType, player.Stage);
 
             this._currentSectionIndex = null;
             this._currentPositionIndex = null;
