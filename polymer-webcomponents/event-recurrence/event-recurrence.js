@@ -6,7 +6,7 @@
     function Recurrence() {
         this.period = null;
         this.days = [];
-        this.end_date = null;
+        this.endDate = null;
     }
 
     function RecurrenceTypeList() {
@@ -93,7 +93,7 @@
         _endDateChanged: function (e) {
             var newDate = e.detail.date;
 
-            this.value.end_date = newDate;
+            this.value.endDate = newDate;
 
             this.debounce('triggerOnValueChanged', this._triggerValueChanged, 0);
         },
