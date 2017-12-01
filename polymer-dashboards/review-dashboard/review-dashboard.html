@@ -1,5 +1,7 @@
 <dom-module id="review-dashboard">
 
+    <style include="forge-integrations-style"></style>
+
     <style include="iron-flex iron-flex-alignment">
          :host {
             display: block;
@@ -9,20 +11,6 @@
             overflow-y: auto;
             display: flex;
             flex-direction: row;
-        }
-
-        paper-progress {
-            display: block;
-            width: 100%;
-        }
-
-        paper-progress.slow {
-            --paper-progress-indeterminate-cycle-duration: 5s;
-        }
-
-        paper-progress.blue {
-            --paper-progress-active-color: var(--paper-blue-500);
-            --paper-progress-secondary-color: var(--paper-blue-500);
         }
 
         generic-entity-summary-card {
