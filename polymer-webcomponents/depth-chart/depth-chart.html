@@ -1,4 +1,8 @@
+<link rel="import" href="../_common/styles/forge-integrations-style.html">
+
 <dom-module id="depth-chart">
+
+	<style include="forge-integrations-style"></style>
 
 	<style include="iron-flex iron-flex-alignment">
 		:host {
@@ -143,7 +147,8 @@
 										<paper-icon-button icon="delete" on-tap="_deletePosition"></paper-icon-button>
 										<paper-input class="flex" value="{{position.name}}" on-input="_onPositionInput" on-change="_onPositionChange" no-label-float="true"
 										 label="Position Code"></paper-input>
-										<paper-icon-button icon="{{_initExpandStatus(sectionIndex, positionIndex)}}" ident$="subItem-[[sectionIndex]]-[[positionIndex]]" on-tap="_togglePositionContent"></paper-icon-button>
+										<paper-icon-button icon="{{_initExpandStatus(sectionIndex, positionIndex)}}" ident$="subItem-[[sectionIndex]]-[[positionIndex]]"
+										 on-tap="_togglePositionContent"></paper-icon-button>
 									</div>
 								</div>
 

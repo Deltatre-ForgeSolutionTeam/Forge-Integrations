@@ -1,9 +1,12 @@
+<link rel="import" href="../_common/styles/forge-integrations-style.html">
+
 <dom-module id="story-part-table">
   <template>
-    <style is="custom-style">
 
-    </style>
+    <style include="forge-integrations-style"></style>
+
     <table class="table">
+
       <thead>
         <tr>
           <template is="dom-repeat" items="{{value.columns}}" as="column">
@@ -21,6 +24,7 @@
           </td>
         </tr>
       </thead>
+
       <tbody>
         <template is="dom-repeat" items="{{value.rows}}" as="row">
           <tr>
@@ -42,7 +46,9 @@
           </td>
         </tr>
       </tbody>
+
     </table>
+    
   </template>
 </dom-module>
 <script src="story-part-table.js"></script>

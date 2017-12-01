@@ -1,4 +1,9 @@
+<link rel="import" href="../_common/styles/forge-integrations-style.html">
+
 <dom-module id="poll-result">
+
+    <style include="forge-integrations-style"></style>
+
     <style include="iron-flex iron-flex-alignment">
          :host {
             display: block;
@@ -65,18 +70,7 @@
         }
 
         paper-progress {
-            display: block;
-            width: 100%;
             margin: 20px 0;
-        }
-
-        paper-progress.slow {
-            --paper-progress-indeterminate-cycle-duration: 5s;
-        }
-
-        paper-progress.blue {
-            --paper-progress-active-color: var(--paper-blue-500);
-            --paper-progress-secondary-color: var(--paper-blue-500);
         }
     </style>
 
@@ -149,7 +143,7 @@
                                         .. Load Poll Data ..
                                     </div>
                                     <div>
-                                        <paper-progress indeterminate class="blue slow"></paper-progress>
+                                        <paper-progress indeterminate></paper-progress>
                                     </div>
 
                                 </div>

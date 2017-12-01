@@ -1,4 +1,8 @@
+<link rel="import" href="../_common/styles/forge-integrations-style.html">
+
 <dom-module id="accessible-link">
+
+    <style include="forge-integrations-style"></style>
 
     <style include="iron-flex iron-flex-alignment">
          :host {
@@ -8,24 +12,29 @@
         .margin-right {
             margin-right: 10px;
         }
-
-        paper-toggle-button {
-            --paper-toggle-button-checked-bar-color: var(--paper-blue-500);
-            --paper-toggle-button-checked-button-color: var(--paper-blue-500);
-            --paper-toggle-button-checked-ink-color: var(--paper-blue-500);
-        }
     </style>
 
     <template>
         <div class="layout vertical">
             <h4>{{title}}</h4>
             <div class="layout horizontal">
-                <paper-input class="flex margin-right" value="{{value.displayText}}" on-input="_displayTextChanged" on-change="_displayTextChanged" label="Display Text"></paper-input>
-                <paper-input class="flex" value="{{value.accessibleText}}" on-input="_accessibleTextChanged" on-change="_accessibleTextChanged"
-                    label="Accessible Text"></paper-input>
+                <div class="layout vertical flex">
+                    <paper-input class="flex margin-right" value="{{value.displayText}}" on-input="_displayTextChanged" on-change="_displayTextChanged"
+                        label="Display Text"></paper-input>
+                    <div class="paper-input-description">The text to display for {{title}}</div>
+                </div>
+                <div class="layout vertical flex">
+                    <paper-input class="flex" value="{{value.accessibleText}}" on-input="_accessibleTextChanged" on-change="_accessibleTextChanged"
+                        label="Accessible Text"></paper-input>
+                    <div class="paper-input-description">The access's text for {{title}}</div>
+                </div>
+
             </div>
             <div class="layout horizontal">
-                <paper-input class="flex margin-right" value="{{value.url}}" on-input="_urlChanged" on-change="_urlChanged" label="URL"></paper-input>
+                <div class="layout vertical flex">
+                    <paper-input class="flex margin-right" value="{{value.url}}" on-input="_urlChanged" on-change="_urlChanged" label="URL"></paper-input>
+                    <div class="paper-input-description">The link for {{title}}</div>
+                </div>
                 <paper-toggle-button checked="{{value.openInNewTab}}" on-change="_openInNewTabChanged">Open in New Tab</paper-toggle-button>
             </div>
         </div>

@@ -1,4 +1,9 @@
+<link rel="import" href="../_common/styles/forge-integrations-style.html">
+
 <dom-module id="event-recurrence">
+
+    <style include="forge-integrations-style"></style>
+
     <style include="iron-flex iron-flex-alignment">
          :host {
             display: block;
@@ -8,17 +13,8 @@
             padding: 10px;
         }
 
-        .day-toggle-container paper-checkbox {
-            --paper-checkbox-checked-color: var(--paper-blue-500);
-        }
-
         .day-toggle {
             padding-right: 10px;
-        }
-
-        paper-dropdown-menu,
-        paper-listbox {
-            min-width: 250px;
         }
     </style>
     <template>

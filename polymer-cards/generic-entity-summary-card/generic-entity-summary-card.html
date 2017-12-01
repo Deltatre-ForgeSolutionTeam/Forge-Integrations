@@ -1,9 +1,12 @@
+<link rel="import" href="../../polymer-webcomponents/_common/styles/forge-integrations-style.html">
+
 <dom-module id="generic-entity-summary-card">
+
+    <style include="forge-integrations-style"></style>
 
     <style include="iron-flex iron-flex-alignment">
          :host {
             display: block;
-            /*margin: 10px;*/
         }
 
         paper-card {
@@ -30,20 +33,6 @@
             -moz-border-radius: 50%;
             border-radius: 50%;
             color: white;
-        }
-
-        paper-progress {
-            display: block;
-            width: 100%;
-        }
-
-        paper-progress.slow {
-            --paper-progress-indeterminate-cycle-duration: 5s;
-        }
-
-        paper-progress.blue {
-            --paper-progress-active-color: var(--paper-blue-500);
-            --paper-progress-secondary-color: var(--paper-blue-500);
         }
 
         .clickable {

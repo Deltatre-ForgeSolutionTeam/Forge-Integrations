@@ -1,4 +1,9 @@
+<link rel="import" href="../_common/styles/forge-integrations-style.html">
+
 <dom-module id="event-link">
+
+    <style include="forge-integrations-style"></style>
+
     <style include="iron-flex iron-flex-alignment">
          :host {
             display: block;
@@ -95,7 +100,7 @@
         <div class="layout vertical event-link-dropdown">
             <!--on-iron-select="_itemSelected"-->
             <div class="layout horizontal dropdown-container">
-                <paper-dropdown-menu label="Event Link Type" class="flex">
+                <paper-dropdown-menu label="Event Link Type" class="flex" horizontal-align="left">
                     <paper-listbox slot="dropdown-content" class="dropdown-content" attr-for-selected="link-type-value" selected="{{value.typeLink}}"
                         on-iron-select="_loadContent">
                         <template is="dom-repeat" items="[[linkTypes.data]]" as="eventLinkType">
@@ -175,7 +180,7 @@
                     <div>
 
                         <paper-input value="{{value.linkProperties.externalLinkUrl}}" on-input="_onExternalLinkInput" on-change="_onExternalLinkChange"
-                            no-label-float="true" label="Type External Link Url"></paper-input>
+                            label="Type External Link Url"></paper-input>
                     </div>
                 </template>
             </div>
